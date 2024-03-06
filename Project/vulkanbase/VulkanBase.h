@@ -17,6 +17,8 @@
 #include <set>
 #include <limits>
 #include <algorithm>
+#include "CommandBuffer.h"
+#include "CommandPool.h"
 
 
 const std::vector<const char*> validationLayers = {
@@ -25,15 +27,6 @@ const std::vector<const char*> validationLayers = {
 
 const std::vector<const char*> deviceExtensions = {
 	VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
-
-struct QueueFamilyIndices {
-	std::optional<uint32_t> graphicsFamily;
-	std::optional<uint32_t> presentFamily;
-
-	bool isComplete() {
-		return graphicsFamily.has_value() && presentFamily.has_value();
-	}
 };
 
 struct SwapChainSupportDetails {
@@ -52,6 +45,9 @@ public:
 	}
 
 private:
+	CommandPool commandPool{};
+	CommandBuffer commandBuffer{};
+
 	void initVulkan() {
 		// week 06
 		createInstance();
@@ -72,8 +68,11 @@ private:
 		createGraphicsPipeline();
 		createFrameBuffers();
 		// week 02
-		createCommandPool();
-		createCommandBuffer();
+		commandPool = CommandPool{ device, physicalDevice, surface };
+		commandBuffer = CommandBuffer{ device, commandPool.GetCommandPool() };
+		//createCommandPool();
+		//createCommandBuffer();
+
 
 		// week 06
 		createSyncObjects();
@@ -93,7 +92,7 @@ private:
 		vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
 		vkDestroyFence(device, inFlightFence, nullptr);
 
-		vkDestroyCommandPool(device, commandPool, nullptr);
+		vkDestroyCommandPool(device, commandPool.GetCommandPool(), nullptr);
 		for (auto framebuffer : swapChainFramebuffers) {
 			vkDestroyFramebuffer(device, framebuffer, nullptr);
 		}
@@ -137,22 +136,18 @@ private:
 	GLFWwindow* window;
 	void initWindow();
 
-	
-
 	void drawScene();
 
 	// Week 02
 	// Queue families
 	// CommandBuffer concept
 
-	VkCommandPool commandPool;
-	VkCommandBuffer commandBuffer;
 
-	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+	//QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
 
 	void drawFrame(uint32_t imageIndex);
-	void createCommandBuffer();
-	void createCommandPool(); 
+	//void createCommandBuffer();
+	//void createCommandPool(); 
 	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 	
 	// Week 03

@@ -1,0 +1,5 @@
+input assembly can be in the mesh class
+
+command pool and command buffer can be kept as different objects for now
+
+draw frame should be just kept in the main program. It doesnt make sense to have it in the command buffer

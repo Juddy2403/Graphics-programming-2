@@ -46,7 +46,7 @@ VkPipelineVertexInputStateCreateInfo GP2Shader::createVertexInputStateInfo()
 {
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
-	vertexInputInfo.vertexBindingDescriptionCount = 0;
+	vertexInputInfo.vertexBindingDescriptionCount = 0; //&m_VertexInputBindingDescription
 	vertexInputInfo.vertexAttributeDescriptionCount = 0;
 	return vertexInputInfo;
 }
