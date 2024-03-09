@@ -69,8 +69,8 @@ private:
 		createFrameBuffers();
 		// week 02
 		m_GradientShader.createVertexBuffer(device,physicalDevice);
-		//commandPool = CommandPool{ device, physicalDevice, surface };
-		//commandBuffer = CommandBuffer{ device, commandPool.GetCommandPool() };
+		commandPool = CommandPool{ device, physicalDevice, surface };
+		commandBuffer = CommandBuffer{ device, commandPool.GetCommandPool() };
 		//createCommandPool();
 		//createCommandBuffer();
 

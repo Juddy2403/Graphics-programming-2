@@ -49,7 +49,7 @@ void GP2Shader::createVertexBuffer(const VkDevice& vkDevice,const VkPhysicalDevi
 	bufferInfo.size = sizeof(m_Vertices[0]) * m_Vertices.size();
 	bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-
+	
 	if (vkCreateBuffer(vkDevice, &bufferInfo, nullptr, &m_VertexBuffer) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create vertex buffer!");
 	}
@@ -80,14 +80,13 @@ VkPipelineVertexInputStateCreateInfo GP2Shader::createVertexInputStateInfo()
 {
 	VkPipelineVertexInputStateCreateInfo vertexInputInfo{};
 
-	auto bindingDescription = Vertex::getBindingDescription();
-	auto attributeDescriptions = Vertex::getAttributeDescriptions();
+	static auto bindingDescription = Vertex::getBindingDescription();
+	static auto attributeDescriptions = Vertex::getAttributeDescriptions();
 
 	vertexInputInfo.vertexBindingDescriptionCount = 1;
 	vertexInputInfo.vertexAttributeDescriptionCount = static_cast<uint32_t>(attributeDescriptions.size());
 	vertexInputInfo.pVertexBindingDescriptions = &bindingDescription;
 	vertexInputInfo.pVertexAttributeDescriptions = attributeDescriptions.data();
-
 	vertexInputInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_VERTEX_INPUT_STATE_CREATE_INFO;
 	//vertexInputInfo.vertexBindingDescriptionCount = 0; //&m_VertexInputBindingDescription
 	//vertexInputInfo.vertexAttributeDescriptionCount = 0;

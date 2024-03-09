@@ -26,7 +26,7 @@ struct Vertex {
 		attributeDescriptions[0].location = 0;
 		attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
 		attributeDescriptions[0].offset = offsetof(Vertex, pos);
-
+		
 		attributeDescriptions[1].binding = 0;
 		attributeDescriptions[1].location = 2; //shouldnt this be 2?
 		attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
@@ -63,9 +63,9 @@ public:
 	const std::vector<Vertex>& getVertices() { return m_Vertices; };
 private:
 	const std::vector<Vertex> m_Vertices = {
-		{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-		{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
-		{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
+		{{0.0f, -0.5f}, {1.0f, 1.0f, 1.0f}},
+	{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
+	{{-0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}}
 	};
 	VkBuffer m_VertexBuffer{};
 	VkDeviceMemory m_VertexBufferMemory{};
