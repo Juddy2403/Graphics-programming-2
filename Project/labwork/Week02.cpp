@@ -59,6 +59,10 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
 
 	vkCmdBindPipeline(commandBuffer.GetCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
 
+	VkBuffer vertexBuffers[] = { m_GradientShader.getVertexBuffer() };
+	VkDeviceSize offsets[] = { 0 };
+	vkCmdBindVertexBuffers(commandBuffer.GetCommandBuffer(), 0, 1, vertexBuffers, offsets);
+
 	VkViewport viewport{};
 	viewport.x = 0.0f;
 	viewport.y = 0.0f;
