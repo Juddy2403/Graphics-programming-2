@@ -8,5 +8,5 @@ void VulkanBase::initWindow() {
 }
 
 void VulkanBase::drawScene() {
-	vkCmdDraw(commandBuffer.GetCommandBuffer(), static_cast<uint32_t>(m_GradientShader.getVertices().size()), 1, 0, 0);
+	vkCmdDraw(commandBuffer.GetCommandBuffer(), 6, 1, 0, 0);
 }

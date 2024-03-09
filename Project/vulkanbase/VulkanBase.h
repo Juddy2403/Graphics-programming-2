@@ -68,9 +68,8 @@ private:
 		createGraphicsPipeline();
 		createFrameBuffers();
 		// week 02
-		m_GradientShader.createVertexBuffer(device,physicalDevice);
-		//commandPool = CommandPool{ device, physicalDevice, surface };
-		//commandBuffer = CommandBuffer{ device, commandPool.GetCommandPool() };
+		commandPool = CommandPool{ device, physicalDevice, surface };
+		commandBuffer = CommandBuffer{ device, commandPool.GetCommandPool() };
 		//createCommandPool();
 		//createCommandBuffer();
 
@@ -110,10 +109,6 @@ private:
 			DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 		}
 		vkDestroySwapchainKHR(device, swapChain, nullptr);
-
-		vkDestroyBuffer(device, m_GradientShader.getVertexBuffer(), nullptr);
-		vkFreeMemory(device, m_GradientShader.getVertexBufferMemory(), nullptr);
-
 		vkDestroyDevice(device, nullptr);
 
 		vkDestroySurfaceKHR(instance, surface, nullptr);
