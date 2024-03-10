@@ -19,6 +19,7 @@
 #include <algorithm>
 #include "CommandBuffer.h"
 #include "CommandPool.h"
+#include "Mesh.h"
 
 
 const std::vector<const char*> validationLayers = {
@@ -47,7 +48,7 @@ public:
 private:
 	CommandPool commandPool{};
 	CommandBuffer commandBuffer{};
-
+	Mesh triangleMesh{};
 	void initVulkan() {
 		// week 06
 		createInstance();
@@ -68,7 +69,9 @@ private:
 		createGraphicsPipeline();
 		createFrameBuffers();
 		// week 02
-		m_GradientShader.createVertexBuffer(device,physicalDevice);
+		//triangleMesh.addVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
+		triangleMesh.createVertexBuffer(device, physicalDevice);
+
 		commandPool = CommandPool{ device, physicalDevice, surface };
 		commandBuffer = CommandBuffer{ device, commandPool.GetCommandPool() };
 		//createCommandPool();
@@ -111,8 +114,7 @@ private:
 		}
 		vkDestroySwapchainKHR(device, swapChain, nullptr);
 
-		vkDestroyBuffer(device, m_GradientShader.getVertexBuffer(), nullptr);
-		vkFreeMemory(device, m_GradientShader.getVertexBufferMemory(), nullptr);
+		triangleMesh.destroyMesh(device);
 
 		vkDestroyDevice(device, nullptr);
 
@@ -141,7 +143,7 @@ private:
 	GLFWwindow* window;
 	void initWindow();
 
-	void drawScene();
+	//void drawScene();
 
 	// Week 02
 	// Queue families

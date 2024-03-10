@@ -6,7 +6,3 @@ void VulkanBase::initWindow() {
 	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 	window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
 }
-
-void VulkanBase::drawScene() {
-	vkCmdDraw(commandBuffer.GetCommandBuffer(), static_cast<uint32_t>(m_GradientShader.getVertices().size()), 1, 0, 0);
-}
