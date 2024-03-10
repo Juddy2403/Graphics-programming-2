@@ -1,5 +1,25 @@
 #include "Mesh.h"
 #include <vulkanbase/VulkanUtil.h>
+#include <glm/gtc/constants.hpp>
+
+void Mesh::initializeCircle(const glm::vec2& center, float radius, int nrOfSegments)
+{
+	m_Vertices.clear();
+	float angleIncrement = 2.0f * glm::pi<float>() / nrOfSegments;
+
+	glm::vec2 pos1 = { radius + center.x , center.y };
+
+	for (int i = 1; i <= nrOfSegments; ++i) {
+		float angle = angleIncrement * i;
+		glm::vec2 pos2 = { radius * cos(angle) + center.x, radius * sin(angle) + center.y };
+
+		// Add vertex positions to the vertex buffer
+		m_Vertices.push_back(Vertex{ pos2, {1.f,1.f,1.f} });
+		m_Vertices.push_back(Vertex{ center, {1.f,1.f,1.f} });
+		m_Vertices.push_back(Vertex{ pos1, {1.f,1.f,1.f}   });
+		pos1 = pos2;
+	}
+}
 
 VkPipelineVertexInputStateCreateInfo Mesh::createVertexInputStateInfo()
 {
@@ -22,6 +42,7 @@ VkPipelineVertexInputStateCreateInfo Mesh::createVertexInputStateInfo()
 void Mesh::addVertex(const glm::vec2& pos, const glm::vec3& color)
 {
 	m_Vertices.push_back(Vertex{ pos,color });
+	//createVertexBuffer();
 }
 
 uint32_t Mesh::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties, const VkPhysicalDevice& physicalDevice)
@@ -43,6 +64,7 @@ uint32_t Mesh::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags propert
 
 void Mesh::createVertexBuffer(const VkDevice& vkDevice, const VkPhysicalDevice& physicalDevice)
 {
+	destroyMesh(vkDevice);
 	VkBufferCreateInfo bufferInfo{};
 	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
 	bufferInfo.size = sizeof(m_Vertices[0]) * m_Vertices.size();

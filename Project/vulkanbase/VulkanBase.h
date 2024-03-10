@@ -71,6 +71,9 @@ private:
 		// week 02
 		//triangleMesh.addVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
 		triangleMesh.createVertexBuffer(device, physicalDevice);
+		triangleMesh.initializeCircle({0.f,0.f},0.3,30);
+		triangleMesh.createVertexBuffer(device, physicalDevice);
+
 
 		commandPool = CommandPool{ device, physicalDevice, surface };
 		commandBuffer = CommandBuffer{ device, commandPool.GetCommandPool() };
