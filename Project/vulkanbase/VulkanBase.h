@@ -20,6 +20,7 @@
 #include "CommandBuffer.h"
 #include "CommandPool.h"
 #include "Mesh.h"
+#include "Level.h"
 
 
 const std::vector<const char*> validationLayers = {
@@ -48,7 +49,7 @@ public:
 private:
 	CommandPool commandPool{};
 	CommandBuffer commandBuffer{};
-	Mesh triangleMesh{};
+	Level level{};
 	void initVulkan() {
 		// week 06
 		createInstance();
@@ -70,9 +71,10 @@ private:
 		createFrameBuffers();
 		// week 02
 		//triangleMesh.addVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
-		triangleMesh.createVertexBuffer(device, physicalDevice);
-		triangleMesh.initializeCircle({0.f,0.f},0.3,30);
-		triangleMesh.createVertexBuffer(device, physicalDevice);
+		level.initializeLevel(device, physicalDevice);
+		//triangleMesh.initializeMesh(device, physicalDevice);
+		//triangleMesh.initializeCircle({0.f,0.f},0.3,50);
+		//triangleMesh.initializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
 
 
 		commandPool = CommandPool{ device, physicalDevice, surface };
@@ -117,7 +119,7 @@ private:
 		}
 		vkDestroySwapchainKHR(device, swapChain, nullptr);
 
-		triangleMesh.destroyMesh(device);
+		//triangleMesh.destroyMesh();
 
 		vkDestroyDevice(device, nullptr);
 

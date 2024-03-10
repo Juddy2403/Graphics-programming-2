@@ -116,7 +116,7 @@ void VulkanBase::createGraphicsPipeline() {
 
 	pipelineInfo.stageCount = 2;
 	pipelineInfo.pStages = m_GradientShader.getShaderStages().data();
-	pipelineInfo.pVertexInputState = &triangleMesh.createVertexInputStateInfo();
+	pipelineInfo.pVertexInputState = &Mesh::createVertexInputStateInfo();
 	pipelineInfo.pInputAssemblyState = &m_GradientShader.createInputAssemblyStateInfo();
 	
 	pipelineInfo.pViewportState = &viewportState;

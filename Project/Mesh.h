@@ -7,7 +7,7 @@
 
 struct Vertex {
 	glm::vec2 m_Pos;
-	glm::vec3 m_Color;
+	glm::vec3 m_Color{ 1,1,1 };
 
 	static VkVertexInputBindingDescription getBindingDescription() {
 
@@ -39,7 +39,8 @@ struct Vertex {
 class Mesh
 {
 private:
-
+	VkDevice m_VkDevice;
+	VkPhysicalDevice m_PhysicalDevice;
 	std::vector<Vertex> m_Vertices = {
 		{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
 		{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
@@ -49,15 +50,21 @@ private:
 	VkBuffer m_VertexBuffer{};
 	VkDeviceMemory m_VertexBufferMemory{};
 
-	uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties, const VkPhysicalDevice& physicalDevice);
+	uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 public:
-
 	Mesh() = default;
+	~Mesh();
+
+	void initializeMesh(const VkDevice& vkDevice, const VkPhysicalDevice& physicalDevice);
 	void initializeCircle(const glm::vec2& center, float radius, int nrOfSegments);
-	VkPipelineVertexInputStateCreateInfo createVertexInputStateInfo(); 
+	void initializeRect(float top, float left, float bottom, float right);
+	void addRect(float top, float left, float bottom, float right);
+	void initializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments);
 	void addVertex(const glm::vec2& pos, const glm::vec3& color);
-	void createVertexBuffer(const VkDevice& vkDevice,const VkPhysicalDevice& physicalDevice);
+
+	static VkPipelineVertexInputStateCreateInfo createVertexInputStateInfo(); 
+	void createVertexBuffer();
 	void draw(const VkCommandBuffer& commandBuffer) const;
-	void destroyMesh(const VkDevice& vkDevice);
+	void destroyMesh();
 };

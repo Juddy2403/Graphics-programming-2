@@ -54,7 +54,8 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
 	scissor.extent = swapChainExtent;
 	vkCmdSetScissor(commandBuffer.GetCommandBuffer(), 0, 1, &scissor);
 
-	triangleMesh.draw(commandBuffer.GetCommandBuffer());
+	//triangleMesh.draw(commandBuffer.GetCommandBuffer());
+	level.drawLevelMeshes(commandBuffer.GetCommandBuffer());
 
 	vkCmdEndRenderPass(commandBuffer.GetCommandBuffer());
 }
