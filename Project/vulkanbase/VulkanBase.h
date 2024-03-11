@@ -21,7 +21,7 @@
 #include "CommandPool.h"
 #include "Mesh.h"
 #include "Level.h"
-
+#include "RenderPass.h"
 
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
@@ -50,6 +50,7 @@ private:
 	CommandPool commandPool{};
 	CommandBuffer commandBuffer{};
 	Level level{};
+	RenderPass renderPass{};
 	void initVulkan() {
 		// week 06
 		createInstance();
@@ -66,9 +67,9 @@ private:
 		
 		// week 03
 		m_GradientShader.Initialize(device);
-		createRenderPass();
+		renderPass.createRenderPass(device,swapChainImageFormat);
 		createGraphicsPipeline();
-		createFrameBuffers();
+		renderPass.createFrameBuffers(device,swapChainImageViews,swapChainExtent);
 		// week 02
 		//triangleMesh.addVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
 		level.initializeLevel(device, physicalDevice);
@@ -102,13 +103,15 @@ private:
 		vkDestroyFence(device, inFlightFence, nullptr);
 
 		vkDestroyCommandPool(device, commandPool.GetCommandPool(), nullptr);
-		for (auto framebuffer : swapChainFramebuffers) {
+		/*for (auto framebuffer : swapChainFramebuffers) {
 			vkDestroyFramebuffer(device, framebuffer, nullptr);
-		}
+		}*/
+
+		renderPass.destroyRenderPass(device);
 
 		vkDestroyPipeline(device, graphicsPipeline, nullptr);
 		vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-		vkDestroyRenderPass(device, renderPass, nullptr);
+		//vkDestroyRenderPass(device, renderPass, nullptr);
 
 		for (auto imageView : swapChainImageViews) {
 			vkDestroyImageView(device, imageView, nullptr);
@@ -120,6 +123,7 @@ private:
 		vkDestroySwapchainKHR(device, swapChain, nullptr);
 
 		//triangleMesh.destroyMesh();
+		level.destroyLevel();
 
 		vkDestroyDevice(device, nullptr);
 
@@ -166,13 +170,13 @@ private:
 	// Renderpass concept
 	// Graphics pipeline
 	
-	std::vector<VkFramebuffer> swapChainFramebuffers;
+	//std::vector<VkFramebuffer> swapChainFramebuffers;
 	VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;
-	VkRenderPass renderPass;
+	//VkRenderPass renderPass;
 
-	void createFrameBuffers();
-	void createRenderPass();
+	//void createFrameBuffers();
+	//void createRenderPass();
 	void createGraphicsPipeline();
 
 	// Week 04

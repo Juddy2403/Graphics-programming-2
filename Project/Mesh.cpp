@@ -2,11 +2,6 @@
 #include <vulkanbase/VulkanUtil.h>
 #include <glm/gtc/constants.hpp>
 
-Mesh::~Mesh()
-{
-	destroyMesh();
-}
-
 void Mesh::initializeMesh(const VkDevice& vkDevice, const VkPhysicalDevice& physicalDevice)
 {
 	m_VkDevice = vkDevice;

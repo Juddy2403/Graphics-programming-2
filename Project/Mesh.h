@@ -39,8 +39,8 @@ struct Vertex {
 class Mesh
 {
 private:
-	VkDevice m_VkDevice;
-	VkPhysicalDevice m_PhysicalDevice;
+	VkDevice m_VkDevice{};
+	VkPhysicalDevice m_PhysicalDevice{};
 	std::vector<Vertex> m_Vertices = {
 		{{0.0f, -0.5f}, {1.0f, 0.0f, 0.0f}},
 		{{0.5f, 0.5f}, {0.0f, 1.0f, 0.0f}},
@@ -54,7 +54,6 @@ private:
 
 public:
 	Mesh() = default;
-	~Mesh();
 
 	void initializeMesh(const VkDevice& vkDevice, const VkPhysicalDevice& physicalDevice);
 	void initializeCircle(const glm::vec2& center, float radius, int nrOfSegments);

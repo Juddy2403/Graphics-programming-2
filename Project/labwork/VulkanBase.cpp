@@ -27,8 +27,8 @@ void VulkanBase::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t ima
 void VulkanBase::drawFrame(uint32_t imageIndex) {
 	VkRenderPassBeginInfo renderPassInfo{};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-	renderPassInfo.renderPass = renderPass;
-	renderPassInfo.framebuffer = swapChainFramebuffers[imageIndex];
+	renderPassInfo.renderPass = renderPass.getRenderPass();
+	renderPassInfo.framebuffer = renderPass.getSwapChainFramebuffers()[imageIndex];
 	renderPassInfo.renderArea.offset = { 0, 0 };
 	renderPassInfo.renderArea.extent = swapChainExtent;
 
