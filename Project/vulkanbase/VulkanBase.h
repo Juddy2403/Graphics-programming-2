@@ -22,6 +22,7 @@
 #include "Mesh.h"
 #include "Level.h"
 #include "RenderPass.h"
+#include <GraphicsPipeline.h>
 
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
@@ -47,10 +48,8 @@ public:
 	}
 
 private:
-	CommandPool commandPool{};
-	CommandBuffer commandBuffer{};
-	Level level{};
-	RenderPass renderPass{};
+
+
 	void initVulkan() {
 		// week 06
 		createInstance();
@@ -67,19 +66,19 @@ private:
 		
 		// week 03
 		m_GradientShader.Initialize(device);
-		renderPass.createRenderPass(device,swapChainImageFormat);
-		createGraphicsPipeline();
-		renderPass.createFrameBuffers(device,swapChainImageViews,swapChainExtent);
+		m_RenderPass.createRenderPass(device,swapChainImageFormat);
+		m_GraphicsPipeline.createGraphicsPipeline(device,m_RenderPass.getRenderPass(),m_GradientShader);
+		m_RenderPass.createFrameBuffers(device,swapChainImageViews,swapChainExtent);
 		// week 02
 		//triangleMesh.addVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
-		level.initializeLevel(device, physicalDevice);
+		m_Level.initializeLevel(device, physicalDevice);
 		//triangleMesh.initializeMesh(device, physicalDevice);
 		//triangleMesh.initializeCircle({0.f,0.f},0.3,50);
 		//triangleMesh.initializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
 
 
-		commandPool = CommandPool{ device, physicalDevice, surface };
-		commandBuffer = CommandBuffer{ device, commandPool.GetCommandPool() };
+		m_CommandPool = CommandPool{ device, physicalDevice, surface };
+		m_CommandBuffer = CommandBuffer{ device, m_CommandPool.GetCommandPool() };
 		//createCommandPool();
 		//createCommandBuffer();
 
@@ -102,15 +101,16 @@ private:
 		vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
 		vkDestroyFence(device, inFlightFence, nullptr);
 
-		vkDestroyCommandPool(device, commandPool.GetCommandPool(), nullptr);
+		vkDestroyCommandPool(device, m_CommandPool.GetCommandPool(), nullptr);
 		/*for (auto framebuffer : swapChainFramebuffers) {
 			vkDestroyFramebuffer(device, framebuffer, nullptr);
 		}*/
 
-		renderPass.destroyRenderPass(device);
+		m_GraphicsPipeline.destroyGraphicsPipeline(device);
+		m_RenderPass.destroyRenderPass(device);
 
-		vkDestroyPipeline(device, graphicsPipeline, nullptr);
-		vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
+		//vkDestroyPipeline(device, m_GraphicsPipeline, nullptr);
+		//vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 		//vkDestroyRenderPass(device, renderPass, nullptr);
 
 		for (auto imageView : swapChainImageViews) {
@@ -123,7 +123,7 @@ private:
 		vkDestroySwapchainKHR(device, swapChain, nullptr);
 
 		//triangleMesh.destroyMesh();
-		level.destroyLevel();
+		m_Level.destroyLevel();
 
 		vkDestroyDevice(device, nullptr);
 
@@ -142,6 +142,11 @@ private:
 
 	GP2Shader m_GradientShader{ "shaders/shader.vert.spv",
 	"shaders/shader.frag.spv" };
+	CommandPool m_CommandPool{};
+	CommandBuffer m_CommandBuffer{};
+	Level m_Level{};
+	RenderPass m_RenderPass{};
+	GraphicsPipeline m_GraphicsPipeline{};
 
 	// Week 01: 
 	// Actual window
@@ -171,13 +176,13 @@ private:
 	// Graphics pipeline
 	
 	//std::vector<VkFramebuffer> swapChainFramebuffers;
-	VkPipelineLayout pipelineLayout;
-	VkPipeline graphicsPipeline;
+	/*VkPipelineLayout pipelineLayout;
+	VkPipeline graphicsPipeline;*/
 	//VkRenderPass renderPass;
 
 	//void createFrameBuffers();
 	//void createRenderPass();
-	void createGraphicsPipeline();
+	//void createGraphicsPipeline();
 
 	// Week 04
 	// Swap chain and image view support

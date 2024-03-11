@@ -38,7 +38,7 @@ set(SOURCES
  "GP2Shader.h" "GP2Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "Mesh.h" "Mesh.cpp" "Level.h" "Level.cpp"  "RenderPass.h" "RenderPass.cpp" "GraphicsPipeline.h" "GraphicsPipeline.cpp")
 
 # Create the executable
-add_executable(${PROJECT_NAME} ${SOURCES} ${GLSL_SOURCE_FILES}  "vulkanbase/VulkanUtil.cpp" "labwork/Week03.cpp")
+add_executable(${PROJECT_NAME} ${SOURCES} ${GLSL_SOURCE_FILES}  "vulkanbase/VulkanUtil.cpp" )
 add_dependencies(${PROJECT_NAME} Shaders)
 # Link libraries
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -27,8 +27,8 @@ void VulkanBase::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t ima
 void VulkanBase::drawFrame(uint32_t imageIndex) {
 	VkRenderPassBeginInfo renderPassInfo{};
 	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-	renderPassInfo.renderPass = renderPass.getRenderPass();
-	renderPassInfo.framebuffer = renderPass.getSwapChainFramebuffers()[imageIndex];
+	renderPassInfo.renderPass = m_RenderPass.getRenderPass();
+	renderPassInfo.framebuffer = m_RenderPass.getSwapChainFramebuffers()[imageIndex];
 	renderPassInfo.renderArea.offset = { 0, 0 };
 	renderPassInfo.renderArea.extent = swapChainExtent;
 
@@ -36,9 +36,9 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
 	renderPassInfo.clearValueCount = 1;
 	renderPassInfo.pClearValues = &clearColor;
 
-	vkCmdBeginRenderPass(commandBuffer.GetCommandBuffer(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+	vkCmdBeginRenderPass(m_CommandBuffer.GetCommandBuffer(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-	vkCmdBindPipeline(commandBuffer.GetCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS, graphicsPipeline);
+	vkCmdBindPipeline(m_CommandBuffer.GetCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS, m_GraphicsPipeline.getGraphicsPipeline());
 
 	VkViewport viewport{};
 	viewport.x = 0.0f;
@@ -47,16 +47,16 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
 	viewport.height = (float)swapChainExtent.height;
 	viewport.minDepth = 0.0f;
 	viewport.maxDepth = 1.0f;
-	vkCmdSetViewport(commandBuffer.GetCommandBuffer(), 0, 1, &viewport);
+	vkCmdSetViewport(m_CommandBuffer.GetCommandBuffer(), 0, 1, &viewport);
 
 	VkRect2D scissor{};
 	scissor.offset = { 0, 0 };
 	scissor.extent = swapChainExtent;
-	vkCmdSetScissor(commandBuffer.GetCommandBuffer(), 0, 1, &scissor);
+	vkCmdSetScissor(m_CommandBuffer.GetCommandBuffer(), 0, 1, &scissor);
 
 	//triangleMesh.draw(commandBuffer.GetCommandBuffer());
-	level.drawLevelMeshes(commandBuffer.GetCommandBuffer());
+	m_Level.drawLevelMeshes(m_CommandBuffer.GetCommandBuffer());
 
-	vkCmdEndRenderPass(commandBuffer.GetCommandBuffer());
+	vkCmdEndRenderPass(m_CommandBuffer.GetCommandBuffer());
 }
 
