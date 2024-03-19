@@ -10,5 +10,5 @@ private:
 public:
 	CommandBuffer() = default;
 	explicit CommandBuffer(const VkCommandPool& commandPool);
-	VkCommandBuffer& GetCommandBuffer();
+	const VkCommandBuffer& GetVkCommandBuffer();
 };

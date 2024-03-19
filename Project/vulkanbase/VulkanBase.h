@@ -83,7 +83,7 @@ private:
 		//triangleMesh.initializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
 
 
-		m_CommandPool = CommandPool{surface };
+		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
 		//createCommandPool();
 		//createCommandBuffer();
@@ -107,7 +107,7 @@ private:
 		vkDestroySemaphore(device, imageAvailableSemaphore, nullptr);
 		vkDestroyFence(device, inFlightFence, nullptr);
 
-		vkDestroyCommandPool(device, m_CommandPool.GetCommandPool(), nullptr);
+		m_CommandPool.DestroyCommandPool();
 		/*for (auto framebuffer : swapChainFramebuffers) {
 			vkDestroyFramebuffer(device, framebuffer, nullptr);
 		}*/
@@ -170,7 +170,7 @@ private:
 	// CommandBuffer concept
 
 
-	//QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device);
+	QueueFamilyIndices findQueueFamilies(VkPhysicalDevice vkDevice);
 
 	void drawFrame(uint32_t imageIndex);
 	//void createCommandBuffer();

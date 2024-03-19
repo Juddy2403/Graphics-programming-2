@@ -6,7 +6,7 @@ CommandBuffer::CommandBuffer(const VkCommandPool& commandPool)
 	createCommandBuffer(commandPool);
 }
 
-VkCommandBuffer& CommandBuffer::GetCommandBuffer()
+const VkCommandBuffer& CommandBuffer::GetVkCommandBuffer()
 {
 	return m_CommandBuffer;
 }

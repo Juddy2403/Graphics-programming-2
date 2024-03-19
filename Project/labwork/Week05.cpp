@@ -28,14 +28,14 @@ void VulkanBase::pickPhysicalDevice() {
 }
 
 bool VulkanBase::isDeviceSuitable(VkPhysicalDevice device) {
-	QueueFamilyIndices indices = m_CommandPool.findQueueFamilies(device,surface);
+	QueueFamilyIndices indices = findQueueFamilies(device);
 	bool extensionsSupported = checkDeviceExtensionSupport(device);
 	return indices.isComplete() && extensionsSupported;
 
 }
 
 void VulkanBase::createLogicalDevice() {
-	QueueFamilyIndices indices = m_CommandPool.findQueueFamilies(physicalDevice,surface);
+	QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
 	std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
 	std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };

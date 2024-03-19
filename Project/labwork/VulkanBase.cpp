@@ -39,9 +39,9 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
 	renderPassInfo.clearValueCount = 1;
 	renderPassInfo.pClearValues = &clearColor;
 
-	vkCmdBeginRenderPass(m_CommandBuffer.GetCommandBuffer(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+	vkCmdBeginRenderPass(m_CommandBuffer.GetVkCommandBuffer(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-	vkCmdBindPipeline(m_CommandBuffer.GetCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS, m_GraphicsPipeline.getGraphicsPipeline());
+	vkCmdBindPipeline(m_CommandBuffer.GetVkCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS, m_GraphicsPipeline.getGraphicsPipeline());
 
 	VkViewport viewport{};
 	viewport.x = 0.0f;
@@ -50,16 +50,48 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
 	viewport.height = (float)swapChainExtent.height;
 	viewport.minDepth = 0.0f;
 	viewport.maxDepth = 1.0f;
-	vkCmdSetViewport(m_CommandBuffer.GetCommandBuffer(), 0, 1, &viewport);
+	vkCmdSetViewport(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &viewport);
 
 	VkRect2D scissor{};
 	scissor.offset = { 0, 0 };
 	scissor.extent = swapChainExtent;
-	vkCmdSetScissor(m_CommandBuffer.GetCommandBuffer(), 0, 1, &scissor);
+	vkCmdSetScissor(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &scissor);
 
 	//triangleMesh.draw(commandBuffer.GetCommandBuffer());
-	m_Level.drawLevelMeshes(m_CommandBuffer.GetCommandBuffer());
+	m_Level.drawLevelMeshes(m_CommandBuffer.GetVkCommandBuffer());
 
-	vkCmdEndRenderPass(m_CommandBuffer.GetCommandBuffer());
+	vkCmdEndRenderPass(m_CommandBuffer.GetVkCommandBuffer());
 }
 
+QueueFamilyIndices VulkanBase::findQueueFamilies(VkPhysicalDevice vkDevice)
+{
+	QueueFamilyIndices indices;
+
+	uint32_t queueFamilyCount = 0;
+	vkGetPhysicalDeviceQueueFamilyProperties(vkDevice, &queueFamilyCount, nullptr);
+
+	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+	vkGetPhysicalDeviceQueueFamilyProperties(vkDevice, &queueFamilyCount, queueFamilies.data());
+
+	int i = 0;
+	for (const auto& queueFamily : queueFamilies) {
+		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+			indices.graphicsFamily = i;
+		}
+
+		VkBool32 presentSupport = false;
+		vkGetPhysicalDeviceSurfaceSupportKHR(vkDevice, i, surface, &presentSupport);
+
+		if (presentSupport) {
+			indices.presentFamily = i;
+		}
+
+		if (indices.isComplete()) {
+			break;
+		}
+
+		i++;
+	}
+
+	return indices;
+}
