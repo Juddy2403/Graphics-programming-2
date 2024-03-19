@@ -175,7 +175,7 @@ private:
 	void drawFrame(uint32_t imageIndex);
 	//void createCommandBuffer();
 	//void createCommandPool(); 
-	void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+	//void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 	
 	// Week 03
 	// Renderpass concept

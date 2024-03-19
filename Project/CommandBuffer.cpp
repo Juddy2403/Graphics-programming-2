@@ -3,15 +3,46 @@
 
 CommandBuffer::CommandBuffer(const VkCommandPool& commandPool)
 {
-	createCommandBuffer(commandPool);
+	CreateCommandBuffer(commandPool);
 }
 
-const VkCommandBuffer& CommandBuffer::GetVkCommandBuffer()
+const VkCommandBuffer& CommandBuffer::GetVkCommandBuffer() const
 {
 	return m_CommandBuffer;
 }
 
-void CommandBuffer::createCommandBuffer(const VkCommandPool& commandPool) {
+void CommandBuffer::Reset() const
+{
+	vkResetCommandBuffer(m_CommandBuffer, /*VkCommandBufferResetFlagBits*/ 0);
+}
+
+void CommandBuffer::BeginRecording() const
+{
+	VkCommandBufferBeginInfo beginInfo{};
+	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+	beginInfo.flags = 0; // Optional
+	beginInfo.pInheritanceInfo = nullptr; // Optional
+
+	if (vkBeginCommandBuffer(m_CommandBuffer, &beginInfo) != VK_SUCCESS) {
+		throw std::runtime_error("failed to begin recording command buffer!");
+
+	}
+}
+
+void CommandBuffer::EndRecording() const
+{
+	if (vkEndCommandBuffer(m_CommandBuffer) != VK_SUCCESS) {
+		throw std::runtime_error("failed to record command buffer!");
+	}
+}
+
+void CommandBuffer::Submit(VkSubmitInfo& info) const
+{
+	info.commandBufferCount = 1;
+	info.pCommandBuffers = &m_CommandBuffer;
+}
+
+void CommandBuffer::CreateCommandBuffer(const VkCommandPool& commandPool) {
 	VkCommandBufferAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 	allocInfo.commandPool = commandPool;
