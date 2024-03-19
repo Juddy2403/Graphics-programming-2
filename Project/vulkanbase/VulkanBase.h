@@ -77,7 +77,6 @@ private:
 		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
 		// week 02
 		//triangleMesh.addVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
-		m_Level.initializeLevel();
 		//triangleMesh.initializeMesh(device, physicalDevice);
 		//triangleMesh.initializeCircle({0.f,0.f},0.3,50);
 		//triangleMesh.initializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
@@ -85,6 +84,9 @@ private:
 
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
+
+		m_Level.initializeLevel(m_CommandPool.GetCommandPool(), graphicsQueue);
+
 		//createCommandPool();
 		//createCommandBuffer();
 

@@ -8,7 +8,7 @@ private:
 	std::vector<Mesh> m_Meshes{};
 
 public:
-	void initializeLevel();
+	void initializeLevel(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 	void destroyLevel();
 	void drawLevelMeshes(const VkCommandBuffer& commandBuffer) const;
 };

@@ -1,14 +1,14 @@
 #include "Level.h"
 #include <vulkanbase/VulkanUtil.h>
 
-void Level::initializeLevel()
+void Level::initializeLevel(const VkCommandPool& commandPool, const VkQueue& graphicsQueue)
 {
 	m_Meshes.push_back(Mesh());
 	for (auto& meshes : m_Meshes)
 	{
-		meshes.initializeMesh();
+		meshes.initializeMesh(commandPool, graphicsQueue);
 	}
-	m_Meshes[0].initializeRoundedRect(-0.3, 0.3, 0.3, -0.3, 0.2, 20);
+	//m_Meshes[0].initializeRoundedRect(-0.3, 0.3, 0.3, -0.3, 0.2, 20, commandPool, graphicsQueue);
 
 }
 
