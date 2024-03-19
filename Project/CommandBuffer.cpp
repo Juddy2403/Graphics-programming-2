@@ -3,7 +3,7 @@
 
 CommandBuffer::CommandBuffer(const VkCommandPool& commandPool)
 {
-	CreateCommandBuffer(commandPool);
+	m_CommandBuffer = CreateCommandBuffer(commandPool);
 }
 
 const VkCommandBuffer& CommandBuffer::GetVkCommandBuffer() const
@@ -16,11 +16,11 @@ void CommandBuffer::Reset() const
 	vkResetCommandBuffer(m_CommandBuffer, /*VkCommandBufferResetFlagBits*/ 0);
 }
 
-void CommandBuffer::BeginRecording() const
+void CommandBuffer::BeginRecording(const VkCommandBufferUsageFlags& flags) const
 {
 	VkCommandBufferBeginInfo beginInfo{};
 	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	beginInfo.flags = 0; // Optional
+	beginInfo.flags = flags; // Optional
 	beginInfo.pInheritanceInfo = nullptr; // Optional
 
 	if (vkBeginCommandBuffer(m_CommandBuffer, &beginInfo) != VK_SUCCESS) {
@@ -42,16 +42,25 @@ void CommandBuffer::Submit(VkSubmitInfo& info) const
 	info.pCommandBuffers = &m_CommandBuffer;
 }
 
-void CommandBuffer::CreateCommandBuffer(const VkCommandPool& commandPool) {
+VkCommandBuffer CommandBuffer::CreateCommandBuffer(const VkCommandPool& commandPool) {
+
+	VkCommandBuffer commandBuffer{};
+
 	VkCommandBufferAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 	allocInfo.commandPool = commandPool;
 	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 	allocInfo.commandBufferCount = 1;
 
-	if (vkAllocateCommandBuffers(VulkanBase::device, &allocInfo, &m_CommandBuffer) != VK_SUCCESS) {
+	if (vkAllocateCommandBuffers(VulkanBase::device, &allocInfo, &commandBuffer) != VK_SUCCESS) {
 		throw std::runtime_error("failed to allocate command buffers!");
 	}
+	return commandBuffer;
+}
+
+void CommandBuffer::FreeCommandBuffer(const VkCommandPool& commandPool)
+{
+	vkFreeCommandBuffers(VulkanBase::device, commandPool, 1, &m_CommandBuffer);
 }
 
 //void CommandBuffer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {

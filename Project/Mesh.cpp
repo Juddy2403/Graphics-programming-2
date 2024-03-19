@@ -212,39 +212,29 @@ void Mesh::createIndexBuffer(const VkCommandPool& commandPool, const VkQueue& gr
 }
 
 void Mesh::copyBuffer(const VkCommandPool& commandPool,const VkQueue& graphicsQueue,VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
-	//TODO: encapsulate this part within the command buffer class
-	VkCommandBufferAllocateInfo allocInfo{};
-	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
-	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
+
+	CommandBuffer commandBufferClass{commandPool};
+	
 	//TODO: create a separate command pool for short lived objects using the VK_COMMAND_POOL_CREATE_TRANSIENT_BIT flag
-	allocInfo.commandPool = commandPool;
-	allocInfo.commandBufferCount = 1;
 
-	VkCommandBuffer commandBuffer;
-	vkAllocateCommandBuffers(VulkanBase::device, &allocInfo, &commandBuffer);
-
-	VkCommandBufferBeginInfo beginInfo{};
-	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-	beginInfo.flags = VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
-
-	vkBeginCommandBuffer(commandBuffer, &beginInfo);
+	commandBufferClass.BeginRecording(VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT);
 
 	VkBufferCopy copyRegion{};
 	copyRegion.srcOffset = 0; // Optional
 	copyRegion.dstOffset = 0; // Optional
 	copyRegion.size = size;
-	vkCmdCopyBuffer(commandBuffer, srcBuffer, dstBuffer, 1, &copyRegion);
-	vkEndCommandBuffer(commandBuffer);
+	vkCmdCopyBuffer(commandBufferClass.GetVkCommandBuffer(), srcBuffer, dstBuffer, 1, &copyRegion);
+
+	commandBufferClass.EndRecording();
 
 	VkSubmitInfo submitInfo{};
 	submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-	submitInfo.commandBufferCount = 1;
-	submitInfo.pCommandBuffers = &commandBuffer;
+	commandBufferClass.Submit(submitInfo);
 
 	vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
 	vkQueueWaitIdle(graphicsQueue);
 
-	vkFreeCommandBuffers(VulkanBase::device, commandPool, 1, &commandBuffer);
+	commandBufferClass.FreeCommandBuffer(commandPool);
 }
 
 void Mesh::draw(const VkCommandBuffer& commandBuffer) const

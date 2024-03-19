@@ -1,16 +1,19 @@
 #include "CommandPool.h"
 #include "vulkanbase/VulkanBase.h"
 
-void CommandPool::createCommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices) {
-
+VkCommandPool CommandPool::createCommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices, 
+	VkCommandPoolCreateFlags flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT) {
+	VkCommandPool commandPool{};
 	VkCommandPoolCreateInfo poolInfo{};
 	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
-	poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
+	poolInfo.flags = flags;
 	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
 
-	if (vkCreateCommandPool(VulkanBase::device, &poolInfo, nullptr, &m_CommandPool) != VK_SUCCESS) {
+	if (vkCreateCommandPool(VulkanBase::device, &poolInfo, nullptr, &commandPool) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create command pool!");
 	}
+
+	return commandPool;
 }
 
 void CommandPool::DestroyCommandPool()
@@ -20,7 +23,7 @@ void CommandPool::DestroyCommandPool()
 
 CommandPool::CommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices)
 {
-	createCommandPool(surface, queueFamilyIndices);
+	m_CommandPool = createCommandPool(surface, queueFamilyIndices);
 }
 
 const VkCommandPool& CommandPool::GetCommandPool()

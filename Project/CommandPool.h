@@ -18,7 +18,7 @@ public:
 	explicit CommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices);
 	const VkCommandPool& GetCommandPool();
 private:
-	void createCommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices);
+	VkCommandPool createCommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices, VkCommandPoolCreateFlags flags);
 	VkCommandPool m_CommandPool{};
 
 };
