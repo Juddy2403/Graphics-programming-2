@@ -10,8 +10,7 @@ private:
     VkPipeline m_GraphicsPipeline;
 public:
     VkPipeline& getGraphicsPipeline() { return m_GraphicsPipeline; }
-    void createGraphicsPipeline(const VkDevice& device, 
-                                const VkRenderPass& renderPass,
+    void createGraphicsPipeline(const VkRenderPass& renderPass,
                                       GP2Shader& gradientShader);
-    void destroyGraphicsPipeline(const VkDevice& device);
+    void destroyGraphicsPipeline();
 };

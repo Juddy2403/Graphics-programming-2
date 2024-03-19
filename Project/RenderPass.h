@@ -9,12 +9,10 @@ private:
 	std::vector<VkFramebuffer> m_SwapChainFramebuffers;
 
 public:
-	void createFrameBuffers(const VkDevice& device,
-		const std::vector<VkImageView>& swapChainImageViews,
+	void createFrameBuffers(const std::vector<VkImageView>& swapChainImageViews,
 		const VkExtent2D& swapChainExtent);
-	void createRenderPass(const VkDevice& device,
-		const VkFormat& swapChainImageFormat);
-	void destroyRenderPass(const VkDevice& device);
+	void createRenderPass(const VkFormat& swapChainImageFormat);
+	void destroyRenderPass();
 	VkRenderPass& getRenderPass() { return m_RenderPass; }
 	std::vector<VkFramebuffer>& getSwapChainFramebuffers() { return m_SwapChainFramebuffers; }
 };

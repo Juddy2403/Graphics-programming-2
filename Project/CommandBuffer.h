@@ -5,10 +5,10 @@ class CommandBuffer
 {
 private:
 	VkCommandBuffer m_CommandBuffer{};
-	void createCommandBuffer(const VkDevice& device, const VkCommandPool& commandPool);
+	void createCommandBuffer(const VkCommandPool& commandPool);
 
 public:
 	CommandBuffer() = default;
-	explicit CommandBuffer(const VkDevice& device, const VkCommandPool& commandPool);
+	explicit CommandBuffer(const VkCommandPool& commandPool);
 	VkCommandBuffer& GetCommandBuffer();
 };

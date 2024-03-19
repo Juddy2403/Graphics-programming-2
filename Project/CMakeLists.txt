@@ -31,7 +31,6 @@ set(SOURCES
     # Add other source files here
     "labwork/VulkanBase.cpp"
      
-    "labwork/Week03.cpp" 
     "labwork/Week04.cpp" 
     "labwork/Week05.cpp"
     "labwork/Week06.cpp"

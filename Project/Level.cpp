@@ -1,15 +1,12 @@
 #include "Level.h"
 #include <vulkanbase/VulkanUtil.h>
 
-void Level::initializeLevel(const VkDevice& vkDevice, const VkPhysicalDevice& physicalDevice)
+void Level::initializeLevel()
 {
-	m_VkDevice = vkDevice;
-	m_PhysicalDevice = physicalDevice;
-
 	m_Meshes.push_back(Mesh());
 	for (auto& meshes : m_Meshes)
 	{
-		meshes.initializeMesh(vkDevice, physicalDevice);
+		meshes.initializeMesh();
 	}
 	m_Meshes[0].initializeRoundedRect(-0.3, 0.3, 0.3, -0.3, 0.2, 20);
 

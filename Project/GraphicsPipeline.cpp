@@ -2,9 +2,9 @@
 #include <vulkanbase/VulkanUtil.h>
 #include <Mesh.h>
 #include <GP2Shader.h>
+#include <vulkanbase/VulkanBase.h>
 
 void GraphicsPipeline::createGraphicsPipeline(
-		const VkDevice& device,
 		const VkRenderPass& renderPass,
 		      GP2Shader& gradientShader)
 {
@@ -57,7 +57,7 @@ void GraphicsPipeline::createGraphicsPipeline(
 	pipelineLayoutInfo.setLayoutCount = 0;
 	pipelineLayoutInfo.pushConstantRangeCount = 0;
 
-	if (vkCreatePipelineLayout(device, &pipelineLayoutInfo, nullptr, &m_PipelineLayout) != VK_SUCCESS) {
+	if (vkCreatePipelineLayout(VulkanBase::device, &pipelineLayoutInfo, nullptr, &m_PipelineLayout) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create pipeline layout!");
 	}
 
@@ -80,15 +80,15 @@ void GraphicsPipeline::createGraphicsPipeline(
 	pipelineInfo.subpass = 0;
 	pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
 
-	if (vkCreateGraphicsPipelines(device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_GraphicsPipeline) != VK_SUCCESS) {
+	if (vkCreateGraphicsPipelines(VulkanBase::device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_GraphicsPipeline) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create graphics pipeline!");
 	}
-	gradientShader.DestroyShaderModules(device);
+	gradientShader.DestroyShaderModules();
 
 }
 
-void GraphicsPipeline::destroyGraphicsPipeline(const VkDevice& device)
+void GraphicsPipeline::destroyGraphicsPipeline()
 {
-	vkDestroyPipeline(device, m_GraphicsPipeline, nullptr);
-	vkDestroyPipelineLayout(device, m_PipelineLayout, nullptr);
+	vkDestroyPipeline(VulkanBase::device, m_GraphicsPipeline, nullptr);
+	vkDestroyPipelineLayout(VulkanBase::device, m_PipelineLayout, nullptr);
 }

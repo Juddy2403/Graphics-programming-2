@@ -18,15 +18,15 @@ public:
 		return m_ShaderStages;
 	}
 
-	void Initialize(const VkDevice& vkDevice);
-	void DestroyShaderModules(const VkDevice& vkDevice);
+	void Initialize();
+	void DestroyShaderModules();
 	VkPipelineInputAssemblyStateCreateInfo createInputAssemblyStateInfo();
-	VkPipelineShaderStageCreateInfo createFragmentShaderInfo(const VkDevice& vkDevice);
-	VkPipelineShaderStageCreateInfo createVertexShaderInfo(const VkDevice& vkDevice);
+	VkPipelineShaderStageCreateInfo createFragmentShaderInfo();
+	VkPipelineShaderStageCreateInfo createVertexShaderInfo();
 
 private:
 
-	VkShaderModule createShaderModule(const VkDevice& vkDevice, const std::vector<char>& code);
+	VkShaderModule createShaderModule( const std::vector<char>& code);
 	std::string m_VertexShaderFile;
 	std::string m_FragmentShaderFile;
 

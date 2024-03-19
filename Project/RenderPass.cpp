@@ -1,8 +1,8 @@
 #include "RenderPass.h"
 #include <vulkanbase/VulkanUtil.h>
+#include <vulkanbase/VulkanBase.h>
 
-void RenderPass::createFrameBuffers(const VkDevice& device,
-					const std::vector<VkImageView>& swapChainImageViews, 
+void RenderPass::createFrameBuffers(const std::vector<VkImageView>& swapChainImageViews, 
 						    	  const VkExtent2D& swapChainExtent)
 {
 	m_SwapChainFramebuffers.resize(swapChainImageViews.size());
@@ -20,14 +20,13 @@ void RenderPass::createFrameBuffers(const VkDevice& device,
 		framebufferInfo.height = swapChainExtent.height;
 		framebufferInfo.layers = 1;
 
-		if (vkCreateFramebuffer(device, &framebufferInfo, nullptr, &m_SwapChainFramebuffers[i]) != VK_SUCCESS) {
+		if (vkCreateFramebuffer(VulkanBase::device, &framebufferInfo, nullptr, &m_SwapChainFramebuffers[i]) != VK_SUCCESS) {
 			throw std::runtime_error("failed to create framebuffer!");
 		}
 	}
 }
 
-void RenderPass::createRenderPass(const VkDevice& device,
-								  const VkFormat& swapChainImageFormat)
+void RenderPass::createRenderPass(const VkFormat& swapChainImageFormat)
 {
 	VkAttachmentDescription colorAttachment{};
 	colorAttachment.format = swapChainImageFormat;
@@ -55,15 +54,15 @@ void RenderPass::createRenderPass(const VkDevice& device,
 	renderPassInfo.subpassCount = 1;
 	renderPassInfo.pSubpasses = &subpass;
 
-	if (vkCreateRenderPass(device, &renderPassInfo, nullptr, &m_RenderPass) != VK_SUCCESS) {
+	if (vkCreateRenderPass(VulkanBase::device, &renderPassInfo, nullptr, &m_RenderPass) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create render pass!");
 	}
 }
 
-void RenderPass::destroyRenderPass(const VkDevice& device)
+void RenderPass::destroyRenderPass()
 {
 	for (auto framebuffer : m_SwapChainFramebuffers) {
-		vkDestroyFramebuffer(device, framebuffer, nullptr);
+		vkDestroyFramebuffer(VulkanBase::device, framebuffer, nullptr);
 	}
-	vkDestroyRenderPass(device, m_RenderPass, nullptr);
+	vkDestroyRenderPass(VulkanBase::device, m_RenderPass, nullptr);
 }

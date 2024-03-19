@@ -1,25 +1,26 @@
 #include "GP2Shader.h"
 #include <vulkanbase/VulkanUtil.h>
+#include <vulkanbase/VulkanBase.h>
 
 
-void GP2Shader::Initialize(const VkDevice& vkDevice)
+void GP2Shader::Initialize()
 {
-	m_ShaderStages.push_back(createVertexShaderInfo(vkDevice));
-	m_ShaderStages.push_back(createFragmentShaderInfo(vkDevice));
+	m_ShaderStages.push_back(createVertexShaderInfo());
+	m_ShaderStages.push_back(createFragmentShaderInfo());
 }
 
-void GP2Shader::DestroyShaderModules(const VkDevice& vkDevice)
+void GP2Shader::DestroyShaderModules()
 {
 	for (VkPipelineShaderStageCreateInfo& stageInfo : m_ShaderStages)
 	{
-		vkDestroyShaderModule(vkDevice, stageInfo.module, nullptr);
+		vkDestroyShaderModule(VulkanBase::device, stageInfo.module, nullptr);
 	}
 	m_ShaderStages.clear();
 }
 
-VkPipelineShaderStageCreateInfo GP2Shader::createFragmentShaderInfo(const VkDevice& vkDevice) {
+VkPipelineShaderStageCreateInfo GP2Shader::createFragmentShaderInfo() {
 	std::vector<char> fragShaderCode = readFile(m_FragmentShaderFile);
-	VkShaderModule fragShaderModule = createShaderModule(vkDevice,fragShaderCode);
+	VkShaderModule fragShaderModule = createShaderModule(fragShaderCode);
 
 	VkPipelineShaderStageCreateInfo fragShaderStageInfo{};
 	fragShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -30,9 +31,9 @@ VkPipelineShaderStageCreateInfo GP2Shader::createFragmentShaderInfo(const VkDevi
 	return fragShaderStageInfo;
 }
 
-VkPipelineShaderStageCreateInfo GP2Shader::createVertexShaderInfo(const VkDevice& vkDevice) {
+VkPipelineShaderStageCreateInfo GP2Shader::createVertexShaderInfo() {
 	std::vector<char> vertShaderCode = readFile(m_VertexShaderFile);
-	VkShaderModule vertShaderModule = createShaderModule(vkDevice,vertShaderCode);
+	VkShaderModule vertShaderModule = createShaderModule(vertShaderCode);
 
 	VkPipelineShaderStageCreateInfo vertShaderStageInfo{};
 	vertShaderStageInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_SHADER_STAGE_CREATE_INFO;
@@ -51,14 +52,14 @@ VkPipelineInputAssemblyStateCreateInfo GP2Shader::createInputAssemblyStateInfo()
 	return inputAssembly;
 }
 
-VkShaderModule GP2Shader::createShaderModule(const VkDevice& vkDevice, const std::vector<char>& code) {
+VkShaderModule GP2Shader::createShaderModule(const std::vector<char>& code) {
 	VkShaderModuleCreateInfo createInfo{};
 	createInfo.sType = VK_STRUCTURE_TYPE_SHADER_MODULE_CREATE_INFO;
 	createInfo.codeSize = code.size();
 	createInfo.pCode = reinterpret_cast<const uint32_t*>(code.data());
 
 	VkShaderModule shaderModule;
-	if (vkCreateShaderModule(vkDevice, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
+	if (vkCreateShaderModule(VulkanBase::device, &createInfo, nullptr, &shaderModule) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create shader module!");
 	}
 

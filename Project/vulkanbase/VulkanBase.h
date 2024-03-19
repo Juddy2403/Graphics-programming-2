@@ -24,6 +24,9 @@
 #include "RenderPass.h"
 #include <GraphicsPipeline.h>
 
+
+
+
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
 };
@@ -47,6 +50,9 @@ public:
 		cleanup();
 	}
 
+	static VkPhysicalDevice physicalDevice;
+	static VkDevice device;
+
 private:
 
 
@@ -65,20 +71,20 @@ private:
 		createImageViews();
 		
 		// week 03
-		m_GradientShader.Initialize(device);
-		m_RenderPass.createRenderPass(device,swapChainImageFormat);
-		m_GraphicsPipeline.createGraphicsPipeline(device,m_RenderPass.getRenderPass(),m_GradientShader);
-		m_RenderPass.createFrameBuffers(device,swapChainImageViews,swapChainExtent);
+		m_GradientShader.Initialize();
+		m_RenderPass.createRenderPass(swapChainImageFormat);
+		m_GraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(),m_GradientShader);
+		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
 		// week 02
 		//triangleMesh.addVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
-		m_Level.initializeLevel(device, physicalDevice);
+		m_Level.initializeLevel();
 		//triangleMesh.initializeMesh(device, physicalDevice);
 		//triangleMesh.initializeCircle({0.f,0.f},0.3,50);
 		//triangleMesh.initializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
 
 
-		m_CommandPool = CommandPool{ device, physicalDevice, surface };
-		m_CommandBuffer = CommandBuffer{ device, m_CommandPool.GetCommandPool() };
+		m_CommandPool = CommandPool{surface };
+		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
 		//createCommandPool();
 		//createCommandBuffer();
 
@@ -106,8 +112,8 @@ private:
 			vkDestroyFramebuffer(device, framebuffer, nullptr);
 		}*/
 
-		m_GraphicsPipeline.destroyGraphicsPipeline(device);
-		m_RenderPass.destroyRenderPass(device);
+		m_GraphicsPipeline.destroyGraphicsPipeline();
+		m_RenderPass.destroyRenderPass();
 
 		//vkDestroyPipeline(device, m_GraphicsPipeline, nullptr);
 		//vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
@@ -204,7 +210,6 @@ private:
 	// Week 05 
 	// Logical and physical device
 
-	VkPhysicalDevice physicalDevice = VK_NULL_HANDLE;
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
 	
@@ -217,7 +222,7 @@ private:
 
 	VkInstance instance;
 	VkDebugUtilsMessengerEXT debugMessenger;
-	VkDevice device = VK_NULL_HANDLE;
+
 	VkSurfaceKHR surface;
 
 	VkSemaphore imageAvailableSemaphore;

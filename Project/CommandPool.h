@@ -14,13 +14,11 @@ class CommandPool
 {
 public:
 	CommandPool() = default;
-	explicit CommandPool(const VkDevice& device,
-		const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface);
-	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice& physicalDevice,const VkSurfaceKHR& surface);
+	explicit CommandPool(const VkSurfaceKHR& surface);
+	QueueFamilyIndices findQueueFamilies(const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface);
 	VkCommandPool& GetCommandPool();
 private:
-	void createCommandPool(const VkDevice& device,
-		const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface);
+	void createCommandPool(const VkSurfaceKHR& surface);
 	VkCommandPool m_CommandPool{};
 
 };

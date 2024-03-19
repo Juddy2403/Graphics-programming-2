@@ -1,11 +1,10 @@
 #include "Mesh.h"
 #include <vulkanbase/VulkanUtil.h>
 #include <glm/gtc/constants.hpp>
+#include <vulkanbase/VulkanBase.h>
 
-void Mesh::initializeMesh(const VkDevice& vkDevice, const VkPhysicalDevice& physicalDevice)
+void Mesh::initializeMesh()
 {
-	m_VkDevice = vkDevice;
-	m_PhysicalDevice = physicalDevice;
 	createVertexBuffer();
 }
 
@@ -122,7 +121,7 @@ void Mesh::addVertex(const glm::vec2& pos, const glm::vec3& color)
 uint32_t Mesh::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties)
 {
 	VkPhysicalDeviceMemoryProperties memProperties;
-	vkGetPhysicalDeviceMemoryProperties(m_PhysicalDevice, &memProperties);
+	vkGetPhysicalDeviceMemoryProperties(VulkanBase::physicalDevice, &memProperties);
 
 	for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
 		if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
@@ -145,12 +144,12 @@ void Mesh::createVertexBuffer()
 	bufferInfo.usage = VK_BUFFER_USAGE_VERTEX_BUFFER_BIT;
 	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
 
-	if (vkCreateBuffer(m_VkDevice, &bufferInfo, nullptr, &m_VertexBuffer) != VK_SUCCESS) {
+	if (vkCreateBuffer(VulkanBase::device, &bufferInfo, nullptr, &m_VertexBuffer) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create vertex buffer!");
 	}
 	VkMemoryRequirements memRequirements{};
 
-	vkGetBufferMemoryRequirements(m_VkDevice, m_VertexBuffer, &memRequirements);
+	vkGetBufferMemoryRequirements(VulkanBase::device, m_VertexBuffer, &memRequirements);
 
 	VkMemoryAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
@@ -158,16 +157,16 @@ void Mesh::createVertexBuffer()
 	allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
-	if (vkAllocateMemory(m_VkDevice, &allocInfo, nullptr, &m_VertexBufferMemory) != VK_SUCCESS) {
+	if (vkAllocateMemory(VulkanBase::device, &allocInfo, nullptr, &m_VertexBufferMemory) != VK_SUCCESS) {
 		throw std::runtime_error("failed to allocate vertex buffer memory!");
 	}
 
-	vkBindBufferMemory(m_VkDevice, m_VertexBuffer, m_VertexBufferMemory, 0); //0 is the offset in memory. If its not 0 it needs to be divisible by memRequirements.alignment
+	vkBindBufferMemory(VulkanBase::device, m_VertexBuffer, m_VertexBufferMemory, 0); //0 is the offset in memory. If its not 0 it needs to be divisible by memRequirements.alignment
 
 	void* data;
-	vkMapMemory(m_VkDevice, m_VertexBufferMemory, 0, bufferInfo.size, 0, &data);
+	vkMapMemory(VulkanBase::device, m_VertexBufferMemory, 0, bufferInfo.size, 0, &data);
 	memcpy(data, m_Vertices.data(), (size_t)bufferInfo.size);
-	vkUnmapMemory(m_VkDevice, m_VertexBufferMemory);
+	vkUnmapMemory(VulkanBase::device, m_VertexBufferMemory);
 }
 
 void Mesh::draw(const VkCommandBuffer& commandBuffer) const
@@ -182,6 +181,6 @@ void Mesh::draw(const VkCommandBuffer& commandBuffer) const
 
 void Mesh::destroyMesh()
 {
-	vkDestroyBuffer(m_VkDevice, m_VertexBuffer, nullptr);
-	vkFreeMemory(m_VkDevice, m_VertexBufferMemory, nullptr);
+	vkDestroyBuffer(VulkanBase::device, m_VertexBuffer, nullptr);
+	vkFreeMemory(VulkanBase::device, m_VertexBufferMemory, nullptr);
 }

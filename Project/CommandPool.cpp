@@ -1,26 +1,25 @@
 #include "CommandPool.h"
 #include "vulkanbase/VulkanBase.h"
 
-void CommandPool::createCommandPool(const VkDevice& device, 
-	const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface) {
-	QueueFamilyIndices queueFamilyIndices = findQueueFamilies(physicalDevice,surface);
+void CommandPool::createCommandPool(const VkSurfaceKHR& surface) {
+	QueueFamilyIndices queueFamilyIndices = findQueueFamilies(VulkanBase::physicalDevice,surface);
 
 	VkCommandPoolCreateInfo poolInfo{};
 	poolInfo.sType = VK_STRUCTURE_TYPE_COMMAND_POOL_CREATE_INFO;
 	poolInfo.flags = VK_COMMAND_POOL_CREATE_RESET_COMMAND_BUFFER_BIT;
 	poolInfo.queueFamilyIndex = queueFamilyIndices.graphicsFamily.value();
 
-	if (vkCreateCommandPool(device, &poolInfo, nullptr, &m_CommandPool) != VK_SUCCESS) {
+	if (vkCreateCommandPool(VulkanBase::device, &poolInfo, nullptr, &m_CommandPool) != VK_SUCCESS) {
 		throw std::runtime_error("failed to create command pool!");
 	}
 }
 
-CommandPool::CommandPool(const VkDevice& device, const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface)
+CommandPool::CommandPool(const VkSurfaceKHR& surface)
 {
-	createCommandPool(device, physicalDevice, surface);
+	createCommandPool(surface);
 }
 
-QueueFamilyIndices CommandPool::findQueueFamilies(const VkPhysicalDevice& physicalDevice, const VkSurfaceKHR& surface) {
+QueueFamilyIndices CommandPool::findQueueFamilies(const VkPhysicalDevice& physicalDevice,const VkSurfaceKHR& surface) {
 	QueueFamilyIndices indices;
 
 	uint32_t queueFamilyCount = 0;

@@ -1,5 +1,8 @@
 #include "vulkanbase/VulkanBase.h"
 
+VkPhysicalDevice VulkanBase::physicalDevice = VK_NULL_HANDLE;
+VkDevice VulkanBase::device = VK_NULL_HANDLE;
+
 void VulkanBase::initWindow() {
 	glfwInit();
 	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);

@@ -1,9 +1,9 @@
 #include "CommandBuffer.h"
 #include "vulkanbase/VulkanBase.h"
 
-CommandBuffer::CommandBuffer(const VkDevice& device, const VkCommandPool& commandPool)
+CommandBuffer::CommandBuffer(const VkCommandPool& commandPool)
 {
-	createCommandBuffer(device, commandPool);
+	createCommandBuffer(commandPool);
 }
 
 VkCommandBuffer& CommandBuffer::GetCommandBuffer()
@@ -11,14 +11,14 @@ VkCommandBuffer& CommandBuffer::GetCommandBuffer()
 	return m_CommandBuffer;
 }
 
-void CommandBuffer::createCommandBuffer(const VkDevice& device, const VkCommandPool& commandPool) {
+void CommandBuffer::createCommandBuffer(const VkCommandPool& commandPool) {
 	VkCommandBufferAllocateInfo allocInfo{};
 	allocInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO;
 	allocInfo.commandPool = commandPool;
 	allocInfo.level = VK_COMMAND_BUFFER_LEVEL_PRIMARY;
 	allocInfo.commandBufferCount = 1;
 
-	if (vkAllocateCommandBuffers(device, &allocInfo, &m_CommandBuffer) != VK_SUCCESS) {
+	if (vkAllocateCommandBuffers(VulkanBase::device, &allocInfo, &m_CommandBuffer) != VK_SUCCESS) {
 		throw std::runtime_error("failed to allocate command buffers!");
 	}
 }
