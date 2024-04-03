@@ -1,0 +1,4 @@
+ToolSet: 17.0 (local)@D:\Apps\School\VS
+Options: 
+
+Options:-DCMAKE_MAKE_PROGRAM=C:/Program Files/JetBrains/CLion 2023.3.4/bin/ninja/win/x64/ninja.exe

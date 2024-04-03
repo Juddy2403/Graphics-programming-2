@@ -55,8 +55,11 @@ private:
 	VkDeviceMemory m_IndexBufferMemory;
 	uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
+	//TODO: encapsulate the buffer functionality
 	void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-
+	void createVertexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
+	void createIndexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
+	void copyBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 public:
 	Mesh() = default;
 
@@ -66,11 +69,8 @@ public:
 	void addRect(float top, float left, float bottom, float right,const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 	void initializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments, const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 	void addVertex(const glm::vec2& pos, const glm::vec3& color);
+	static VkPipelineVertexInputStateCreateInfo createVertexInputStateInfo();
 
-	static VkPipelineVertexInputStateCreateInfo createVertexInputStateInfo(); 
-	void createVertexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
-	void createIndexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
-	void copyBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 	void draw(const VkCommandBuffer& commandBuffer) const;
 	void destroyMesh();
 };

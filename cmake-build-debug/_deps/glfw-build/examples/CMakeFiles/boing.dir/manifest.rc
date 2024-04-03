@@ -1,0 +1,2 @@
+#pragma code_page(65001)
+1 /* CREATEPROCESS_MANIFEST_RESOURCE_ID */ 24 /* RT_MANIFEST */ "D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-build/examples/CMakeFiles/boing.dir/embed.manifest"
