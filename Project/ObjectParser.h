@@ -2,11 +2,8 @@
 #pragma once
 #include <fstream>
 #include "Mesh.h"
+#include <glm/glm.hpp>
 
-namespace dae
-{
-	namespace Utils
-	{
 		//Just parses vertices and indices
 #pragma warning(push)
 #pragma warning(disable : 4505) //Warning unreferenced local function
@@ -16,9 +13,9 @@ namespace dae
 			if (!file)
 				return false;
 
-			std::vector<Vector3> positions{};
-			std::vector<Vector3> normals{};
-			std::vector<Vector2> UVs{};
+			std::vector<glm::vec3> positions{};
+			std::vector<glm::vec3> normals{};
+			std::vector<glm::vec2> UVs{};
 
 			vertices.clear();
 			indices.clear();
@@ -73,7 +70,7 @@ namespace dae
 					{
 						// OBJ format uses 1-based arrays
 						file >> iPosition;
-						vertex.position = positions[iPosition - 1];
+						vertex.m_Pos = positions[iPosition - 1];
 
 						if ('/' == file.peek())//is next in buffer ==  '/' ?
 						{
@@ -83,7 +80,7 @@ namespace dae
 							{
 								// Optional texture coordinate
 								file >> iTexCoord;
-								vertex.texCoord = UVs[iTexCoord - 1];
+								vertex.m_TexCoord = UVs[iTexCoord - 1];
 							}
 
 							if ('/' == file.peek())
@@ -92,7 +89,7 @@ namespace dae
 
 								// Optional vertex normal
 								file >> iNormal;
-								vertex.normal = normals[iNormal - 1];
+								vertex.m_Normal = normals[iNormal - 1];
 							}
 						}
 
@@ -124,23 +121,24 @@ namespace dae
 				uint32_t index1 = indices[size_t(i) + 1];
 				uint32_t index2 = indices[size_t(i) + 2];
 
-				const Vector3& p0 = vertices[index0].position;
-				const Vector3& p1 = vertices[index1].position;
-				const Vector3& p2 = vertices[index2].position;
-				const Vector2& uv0 = vertices[index0].texCoord;
-				const Vector2& uv1 = vertices[index1].texCoord;
-				const Vector2& uv2 = vertices[index2].texCoord;
+				const glm::vec3& p0 = vertices[index0].m_Pos;
+				const glm::vec3& p1 = vertices[index1].m_Pos;
+				const glm::vec3& p2 = vertices[index2].m_Pos;
+				const glm::vec2& uv0 = vertices[index0].m_TexCoord;
+				const glm::vec2& uv1 = vertices[index1].m_TexCoord;
+				const glm::vec2& uv2 = vertices[index2].m_TexCoord;
 
-				const Vector3 edge0 = p1 - p0;
-				const Vector3 edge1 = p2 - p0;
-				const Vector2 diffX = Vector2(uv1.x - uv0.x, uv2.x - uv0.x);
-				const Vector2 diffY = Vector2(uv1.y - uv0.y, uv2.y - uv0.y);
-				float r = 1.f / Vector2::Cross(diffX, diffY);
+				const glm::vec3 edge0 = p1 - p0;
+				const glm::vec3 edge1 = p2 - p0;
+				const glm::vec2 diffX = glm::vec2(uv1.x - uv0.x, uv2.x - uv0.x);
+				const glm::vec2 diffY = glm::vec2(uv1.y - uv0.y, uv2.y - uv0.y);
+                const auto cross = diffX.x*diffY.y - diffX.y*diffY.x;
+				float r = 1.f / cross;
 
-				Vector3 tangent = (edge0 * diffY.y - edge1 * diffY.x) * r;
-				vertices[index0].tangent += tangent;
-				vertices[index1].tangent += tangent;
-				vertices[index2].tangent += tangent;
+				glm::vec3 tangent = (edge0 * diffY.y - edge1 * diffY.x) * r;
+				vertices[index0].m_Tangent += tangent;
+				vertices[index1].m_Tangent += tangent;
+				vertices[index2].m_Tangent += tangent;
 			}
 
 			//Create the Tangents (reject)
@@ -160,5 +158,4 @@ namespace dae
 			return true;
 		}
 #pragma warning(pop)
-	}
-}
+

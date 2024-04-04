@@ -23,6 +23,7 @@
 #include "Level.h"
 #include "RenderPass.h"
 #include <GraphicsPipeline.h>
+#include "TimeManager.h"
 
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
@@ -97,6 +98,7 @@ private:
 			glfwPollEvents();
 			// week 06
 			drawFrame();
+            TimeManager::GetInstance().Update();
 		}
 		vkDeviceWaitIdle(device);
 	}

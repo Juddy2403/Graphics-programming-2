@@ -6,8 +6,12 @@
 #include <glm/glm.hpp>
 
 struct Vertex {
+    //should be a vec3
 	glm::vec2 m_Pos;
-	glm::vec3 m_Color{ 1,1,1 };
+    glm::vec2 m_TexCoord;
+    glm::vec3 m_Normal;
+    glm::vec3 m_Tangent;
+    glm::vec3 m_Color{ 1,1,1 };
 
 	static VkVertexInputBindingDescription getBindingDescription() {
 
