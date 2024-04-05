@@ -69,7 +69,7 @@ void GraphicsPipeline::createGraphicsPipeline(
 
 	pipelineInfo.stageCount = 2;
 	pipelineInfo.pStages = gradientShader.getShaderStages().data();
-	pipelineInfo.pVertexInputState = &Mesh::createVertexInputStateInfo();
+	pipelineInfo.pVertexInputState = &VertexBuffers::createVertexInputStateInfo();
 	pipelineInfo.pInputAssemblyState = &gradientShader.createInputAssemblyStateInfo();
 
 	pipelineInfo.pViewportState = &viewportState;

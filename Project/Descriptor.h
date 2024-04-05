@@ -1,7 +1,15 @@
 #pragma once
 #include <vulkan/vulkan_core.h>
 #include <vector>
+//to fix the alignment requirements most of the time
+#define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
+#include <glm/glm.hpp>
 
+struct UniformBufferObject {
+    alignas(16) glm::mat4 model;
+    alignas(16) glm::mat4 view;
+    alignas(16) glm::mat4 proj;
+};
 class Descriptor
 {
 private:
