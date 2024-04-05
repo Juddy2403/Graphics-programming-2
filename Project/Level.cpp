@@ -1,12 +1,20 @@
 #include "Level.h"
 #include <vulkanbase/VulkanUtil.h>
 
+void Level::Update(uint32_t currentFrame)
+{
+	for (auto& mesh : m_Meshes)
+	{
+		mesh.Update(currentFrame);
+	}
+}
+
 void Level::initializeLevel(const VkCommandPool& commandPool, const VkQueue& graphicsQueue)
 {
 	m_Meshes.push_back(Mesh());
-	for (auto& meshes : m_Meshes)
+	for (auto& mesh : m_Meshes)
 	{
-		meshes.initializeMesh(commandPool, graphicsQueue);
+		mesh.initializeMesh(commandPool, graphicsQueue);
 	}
 	//m_Meshes[0].initializeRoundedRect(-0.3, 0.3, 0.3, -0.3, 0.2, 20, commandPool, graphicsQueue);
 
@@ -14,16 +22,17 @@ void Level::initializeLevel(const VkCommandPool& commandPool, const VkQueue& gra
 
 void Level::destroyLevel()
 {
-	for (auto& meshes : m_Meshes)
+	for (auto& mesh : m_Meshes)
 	{
-		meshes.destroyMesh();
+		mesh.destroyMesh();
+		mesh.destroyUniformBuffers();
 	}
 }
 
-void Level::drawLevelMeshes(const VkCommandBuffer& commandBuffer) const
+void Level::drawLevelMeshes(const VkCommandBuffer& commandBuffer, uint32_t currentFrame) const
 {
-	for (const auto& meshes : m_Meshes)
+	for (const auto& mesh : m_Meshes)
 	{
-		meshes.draw(commandBuffer);
+		mesh.draw(commandBuffer,currentFrame);
 	}
 }

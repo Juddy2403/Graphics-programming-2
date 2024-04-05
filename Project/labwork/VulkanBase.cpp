@@ -2,6 +2,7 @@
 
 VkPhysicalDevice VulkanBase::physicalDevice = VK_NULL_HANDLE;
 VkDevice VulkanBase::device = VK_NULL_HANDLE;
+VkExtent2D VulkanBase::swapChainExtent;
 
 void VulkanBase::initWindow() {
 	glfwInit();
@@ -58,7 +59,7 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
 	vkCmdSetScissor(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &scissor);
 
 	//triangleMesh.draw(commandBuffer.GetCommandBuffer());
-	m_Level.drawLevelMeshes(m_CommandBuffer.GetVkCommandBuffer());
+	m_Level.drawLevelMeshes(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
 
 	vkCmdEndRenderPass(m_CommandBuffer.GetVkCommandBuffer());
 }

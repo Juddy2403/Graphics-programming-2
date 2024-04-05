@@ -50,6 +50,7 @@ public:
 
 	static VkPhysicalDevice physicalDevice;
 	static VkDevice device;
+	static VkExtent2D swapChainExtent;
 
 private:
 
@@ -71,6 +72,7 @@ private:
 		// week 03
 		m_GradientShader.Initialize();
 		m_RenderPass.createRenderPass(swapChainImageFormat);
+		m_GraphicsPipeline.CreateDescriptorSetLayout();
 		m_GraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(),m_GradientShader);
 		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
 		// week 02
@@ -97,8 +99,8 @@ private:
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
 			// week 06
+			TimeManager::GetInstance().Update();
 			drawFrame();
-            TimeManager::GetInstance().Update();
 		}
 		vkDeviceWaitIdle(device);
 	}
@@ -176,7 +178,7 @@ private:
 	void drawFrame(uint32_t imageIndex);
 	//void createCommandBuffer();
 	//void createCommandPool(); 
-	//void recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
+	//void Buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
 	
 	// Week 03
 	// Renderpass concept
@@ -197,7 +199,6 @@ private:
 	VkSwapchainKHR swapChain;
 	std::vector<VkImage> swapChainImages;
 	VkFormat swapChainImageFormat;
-	VkExtent2D swapChainExtent;
 
 	std::vector<VkImageView> swapChainImageViews;
 

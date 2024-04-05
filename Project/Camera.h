@@ -65,7 +65,7 @@ struct Camera
 	void Update()
 	{
 		//Camera Update Logic
-		float deltaTime = TimeManager::GetElapsed();
+		float deltaTime = TimeManager::GetInstance().GetElapsed();
 		deltaTime = std::clamp(deltaTime, 0.005f, 0.01f);
 
 		//Keyboard Input
@@ -98,8 +98,8 @@ struct Camera
 		}
 		glm::mat4x4 finalRotation{};
 
-        finalRotation = glm::rotate(glm::mat4x4{},glm::radians(totalPitch),{1,0,0} );
-        finalRotation *= glm::rotate(glm::mat4x4{},glm::radians(totalYaw),{0,1,0} );
+        finalRotation = glm::rotate(glm::mat4x4(1.f), glm::radians(totalPitch), {1,0,0});
+        finalRotation *= glm::rotate(glm::mat4x4(1.f), glm::radians(totalYaw), {0,1,0});
 
 
         forward = glm::normalize(finalRotation * glm::vec4{0,0,1,1});

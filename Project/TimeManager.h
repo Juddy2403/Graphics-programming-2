@@ -6,7 +6,7 @@
 class TimeManager final : public Singleton<TimeManager>
 {
 public:
-    static float GetElapsed(){
+    [[nodiscard]] float GetElapsed(){
         return m_ElapsedTime.count();
     }
     [[nodiscard]] std::chrono::high_resolution_clock::time_point GetCurrent() const{
@@ -23,7 +23,7 @@ public:
 private:
     friend class Singleton<TimeManager>;
     TimeManager() = default;
-    static std::chrono::duration<float> m_ElapsedTime;
+    std::chrono::duration<float> m_ElapsedTime{};
     std::chrono::high_resolution_clock::time_point m_Previous{std::chrono::high_resolution_clock::now() };
     const std::chrono::duration<float, std::milli> m_FixedTimeStep{ 100.f / 16.f };
     std::chrono::high_resolution_clock::time_point m_Current{};
