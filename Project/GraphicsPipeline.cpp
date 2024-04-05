@@ -1,10 +1,8 @@
 #include "GraphicsPipeline.h"
-#include <vulkanbase/VulkanUtil.h>
 #include <Mesh.h>
 #include <GP2Shader.h>
 #include <vulkanbase/VulkanBase.h>
 
-VkDescriptorSetLayout GraphicsPipeline::m_DescriptorSetLayout;
 VkPipelineLayout GraphicsPipeline::m_PipelineLayout;
 
 void GraphicsPipeline::createGraphicsPipeline(
@@ -58,7 +56,7 @@ void GraphicsPipeline::createGraphicsPipeline(
 	VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
 	pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
 	pipelineLayoutInfo.setLayoutCount = 1;
-	pipelineLayoutInfo.pSetLayouts = &m_DescriptorSetLayout;
+	pipelineLayoutInfo.pSetLayouts = &Descriptor::GetDescriptorSetLayout();
 	pipelineLayoutInfo.pushConstantRangeCount = 0;
 
 	if (vkCreatePipelineLayout(VulkanBase::device, &pipelineLayoutInfo, nullptr, &m_PipelineLayout) != VK_SUCCESS) {
@@ -91,31 +89,9 @@ void GraphicsPipeline::createGraphicsPipeline(
 
 }
 
-void GraphicsPipeline::CreateDescriptorSetLayout()
-{
-	VkDescriptorSetLayoutBinding uboLayoutBinding{};
-	uboLayoutBinding.binding = 0;
-	uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-	uboLayoutBinding.descriptorCount = 1;
-	uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-	uboLayoutBinding.pImmutableSamplers = nullptr; // Optional
-
-	VkDescriptorSetLayoutCreateInfo layoutInfo{};
-	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-	layoutInfo.bindingCount = 1;
-	layoutInfo.pBindings = &uboLayoutBinding;
-
-	if (vkCreateDescriptorSetLayout(VulkanBase::device, &layoutInfo, nullptr, &m_DescriptorSetLayout) != VK_SUCCESS) {
-		throw std::runtime_error("failed to create descriptor set layout!");
-	}
-}
-
 void GraphicsPipeline::destroyGraphicsPipeline()
 {
 	vkDestroyPipeline(VulkanBase::device, m_GraphicsPipeline, nullptr);
 	vkDestroyPipelineLayout(VulkanBase::device, m_PipelineLayout, nullptr);
-	vkDestroyDescriptorSetLayout(VulkanBase::device, m_DescriptorSetLayout, nullptr);
-
-	vkDestroyDescriptorSetLayout(VulkanBase::device, m_DescriptorSetLayout, nullptr);
 
 }

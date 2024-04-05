@@ -24,6 +24,7 @@
 #include "RenderPass.h"
 #include <GraphicsPipeline.h>
 #include "TimeManager.h"
+#include <Descriptor.h>
 
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
@@ -47,6 +48,9 @@ public:
 		mainLoop();
 		cleanup();
 	}
+
+	static void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+	static uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 	static VkPhysicalDevice physicalDevice;
 	static VkDevice device;
@@ -72,7 +76,7 @@ private:
 		// week 03
 		m_GradientShader.Initialize();
 		m_RenderPass.createRenderPass(swapChainImageFormat);
-		m_GraphicsPipeline.CreateDescriptorSetLayout();
+		m_Descriptor.CreateDescriptorSetLayout();
 		m_GraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(),m_GradientShader);
 		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
 		// week 02
@@ -84,7 +88,7 @@ private:
 
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
-
+		m_Descriptor.CreateDescriptor();
 		m_Level.initializeLevel(m_CommandPool.GetCommandPool(), graphicsQueue);
 
 		//createCommandPool();
@@ -116,6 +120,7 @@ private:
 		}*/
 
 		m_GraphicsPipeline.destroyGraphicsPipeline();
+		m_Descriptor.DestroyDescriptor();
 		m_RenderPass.destroyRenderPass();
 
 		//vkDestroyPipeline(device, m_GraphicsPipeline, nullptr);
@@ -133,7 +138,7 @@ private:
 
 		//triangleMesh.destroyMesh();
 		m_Level.destroyLevel();
-
+		m_Descriptor.DestroyUniformBuffers();
 		vkDestroyDevice(device, nullptr);
 
 		vkDestroySurfaceKHR(instance, surface, nullptr);
@@ -156,7 +161,7 @@ private:
 	Level m_Level{};
 	RenderPass m_RenderPass{};
 	GraphicsPipeline m_GraphicsPipeline{};
-
+	Descriptor m_Descriptor;
 	// Week 01: 
 	// Actual window
 	// simple fragment + vertex shader creation functions
@@ -195,6 +200,8 @@ private:
 
 	// Week 04
 	// Swap chain and image view support
+
+	
 
 	VkSwapchainKHR swapChain;
 	std::vector<VkImage> swapChainImages;

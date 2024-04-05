@@ -25,14 +25,13 @@ void Level::destroyLevel()
 	for (auto& mesh : m_Meshes)
 	{
 		mesh.destroyMesh();
-		mesh.destroyUniformBuffers();
 	}
 }
 
-void Level::drawLevelMeshes(const VkCommandBuffer& commandBuffer, uint32_t currentFrame) const
+void Level::drawLevelMeshes(const VkCommandBuffer& commandBuffer, uint32_t currentFrame, const Descriptor& descriptor) const
 {
 	for (const auto& mesh : m_Meshes)
 	{
-		mesh.draw(commandBuffer,currentFrame);
+		mesh.draw(commandBuffer,currentFrame,descriptor);
 	}
 }

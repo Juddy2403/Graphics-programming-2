@@ -8,29 +8,12 @@
 
 void Mesh::Update(uint32_t currentFrame)
 {
-	UpdateUniformBuffer(currentFrame);
-}
-
-void Mesh::UpdateUniformBuffer(uint32_t currentFrame)
-{
-	m_TotalTime += TimeManager::GetInstance().GetElapsed();
-	
-	UniformBufferObject ubo{};
-	//TODO: CHECK! this probably uses the total time not the elapsed sec
-	ubo.model = glm::rotate(glm::mat4(1.0f), m_TotalTime * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	ubo.proj = glm::perspective(glm::radians(45.0f), VulkanBase::swapChainExtent.width / (float)VulkanBase::swapChainExtent.height, 0.1f, 10.0f);
-	ubo.proj[1][1] *= -1;
-	memcpy(uniformBuffersMapped[currentFrame], &ubo, sizeof(ubo));
 }
 
 void Mesh::initializeMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue)
 {
 	createVertexBuffer(commandPool,graphicsQueue);
 	createIndexBuffer(commandPool, graphicsQueue);
-	createUniformBuffers();
-	createDescriptorPool();
-	createDescriptorSets();
 }
 
 void Mesh::initializeCircle(const glm::vec2& center, float radius, int nrOfSegments,
@@ -145,48 +128,6 @@ void Mesh::addVertex(const glm::vec2& pos, const glm::vec3& color)
 	//createVertexBuffer();
 }
 
-uint32_t Mesh::findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties)
-{
-	VkPhysicalDeviceMemoryProperties memProperties;
-	vkGetPhysicalDeviceMemoryProperties(VulkanBase::physicalDevice, &memProperties);
-
-	for (uint32_t i = 0; i < memProperties.memoryTypeCount; i++) {
-		if ((typeFilter & (1 << i)) && (memProperties.memoryTypes[i].propertyFlags & properties) == properties) {
-			return i;
-		}
-	}
-
-	throw std::runtime_error("failed to find suitable memory type!");
-
-	return 0;
-}
-
-void Mesh::createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory) {
-	VkBufferCreateInfo bufferInfo{};
-	bufferInfo.sType = VK_STRUCTURE_TYPE_BUFFER_CREATE_INFO;
-	bufferInfo.size = size;
-	bufferInfo.usage = usage;
-	bufferInfo.sharingMode = VK_SHARING_MODE_EXCLUSIVE;
-
-	if (vkCreateBuffer(VulkanBase::device, &bufferInfo, nullptr, &buffer) != VK_SUCCESS) {
-		throw std::runtime_error("failed to create buffer!");
-	}
-
-	VkMemoryRequirements memRequirements;
-	vkGetBufferMemoryRequirements(VulkanBase::device, buffer, &memRequirements);
-
-	VkMemoryAllocateInfo allocInfo{};
-	allocInfo.sType = VK_STRUCTURE_TYPE_MEMORY_ALLOCATE_INFO;
-	allocInfo.allocationSize = memRequirements.size;
-	allocInfo.memoryTypeIndex = findMemoryType(memRequirements.memoryTypeBits, properties);
-
-	if (vkAllocateMemory(VulkanBase::device, &allocInfo, nullptr, &bufferMemory) != VK_SUCCESS) {
-		throw std::runtime_error("failed to allocate buffer memory!");
-	}
-
-	vkBindBufferMemory(VulkanBase::device, buffer, bufferMemory, 0); //0 is the offset in memory. If its not 0 it needs to be divisible by memRequirements.alignment
-}
-
 void Mesh::createVertexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue)
 {
 	destroyMesh();
@@ -195,7 +136,7 @@ void Mesh::createVertexBuffer(const VkCommandPool& commandPool, const VkQueue& g
 	VkBuffer stagingBuffer;
 	VkDeviceMemory stagingBufferMemory;
 
-	createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
+	VulkanBase::createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
 
 	void* data;
@@ -206,7 +147,7 @@ void Mesh::createVertexBuffer(const VkCommandPool& commandPool, const VkQueue& g
 	/*createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT,
 		VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, m_VertexBuffer, m_VertexBufferMemory);*/
 
-	createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_VertexBuffer, m_VertexBufferMemory);
+	VulkanBase::createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_VERTEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_VertexBuffer, m_VertexBufferMemory);
 
 	copyBuffer( commandPool, graphicsQueue,stagingBuffer, m_VertexBuffer, bufferSize);
 
@@ -220,90 +161,19 @@ void Mesh::createIndexBuffer(const VkCommandPool& commandPool, const VkQueue& gr
 
 	VkBuffer stagingBuffer;
 	VkDeviceMemory stagingBufferMemory;
-	createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
+	VulkanBase::createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_SRC_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, stagingBuffer, stagingBufferMemory);
 
 	void* data;
 	vkMapMemory(VulkanBase::device, stagingBufferMemory, 0, bufferSize, 0, &data);
 	memcpy(data, m_Indices.data(), (size_t)bufferSize);
 	vkUnmapMemory(VulkanBase::device, stagingBufferMemory);
 
-	createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_IndexBuffer, m_IndexBufferMemory);
+	VulkanBase::createBuffer(bufferSize, VK_BUFFER_USAGE_TRANSFER_DST_BIT | VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_DEVICE_LOCAL_BIT, m_IndexBuffer, m_IndexBufferMemory);
 
 	copyBuffer(commandPool, graphicsQueue, stagingBuffer, m_IndexBuffer, bufferSize);
 
 	vkDestroyBuffer(VulkanBase::device, stagingBuffer, nullptr);
 	vkFreeMemory(VulkanBase::device, stagingBufferMemory, nullptr);
-}
-
-void Mesh::createUniformBuffers()
-{
-	//TODO: this should be in a separate class! it is NOT mesh specific
-	VkDeviceSize bufferSize = sizeof(UniformBufferObject);
-
-	uniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
-	uniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
-	uniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
-
-	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-		createBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT, 
-			uniformBuffers[i], uniformBuffersMemory[i]);
-
-		vkMapMemory(VulkanBase::device, uniformBuffersMemory[i], 0, bufferSize, 0, &uniformBuffersMapped[i]);
-	}
-}
-
-void Mesh::createDescriptorPool()
-{
-	VkDescriptorPoolSize poolSize{};
-	poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-	poolSize.descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
-
-	VkDescriptorPoolCreateInfo poolInfo{};
-	poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-	poolInfo.poolSizeCount = 1;
-	poolInfo.pPoolSizes = &poolSize;
-	poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
-	//TODO: someone needs to catch these exceptions mate
-	if (vkCreateDescriptorPool(VulkanBase::device, &poolInfo, nullptr, &m_DescriptorPool) != VK_SUCCESS) {
-		throw std::runtime_error("failed to create descriptor pool!");
-	}
-}
-
-void Mesh::createDescriptorSets()
-{
-	std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, GraphicsPipeline::m_DescriptorSetLayout);
-	VkDescriptorSetAllocateInfo allocInfo{};
-	allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
-	allocInfo.descriptorPool = m_DescriptorPool;
-	allocInfo.descriptorSetCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
-	allocInfo.pSetLayouts = layouts.data();
-
-	descriptorSets.resize(MAX_FRAMES_IN_FLIGHT);
-	if (vkAllocateDescriptorSets(VulkanBase::device, &allocInfo, descriptorSets.data()) != VK_SUCCESS) {
-		throw std::runtime_error("failed to allocate descriptor sets!");
-	}
-
-	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-		VkDescriptorBufferInfo bufferInfo{};
-		bufferInfo.buffer = uniformBuffers[i];
-		bufferInfo.offset = 0;
-		bufferInfo.range = sizeof(UniformBufferObject);
-
-		VkWriteDescriptorSet descriptorWrite{};
-		descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-		descriptorWrite.dstSet = descriptorSets[i];
-		descriptorWrite.dstBinding = 0;
-		descriptorWrite.dstArrayElement = 0;
-
-		descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-		descriptorWrite.descriptorCount = 1;
-
-		descriptorWrite.pBufferInfo = &bufferInfo;
-		descriptorWrite.pImageInfo = nullptr; // Optional
-		descriptorWrite.pTexelBufferView = nullptr; // Optional
-
-		vkUpdateDescriptorSets(VulkanBase::device, 1, &descriptorWrite, 0, nullptr);
-	}
 }
 
 void Mesh::copyBuffer(const VkCommandPool& commandPool,const VkQueue& graphicsQueue,VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size) {
@@ -332,7 +202,7 @@ void Mesh::copyBuffer(const VkCommandPool& commandPool,const VkQueue& graphicsQu
 	commandBufferClass.FreeCommandBuffer(commandPool);
 }
 
-void Mesh::draw(const VkCommandBuffer& commandBuffer,uint32_t currentFrame) const
+void Mesh::draw(const VkCommandBuffer& commandBuffer,uint32_t currentFrame, const Descriptor& descriptor) const
 {
 	VkBuffer vertexBuffers[] = { m_VertexBuffer };
 	VkDeviceSize offsets[] = { 0 };
@@ -340,7 +210,7 @@ void Mesh::draw(const VkCommandBuffer& commandBuffer,uint32_t currentFrame) cons
 	vkCmdBindIndexBuffer(commandBuffer, m_IndexBuffer, 0, VK_INDEX_TYPE_UINT16);
 	//vkCmdDraw(commandBuffer, static_cast<uint32_t>(m_Vertices.size()), 1, 0, 0);
 	vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
-		GraphicsPipeline::m_PipelineLayout, 0, 1, &descriptorSets[currentFrame], 0, nullptr);
+		GraphicsPipeline::m_PipelineLayout, 0, 1, &descriptor.GetDescriptorSets()[currentFrame], 0, nullptr);
 	vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(m_Indices.size()), 1, 0, 0, 0);
 
 }
@@ -352,17 +222,5 @@ void Mesh::destroyMesh()
 
 	vkDestroyBuffer(VulkanBase::device, m_IndexBuffer, nullptr);
 	vkFreeMemory(VulkanBase::device, m_IndexBufferMemory, nullptr);
-
-}
-
-void Mesh::destroyUniformBuffers()
-{
-	//TODO: this needs to be destroyed right before descriptorSetLayout
-	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-		vkDestroyBuffer(VulkanBase::device, uniformBuffers[i], nullptr);
-		vkFreeMemory(VulkanBase::device, uniformBuffersMemory[i], nullptr);
-	}
-
-	vkDestroyDescriptorPool(VulkanBase::device, m_DescriptorPool, nullptr);
 
 }
