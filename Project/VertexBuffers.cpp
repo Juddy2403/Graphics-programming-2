@@ -27,6 +27,17 @@ void VertexBuffers::copyBuffer(const VkCommandPool& commandPool, const VkQueue& 
 	commandBufferClass.FreeCommandBuffer(commandPool);
 }
 
+void VertexBuffers::AddVertex(const glm::vec2& pos, const glm::vec3& color)
+{
+	m_Vertices.push_back(Vertex{ pos,color });
+	m_Indices.emplace_back(static_cast<uint16_t>(m_Indices.size()));
+}
+
+void VertexBuffers::AddVertex(float xPos, float yPos, const glm::vec3& color)
+{
+	AddVertex(glm::vec2{ xPos,yPos }, color);
+}
+
 void VertexBuffers::createVertexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue)
 {
 	VkDeviceSize bufferSize = sizeof(m_Vertices[0]) * m_Vertices.size();
@@ -76,9 +87,20 @@ void VertexBuffers::createIndexBuffer(const VkCommandPool& commandPool, const Vk
 
 void VertexBuffers::DestroyBuffers()
 {
+	DestroyVertexBuffer();
+	DestroyIndexBuffer();
+}
+
+void VertexBuffers::DestroyVertexBuffer()
+{
+	m_Vertices.clear();
 	vkDestroyBuffer(VulkanBase::device, m_VertexBuffer, nullptr);
 	vkFreeMemory(VulkanBase::device, m_VertexBufferMemory, nullptr);
+}
 
+void VertexBuffers::DestroyIndexBuffer()
+{
+	m_Indices.clear();
 	vkDestroyBuffer(VulkanBase::device, m_IndexBuffer, nullptr);
 	vkFreeMemory(VulkanBase::device, m_IndexBufferMemory, nullptr);
 }

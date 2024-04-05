@@ -17,6 +17,8 @@ void Level::initializeLevel(const VkCommandPool& commandPool, const VkQueue& gra
 		mesh.initializeMesh(commandPool, graphicsQueue);
 	}
 	//m_Meshes[0].initializeRoundedRect(-0.3, 0.3, 0.3, -0.3, 0.2, 20, commandPool, graphicsQueue);
+	//m_Meshes[0].initializeRect(-0.3, 0.3, 0.3, -0.3, commandPool, graphicsQueue);
+	//m_Meshes[0].initializeCircle({0,0},1,30, commandPool, graphicsQueue);
 
 }
 

@@ -51,7 +51,7 @@ private:
 	{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
 	{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
 	};
-	const std::vector<uint16_t> m_Indices = { 0, 1, 2, 2, 3, 0 };
+	std::vector<uint16_t> m_Indices = { 0, 1, 2, 2, 3, 0 };
 	//TODO: optionally store both vertex and index buffers in one VkBuffer and use offsets in commands
 	//vertex and index buffers are unique to graphics pipelines, descriptor sets are not
 	VkBuffer m_VertexBuffer{};
@@ -66,10 +66,14 @@ public:
 	size_t GetNrOfIndices() const { return m_Indices.size(); }
 	const VkBuffer& GetVertexBuffer() const{ return m_VertexBuffer; }
 	const VkBuffer& GetIndexBuffer() const{ return m_IndexBuffer; }
-
+	void AddVertex(const glm::vec2& pos, const glm::vec3& color = {1,1,1});
+	void AddVertex(float xPos,float yPos, const glm::vec3& color = { 1,1,1 });
 	void createVertexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 	void createIndexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 	void DestroyBuffers();
+	void DestroyVertexBuffer();
+	void DestroyIndexBuffer();
+
 	static VkPipelineVertexInputStateCreateInfo createVertexInputStateInfo();
 
 };
