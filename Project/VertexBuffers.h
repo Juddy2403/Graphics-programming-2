@@ -9,11 +9,11 @@
 
 struct Vertex {
 	//should be a vec3
-	glm::vec2 m_Pos;
+	alignas(16) glm::vec3 m_Pos;
 	//glm::vec2 m_TexCoord;
 	//glm::vec3 m_Normal;
 	//glm::vec3 m_Tangent;
-	glm::vec3 m_Color{ 1,1,1 };
+	alignas(16) glm::vec3 m_Color{ 1,1,1 };
 
 	static VkVertexInputBindingDescription getBindingDescription() {
 
@@ -30,7 +30,7 @@ struct Vertex {
 
 		attributeDescriptions[0].binding = 0;
 		attributeDescriptions[0].location = 0;
-		attributeDescriptions[0].format = VK_FORMAT_R32G32_SFLOAT;
+		attributeDescriptions[0].format = VK_FORMAT_R32G32B32_SFLOAT;
 		attributeDescriptions[0].offset = offsetof(Vertex, m_Pos);
 
 		attributeDescriptions[1].binding = 0;
@@ -46,10 +46,10 @@ class VertexBuffers
 {
 private:
 	std::vector<Vertex> m_Vertices = {
-	{{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-	{{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-	{{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-	{{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+	{{-0.5f, -0.5f,0.f}, {1.0f, 0.0f, 0.0f}},
+	{{0.5f, -0.5f,0.f}, {0.0f, 1.0f, 0.0f}},
+	{{0.5f, 0.5f,0.f}, {0.0f, 0.0f, 1.0f}},
+	{{-0.5f, 0.5f,0.f}, {1.0f, 1.0f, 1.0f}}
 	};
 	std::vector<uint16_t> m_Indices = { 0, 1, 2, 2, 3, 0 };
 	//TODO: optionally store both vertex and index buffers in one VkBuffer and use offsets in commands
@@ -63,11 +63,13 @@ private:
 	void copyBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
 
 public:
+	VertexBuffers() = default;
+	VertexBuffers(std::vector<Vertex>&& vertices, std::vector<uint16_t>&& indices);
 	size_t GetNrOfIndices() const { return m_Indices.size(); }
-	const VkBuffer& GetVertexBuffer() const{ return m_VertexBuffer; }
-	const VkBuffer& GetIndexBuffer() const{ return m_IndexBuffer; }
-	void AddVertex(const glm::vec2& pos, const glm::vec3& color = {1,1,1});
-	void AddVertex(float xPos,float yPos, const glm::vec3& color = { 1,1,1 });
+	const VkBuffer& GetVertexBuffer() const { return m_VertexBuffer; }
+	const VkBuffer& GetIndexBuffer() const { return m_IndexBuffer; }
+	void AddVertex(const glm::vec2& pos, const glm::vec3& color = { 1,1,1 });
+	void AddVertex(float xPos, float yPos, const glm::vec3& color = { 1,1,1 });
 	void createVertexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 	void createIndexBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 	void DestroyBuffers();

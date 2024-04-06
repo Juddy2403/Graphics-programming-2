@@ -6,6 +6,11 @@
 #define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
 
+Mesh::Mesh(std::vector<Vertex>&& vertices, std::vector<uint16_t>&& indices):
+	m_VertexBuffers{std::move(vertices),std::move(indices)}
+{
+}
+
 void Mesh::Update(uint32_t currentFrame)
 {
 }

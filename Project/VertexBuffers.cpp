@@ -27,9 +27,16 @@ void VertexBuffers::copyBuffer(const VkCommandPool& commandPool, const VkQueue& 
 	commandBufferClass.FreeCommandBuffer(commandPool);
 }
 
+VertexBuffers::VertexBuffers(std::vector<Vertex>&& vertices, std::vector<uint16_t>&& indices)
+{
+	m_Vertices = std::move(vertices);
+	m_Indices = std::move(indices);
+}
+
 void VertexBuffers::AddVertex(const glm::vec2& pos, const glm::vec3& color)
 {
-	m_Vertices.push_back(Vertex{ pos,color });
+	//TODO: Def replace pos with vec3
+	m_Vertices.push_back(Vertex{ {pos,0},color });
 	m_Indices.emplace_back(static_cast<uint16_t>(m_Indices.size()));
 }
 

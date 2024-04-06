@@ -14,6 +14,7 @@ private:
 
 public:
 	Mesh() = default;
+	Mesh(std::vector<Vertex>&& vertices, std::vector<uint16_t>&& indices);
 	void Update(uint32_t currentFrame);
 	void initializeMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 	void initializeCircle(const glm::vec2& center, float radius, int nrOfSegments, const VkCommandPool& commandPool, const VkQueue& graphicsQueue);

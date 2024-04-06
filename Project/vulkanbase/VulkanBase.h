@@ -25,6 +25,7 @@
 #include <GraphicsPipeline.h>
 #include "TimeManager.h"
 #include <Descriptor.h>
+#include <DepthBuffer.h>
 
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
@@ -87,6 +88,7 @@ private:
 
 
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
+		m_DepthBuffer.CreateDepthResources();
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
 		m_Descriptor.CreateDescriptor();
 		m_Level.initializeLevel(m_CommandPool.GetCommandPool(), graphicsQueue);
@@ -162,6 +164,7 @@ private:
 	RenderPass m_RenderPass{};
 	GraphicsPipeline m_GraphicsPipeline{};
 	Descriptor m_Descriptor;
+	DepthBuffer m_DepthBuffer;
 	// Week 01: 
 	// Actual window
 	// simple fragment + vertex shader creation functions
