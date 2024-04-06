@@ -50,9 +50,6 @@ public:
 		cleanup();
 	}
 
-	static void createBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
-	static uint32_t findMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
-
 	static VkPhysicalDevice physicalDevice;
 	static VkDevice device;
 	static VkExtent2D swapChainExtent;
@@ -81,8 +78,8 @@ private:
 		m_GraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(),m_GradientShader);
 		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
 		// week 02
-		//triangleMesh.addVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
-		//triangleMesh.initializeMesh(device, physicalDevice);
+		//triangleMesh.AddVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
+		//triangleMesh.UploadMesh(device, physicalDevice);
 		//triangleMesh.initializeCircle({0.f,0.f},0.3,50);
 		//triangleMesh.initializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
 
@@ -203,8 +200,6 @@ private:
 
 	// Week 04
 	// Swap chain and image view support
-
-	
 
 	VkSwapchainKHR swapChain;
 	std::vector<VkImage> swapChainImages;

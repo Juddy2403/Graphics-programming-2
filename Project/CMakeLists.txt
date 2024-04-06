@@ -36,8 +36,11 @@ set(SOURCES
     "labwork/Week06.cpp"
  "GP2Shader.h" "GP2Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "Mesh.h" "Mesh.cpp"
  "Level.h" "Level.cpp"  "RenderPass.h" "RenderPass.cpp"
- "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h"  "ObjectParser.h" "TimeManager.h" "Singleton.h" "Descriptor.h" "Descriptor.cpp" "VertexBuffers.h" "VertexBuffers.cpp" "DepthBuffer.h" "DepthBuffer.cpp")
-
+ "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h"  "ObjectParser.h" "TimeManager.h" "Singleton.h" "Descriptor.h" "Descriptor.cpp" "VertexBuffers.h" "VertexBuffers.cpp" "DepthBuffer.h" "DepthBuffer.cpp"
+        "DataBuffer.cpp"
+        "DataBuffer.h"
+        "Vertex.h")
+#
 # Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES} ${GLSL_SOURCE_FILES}  "vulkanbase/VulkanUtil.cpp" )
 add_dependencies(${PROJECT_NAME} Shaders)
@@ -55,6 +58,6 @@ set(SDL_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDL2/lib")
 
 # Link SDL library
 target_link_directories(${PROJECT_NAME} PRIVATE ${SDL_LIBRARY_DIR})
-target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL_LIBRARY_DIR})
+#target_link_libraries(${PROJECT_NAME} PRIVATE SDL2)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} glfw)

@@ -1,5 +1,6 @@
 #pragma once
 #include <vulkan/vulkan_core.h>
+#include <utility>
 #include <vector>
 #include <string>
 
@@ -7,10 +8,10 @@ class GP2Shader
 {
 public:
 	GP2Shader(
-		const std::string& vertexShaderFile,
-		const std::string& fragmentShaderFile
-	) : m_VertexShaderFile{ vertexShaderFile },
-		m_FragmentShaderFile{ fragmentShaderFile }
+		std::string  vertexShaderFile,
+		std::string  fragmentShaderFile
+	) : m_VertexShaderFile{std::move( vertexShaderFile )},
+		m_FragmentShaderFile{std::move( fragmentShaderFile )}
 	{}
 	~GP2Shader() = default;
 	std::vector<VkPipelineShaderStageCreateInfo>& getShaderStages()
@@ -24,6 +25,10 @@ public:
 	VkPipelineShaderStageCreateInfo createFragmentShaderInfo();
 	VkPipelineShaderStageCreateInfo createVertexShaderInfo();
 
+    GP2Shader(const GP2Shader&) = delete;
+    GP2Shader& operator=(const GP2Shader&) = delete;
+    GP2Shader(const GP2Shader&&) = delete;
+    GP2Shader& operator=(const GP2Shader&&) = delete;
 private:
 
 	VkShaderModule createShaderModule( const std::vector<char>& code);
@@ -32,8 +37,4 @@ private:
 
 	std::vector<VkPipelineShaderStageCreateInfo> m_ShaderStages;
 
-	GP2Shader(const GP2Shader&) = delete;
-	GP2Shader& operator=(const GP2Shader&) = delete;
-	GP2Shader(const GP2Shader&&) = delete;
-	GP2Shader& operator=(const GP2Shader&&) = delete;
 };

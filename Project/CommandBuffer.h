@@ -9,7 +9,7 @@ private:
 public:
 	CommandBuffer() = default;
 	explicit CommandBuffer(const VkCommandPool& commandPool);
-	const VkCommandBuffer& GetVkCommandBuffer() const;
+	[[nodiscard]] const VkCommandBuffer& GetVkCommandBuffer() const;
 	void SetVkCommandBuffer(VkCommandBuffer buffer) { m_CommandBuffer = buffer;}
 	VkCommandBuffer CreateCommandBuffer(const VkCommandPool& commandPool);
 	void FreeCommandBuffer(const VkCommandPool& commandPool);

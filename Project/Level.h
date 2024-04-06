@@ -1,11 +1,12 @@
 #pragma once
 #include "Mesh.h"
+#include <memory>
 
 class Mesh;
 class Level
 {
 private:
-	std::vector<Mesh> m_Meshes{};
+	std::vector<std::unique_ptr<Mesh>> m_Meshes;
 
 public:
 	void Update(uint32_t currentFrame);
