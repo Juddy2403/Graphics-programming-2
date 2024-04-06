@@ -6,7 +6,7 @@
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
 #include "VulkanUtil.h"
-#include "GP2Shader.h"
+#include "Shader.h"
 #include <iostream>
 #include <stdexcept>
 #include <vector>
@@ -24,7 +24,6 @@
 #include "RenderPass.h"
 #include <GraphicsPipeline.h>
 #include "TimeManager.h"
-#include <Descriptor.h>
 #include <DepthBuffer.h>
 
 const std::vector<const char*> validationLayers = {
@@ -74,7 +73,7 @@ private:
 		// week 03
 		m_GradientShader.Initialize();
 		m_RenderPass.createRenderPass(swapChainImageFormat);
-		m_Descriptor.CreateDescriptorSetLayout();
+        m_GradientShader.CreateDescriptor();
 		m_GraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(),m_GradientShader);
 		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
 		// week 02
@@ -87,7 +86,6 @@ private:
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
 		m_DepthBuffer.CreateDepthResources();
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
-		m_Descriptor.CreateDescriptor();
 		m_Level.initializeLevel(m_CommandPool.GetCommandPool(), graphicsQueue);
 
 		//createCommandPool();
@@ -119,7 +117,7 @@ private:
 		}*/
 
 		m_GraphicsPipeline.destroyGraphicsPipeline();
-		m_Descriptor.DestroyDescriptor();
+        m_GradientShader.DestroyDescriptorSetLayout();
 		m_RenderPass.destroyRenderPass();
 
 		//vkDestroyPipeline(device, m_GraphicsPipeline, nullptr);
@@ -137,7 +135,8 @@ private:
 
 		//triangleMesh.destroyMesh();
 		m_Level.destroyLevel();
-		m_Descriptor.DestroyUniformBuffers();
+		//m_Descriptor.DestroyUniformBuffers();
+        m_GradientShader.DestroyDescriptorBuffers();
 		vkDestroyDevice(device, nullptr);
 
 		vkDestroySurfaceKHR(instance, surface, nullptr);
@@ -153,14 +152,13 @@ private:
 		}
 	}
 
-	GP2Shader m_GradientShader{ "shaders/shader.vert.spv",
-	"shaders/shader.frag.spv" };
+	Shader m_GradientShader{"shaders/shader.vert.spv",
+                            "shaders/shader.frag.spv" };
 	CommandPool m_CommandPool{};
 	CommandBuffer m_CommandBuffer{};
 	Level m_Level{};
 	RenderPass m_RenderPass{};
 	GraphicsPipeline m_GraphicsPipeline{};
-	Descriptor m_Descriptor;
 	DepthBuffer m_DepthBuffer;
 	// Week 01: 
 	// Actual window

@@ -4,7 +4,7 @@
 #include <string>
 #include <memory>
 
-#include "Descriptor.h"
+#include "DescriptorPool.h"
 #include "DataBuffer.h"
 #include "Vertex.h"
 
@@ -14,13 +14,8 @@ class Mesh
 private:
 	std::unique_ptr<DataBuffer> m_VertexBuffer{};
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
-    std::vector<Vertex> m_Vertices = {
-            Vertex{glm::vec3{-0.5f, -0.5f,0.f}, glm::vec3{1.0f, 0.0f, 0.0f}},
-            Vertex{glm::vec3{0.5f, -0.5f,0.f},  glm::vec3{0.0f, 1.0f, 0.0f}},
-            Vertex{glm::vec3{0.5f, 0.5f,0.f},   glm::vec3{0.0f, 0.0f, 1.0f}},
-            Vertex{glm::vec3{-0.5f, 0.5f,0.f},  glm::vec3{1.0f, 1.0f, 1.0f}}
-    };
-    std::vector<uint16_t> m_Indices = { 0, 1, 2, 2, 3, 0 };
+    std::vector<Vertex> m_Vertices = {};
+    std::vector<uint16_t> m_Indices = {};
 
 public:
     explicit Mesh(std::vector<Vertex>&& vertices, std::vector<uint16_t>&& indices);
@@ -41,5 +36,5 @@ public:
 	void AddVertex(const glm::vec3& pos, const glm::vec3& color = {1,1,1});
 
     void Destroy();
-	void draw(const VkCommandBuffer& commandBuffer, uint32_t currentFrame, const Descriptor& descriptor) const;
+	void draw(const VkCommandBuffer& commandBuffer, uint32_t currentFrame, const DescriptorPool& descriptor) const;
 };

@@ -2,7 +2,7 @@
 #include <vulkan/vulkan_core.h>
 #include <vector>
 
-class GP2Shader;
+class Shader;
 class GraphicsPipeline
 {
 private:
@@ -13,7 +13,7 @@ public:
 
     VkPipeline& getGraphicsPipeline() { return m_GraphicsPipeline; }
     void createGraphicsPipeline(const VkRenderPass& renderPass,
-                                      GP2Shader& gradientShader);
+                                Shader& gradientShader);
     void destroyGraphicsPipeline();
 };
 

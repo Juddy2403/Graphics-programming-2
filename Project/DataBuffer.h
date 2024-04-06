@@ -1,3 +1,4 @@
+#pragma once
 #include <vulkan/vulkan_core.h>
 
 #include <stdexcept>
@@ -28,7 +29,7 @@ public:
 private:
     static void CopyBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
     static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
-
+    bool m_HasBeenMapped{false};
     VkBufferUsageFlags m_Usage{};
     VkMemoryPropertyFlags m_Properties{};
     VkBuffer m_VkBuffer{};

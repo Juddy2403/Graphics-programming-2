@@ -34,9 +34,9 @@ set(SOURCES
     "labwork/Week04.cpp" 
     "labwork/Week05.cpp"
     "labwork/Week06.cpp"
- "GP2Shader.h" "GP2Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "Mesh.h" "Mesh.cpp"
+ "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "Mesh.h" "Mesh.cpp"
  "Level.h" "Level.cpp"  "RenderPass.h" "RenderPass.cpp"
- "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h"  "ObjectParser.h" "TimeManager.h" "Singleton.h" "Descriptor.h" "Descriptor.cpp" "VertexBuffers.h" "VertexBuffers.cpp" "DepthBuffer.h" "DepthBuffer.cpp"
+ "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h"  "ObjectParser.h" "TimeManager.h" "Singleton.h" "DescriptorPool.h" "DescriptorPool.cpp" "DepthBuffer.h" "DepthBuffer.cpp"
         "DataBuffer.cpp"
         "DataBuffer.h"
         "Vertex.h")

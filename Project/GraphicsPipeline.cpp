@@ -1,13 +1,13 @@
 #include "GraphicsPipeline.h"
 #include <Mesh.h>
-#include <GP2Shader.h>
+#include <Shader.h>
 #include <vulkanbase/VulkanBase.h>
 
 VkPipelineLayout GraphicsPipeline::m_PipelineLayout;
 
 void GraphicsPipeline::createGraphicsPipeline(
         const VkRenderPass &renderPass,
-        GP2Shader &gradientShader) {
+        Shader &gradientShader) {
     VkPipelineViewportStateCreateInfo viewportState{};
     viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     viewportState.viewportCount = 1;
@@ -56,7 +56,7 @@ void GraphicsPipeline::createGraphicsPipeline(
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
     pipelineLayoutInfo.setLayoutCount = 1;
-    pipelineLayoutInfo.pSetLayouts = &Descriptor::GetDescriptorSetLayout();
+    pipelineLayoutInfo.pSetLayouts = &Shader::GetDescriptorSetLayout();
     pipelineLayoutInfo.pushConstantRangeCount = 0;
 
     if (vkCreatePipelineLayout(VulkanBase::device, &pipelineLayoutInfo, nullptr, &m_PipelineLayout) != VK_SUCCESS) {
@@ -68,9 +68,9 @@ void GraphicsPipeline::createGraphicsPipeline(
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 
     pipelineInfo.stageCount = 2;
-    pipelineInfo.pStages = gradientShader.getShaderStages().data();
+    pipelineInfo.pStages = gradientShader.GetShaderStages().data();
     pipelineInfo.pVertexInputState = &Vertex::CreateVertexInputStateInfo();
-    pipelineInfo.pInputAssemblyState = &gradientShader.createInputAssemblyStateInfo();
+    pipelineInfo.pInputAssemblyState = &gradientShader.CreateInputAssemblyStateInfo();
 
     pipelineInfo.pViewportState = &viewportState;
     pipelineInfo.pRasterizationState = &rasterizer;
