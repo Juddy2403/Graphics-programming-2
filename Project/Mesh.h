@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <memory>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include "DescriptorPool.h"
 #include "DataBuffer.h"
@@ -16,7 +18,8 @@ private:
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
     std::vector<Vertex> m_Vertices = {};
     std::vector<uint16_t> m_Indices = {};
-
+    UniformBufferObject m_UBOMatrixes{};
+    DescriptorPool m_DescriptorPool;
 public:
     explicit Mesh(std::vector<Vertex>&& vertices, std::vector<uint16_t>&& indices);
     Mesh(const Mesh& other) = delete;
@@ -36,5 +39,5 @@ public:
 	void AddVertex(const glm::vec3& pos, const glm::vec3& color = {1,1,1});
 
     void Destroy();
-	void draw(const VkCommandBuffer& commandBuffer, uint32_t currentFrame, const DescriptorPool& descriptor) const;
+	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
 };

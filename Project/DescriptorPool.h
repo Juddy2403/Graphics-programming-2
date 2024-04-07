@@ -23,14 +23,13 @@ private:
     void CreateDescriptorPool();
     void CreateDescriptorSets(VkDescriptorSetLayout layout);
 public:
-    void BindDescriptorSet(VkCommandBuffer buffer , VkPipelineLayout layout ,size_t index);
 
     DescriptorPool();
     void Initialize(VkDescriptorSetLayout layout);
     [[nodiscard]] const std::vector<VkDescriptorSet>& GetDescriptorSets() const;
     //void CreateDescriptor();
     //void DestroyDescriptorSetLayout();
-    void UpdateUniformBuffer(uint32_t currentFrame, UniformBufferObject ubo);
+    void UpdateUniformBuffer(uint32_t currentFrame, UniformBufferObject ubo) const;
 
     void DestroyUniformBuffers();
 

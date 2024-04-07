@@ -70,7 +70,7 @@ void GraphicsPipeline::createGraphicsPipeline(
     pipelineInfo.stageCount = 2;
     pipelineInfo.pStages = gradientShader.GetShaderStages().data();
     pipelineInfo.pVertexInputState = &Vertex::CreateVertexInputStateInfo();
-    pipelineInfo.pInputAssemblyState = &gradientShader.CreateInputAssemblyStateInfo();
+    pipelineInfo.pInputAssemblyState = &Shader::CreateInputAssemblyStateInfo();
 
     pipelineInfo.pViewportState = &viewportState;
     pipelineInfo.pRasterizationState = &rasterizer;

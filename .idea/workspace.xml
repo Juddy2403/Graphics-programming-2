@@ -56,34 +56,21 @@
     <list default="true" id="968bb24f-2a49-406d-91e5-1a4b522e6289" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/CMakeLists.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/DataBuffer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DataBuffer.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/DataBuffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DataBuffer.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Descriptor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DescriptorPool.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Descriptor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DescriptorPool.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/GP2Shader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Shader.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/GP2Shader.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Shader.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/DescriptorPool.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DescriptorPool.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/DescriptorPool.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DescriptorPool.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/GraphicsPipeline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/GraphicsPipeline.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/GraphicsPipeline.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/GraphicsPipeline.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Level.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Mesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Mesh.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Mesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Mesh.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Vertex.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/VertexBuffers.cpp" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/VertexBuffers.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Shader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Shader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Shader.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Shader.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/labwork/VulkanBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/labwork/VulkanBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/labwork/Week06.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/labwork/Week06.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/vulkanbase/VulkanBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/vulkanbase/VulkanBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/codemodel-v2-d145377b5ebe544c8d79.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2024-04-06T16-40-56-0740.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-VulkanLab01-Debug-2e360e2b6cf83093b7ae.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Project/VulkanLab01.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Project/VulkanLab01.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -362,7 +349,8 @@
       <workItem from="1712413731032" duration="5570000" />
       <workItem from="1712420526325" duration="816000" />
       <workItem from="1712426102364" duration="11257000" />
-      <workItem from="1712440754263" duration="396000" />
+      <workItem from="1712440754263" duration="563000" />
+      <workItem from="1712486910819" duration="4084000" />
     </task>
     <servers />
   </component>

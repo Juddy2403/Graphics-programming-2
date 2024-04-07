@@ -37,17 +37,7 @@ const std::vector<VkDescriptorSet> &DescriptorPool::GetDescriptorSets() const {
 //	vkDestroyDescriptorSetLayout(VulkanBase::device, m_DescriptorSetLayout, nullptr);
 //}
 
-void DescriptorPool::UpdateUniformBuffer(uint32_t currentFrame, UniformBufferObject ubo) {
-//    float totalTime = TimeManager::GetInstance().GetTotalElapsed();
-//
-//    UniformBufferObject ubo{};
-//    //ubo.model = glm::mat4(1);
-//    ubo.model = glm::rotate(glm::mat4(1.0f), totalTime * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-//    ubo.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-//    ubo.proj = glm::perspective(glm::radians(45.0f),
-//                                VulkanBase::swapChainExtent.width / (float) VulkanBase::swapChainExtent.height, 0.1f,
-//                                10.0f);
-//    ubo.proj[1][1] *= -1;
+void DescriptorPool::UpdateUniformBuffer(uint32_t currentFrame, UniformBufferObject ubo) const {
     memcpy(uniformBuffersMapped[currentFrame], &ubo, sizeof(ubo));
 }
 
@@ -129,11 +119,6 @@ void DescriptorPool::CreateDescriptorSets(VkDescriptorSetLayout layout) {
 
         vkUpdateDescriptorSets(VulkanBase::device, 1, &descriptorWrite, 0, nullptr);
     }
-}
-
-void DescriptorPool::BindDescriptorSet(VkCommandBuffer buffer, VkPipelineLayout layout, size_t index) {
-    vkCmdBindDescriptorSets(buffer, VK_PIPELINE_BIND_POINT_GRAPHICS, layout, 0,
-                            1, &descriptorSets[index], 0, nullptr);
 }
 
 void DescriptorPool::Initialize(VkDescriptorSetLayout layout) {

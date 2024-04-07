@@ -59,7 +59,7 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
 	vkCmdSetScissor(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &scissor);
 
 	//triangleMesh.draw(commandBuffer.GetCommandBuffer());
-	m_Level.drawLevelMeshes(m_CommandBuffer.GetVkCommandBuffer(), imageIndex, m_GradientShader.GetDescriptorPool());
+    m_Level.DrawMeshes(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
 
 	vkCmdEndRenderPass(m_CommandBuffer.GetVkCommandBuffer());
 }

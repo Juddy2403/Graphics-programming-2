@@ -42,12 +42,8 @@ public:
     void CreateDescriptor();
 
     static const VkDescriptorSetLayout &GetDescriptorSetLayout() { return m_DescriptorSetLayout; }
-    [[nodiscard]] DescriptorPool GetDescriptorPool() const { return *m_DescriptorPool; }
-    void BindDescriptorSet(VkCommandBuffer commandBuffer, VkPipelineLayout pipelineLayout, size_t index);
 
     void DestroyDescriptorSetLayout();
-    void DestroyDescriptorBuffers();
-    void UpdateUniformBuffer(uint32_t currentFrame,const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
 
 private:
 
@@ -60,6 +56,5 @@ private:
 
     static VkDescriptorSetLayout m_DescriptorSetLayout;
     UniformBufferObject m_UBOSrc{};
-    std::unique_ptr<DescriptorPool> m_DescriptorPool;
 
 };

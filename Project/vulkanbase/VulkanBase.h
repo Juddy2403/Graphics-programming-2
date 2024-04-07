@@ -136,7 +136,6 @@ private:
 		//triangleMesh.destroyMesh();
 		m_Level.destroyLevel();
 		//m_Descriptor.DestroyUniformBuffers();
-        m_GradientShader.DestroyDescriptorBuffers();
 		vkDestroyDevice(device, nullptr);
 
 		vkDestroySurfaceKHR(instance, surface, nullptr);

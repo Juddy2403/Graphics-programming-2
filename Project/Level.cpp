@@ -1,4 +1,5 @@
 #include "Level.h"
+#include "GraphicsPipeline.h"
 #include <vulkanbase/VulkanUtil.h>
 
 void Level::Update(uint32_t currentFrame) {
@@ -46,9 +47,8 @@ void Level::destroyLevel() {
 
 }
 
-void Level::drawLevelMeshes(const VkCommandBuffer &commandBuffer, uint32_t currentFrame,
-                            const DescriptorPool &descriptor) const {
+void Level::DrawMeshes(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
     for (const auto &mesh: m_Meshes) {
-        mesh->draw(commandBuffer, currentFrame, descriptor);
+        mesh->draw(commandBuffer, currentFrame);
     }
 }

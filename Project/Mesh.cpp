@@ -7,7 +7,13 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Mesh::Mesh(std::vector<Vertex> &&vertices, std::vector<uint16_t> &&indices) {
+Mesh::Mesh(std::vector<Vertex> &&vertices, std::vector<uint16_t> &&indices){
+    m_UBOMatrixes.model = glm::mat4(1.f);
+    m_UBOMatrixes.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_UBOMatrixes.proj = glm::perspective(glm::radians(45.0f),
+                                          VulkanBase::swapChainExtent.width / (float) VulkanBase::swapChainExtent.height, 0.1f,
+                                          10.0f);
+    m_UBOMatrixes.proj[1][1] *= -1;
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                                   VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                   VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
@@ -18,9 +24,15 @@ Mesh::Mesh(std::vector<Vertex> &&vertices, std::vector<uint16_t> &&indices) {
     m_VertexBuffer->Map(m_Vertices.size() * sizeof(Vertex), m_Vertices.data());
     m_Indices = std::move(indices);
     m_IndexBuffer->Map(m_Indices.size() * sizeof(uint16_t), m_Indices.data());
+
+    m_DescriptorPool.Initialize(Shader::GetDescriptorSetLayout());
 }
 
 void Mesh::Update(uint32_t currentFrame) {
+    float totalTime = TimeManager::GetInstance().GetTotalElapsed();
+
+    m_UBOMatrixes.model = glm::rotate(glm::mat4(1.0f), totalTime * glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
 }
 
 void Mesh::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphicsQueue) {
@@ -118,20 +130,14 @@ void Mesh::AddVertex(const glm::vec3 &pos, const glm::vec3 &color) {
 }
 
 
-void Mesh::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame, const DescriptorPool &descriptor) const {
+void Mesh::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
+    m_DescriptorPool.UpdateUniformBuffer(currentFrame, m_UBOMatrixes);
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                            GraphicsPipeline::m_PipelineLayout, 0, 1, &descriptor.GetDescriptorSets()[currentFrame], 0,
+                            GraphicsPipeline::m_PipelineLayout, 0, 1, &m_DescriptorPool.GetDescriptorSets()[currentFrame], 0,
                             nullptr);
     vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t >(m_Indices.size()), 1, 0, 0, 0);
-//	VkBuffer vertexBuffers[] = { m_VertexBuffers.GetVertexBuffer()};
-//	VkDeviceSize offsets[] = { 0 };
-//	vkCmdBindVertexBuffers(commandBuffer, 0, 1, vertexBuffers, offsets);
-//	vkCmdBindIndexBuffer(commandBuffer, m_VertexBuffers.GetIndexBuffer(), 0, VK_INDEX_TYPE_UINT16);
-    //vkCmdDraw(commandBuffer, static_cast<uint32_t>(m_Vertices.size()), 1, 0, 0);
-
-//	vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(m_VertexBuffers.GetNrOfIndices()), 1, 0, 0, 0);
 }
 
 void Mesh::ResetVertices(std::vector<Vertex> &&vertices) {
@@ -149,6 +155,7 @@ void Mesh::ResetIndices(std::vector<uint16_t> &&indices) {
 void Mesh::Destroy() {
     m_VertexBuffer->Destroy();
     m_IndexBuffer->Destroy();
+    m_DescriptorPool.DestroyUniformBuffers();
 }
 
 
