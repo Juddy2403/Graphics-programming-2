@@ -20,7 +20,14 @@ private:
     std::vector<uint16_t> m_Indices = {};
     UniformBufferObject m_UBOMatrixes{};
     DescriptorPool m_DescriptorPool;
+    void DestroyBuffers();
+
+    void AddRect(float top, float left, float bottom, float right);
+    void AddVertex(const glm::vec3& pos, const glm::vec3& color = {1,1,1});
+    void AddRectPlane(const glm::vec3 &bottomLeft, const glm::vec3 &topRight, bool isClockWise, bool areZValsInverted);
+
 public:
+    Mesh();
     explicit Mesh(std::vector<Vertex>&& vertices, std::vector<uint16_t>&& indices);
     Mesh(const Mesh& other) = delete;
     Mesh(Mesh&& other) = delete;
@@ -32,12 +39,14 @@ public:
     void ResetVertices(std::vector<Vertex>&& vertices);
     void ResetIndices(std::vector<uint16_t>&& indices);
 	void UploadMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
-	void initializeCircle(const glm::vec2& center, float radius, int nrOfSegments, const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
-	void initializeRect(float top, float left, float bottom, float right, const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
-	void addRect(float top, float left, float bottom, float right, const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
-	void initializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments, const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
-	void AddVertex(const glm::vec3& pos, const glm::vec3& color = {1,1,1});
+    void MapBuffers();
+
+    void InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength);
+	void InitializeCircle(const glm::vec2 &center, float radius, int nrOfSegments);
+	void InitializeRect(float top, float left, float bottom, float right);
+	void InitializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments);
 
     void Destroy();
 	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
+
 };

@@ -79,8 +79,8 @@ private:
 		// week 02
 		//triangleMesh.AddVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
 		//triangleMesh.UploadMesh(device, physicalDevice);
-		//triangleMesh.initializeCircle({0.f,0.f},0.3,50);
-		//triangleMesh.initializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
+		//triangleMesh.InitializeCircle({0.f,0.f},0.3,50);
+		//triangleMesh.InitializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
 
 
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};

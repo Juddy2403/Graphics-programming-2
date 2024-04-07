@@ -22,23 +22,24 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const VkQueue &gra
     };
     std::vector<uint16_t> indices = {0, 1, 2, 2, 3, 0};
     m_Meshes.emplace_back(std::make_unique<Mesh>(std::move(vertices), std::move(indices)));
+    m_Meshes.emplace_back(std::make_unique<Mesh>());
+//    vertices = {
+//            Vertex{glm::vec3{-0.5f, -0.5f, 0.f}, glm::vec3{1.0f, 0.0f, 0.0f}},
+//            Vertex{glm::vec3{0.5f, -0.5f, 0.f}, glm::vec3{0.0f, 1.0f, 0.0f}},
+//            Vertex{glm::vec3{0.5f, 0.5f, 0.f}, glm::vec3{0.0f, 0.0f, 1.0f}},
+//            Vertex{glm::vec3{-0.5f, 0.5f, 0.f}, glm::vec3{1.0f, 1.0f, 1.0f}}
+//    };
+//    indices = {0, 1, 2, 2, 3, 0};
+//    m_Meshes.emplace_back(std::make_unique<Mesh>(std::move(vertices), std::move(indices)));
+    m_Meshes[0]->InitializeCube({-0.25f, -0.25f, -0.25f}, 0.5);
 
-    vertices = {
-            Vertex{glm::vec3{-0.5f, -0.5f, 0.f}, glm::vec3{1.0f, 0.0f, 0.0f}},
-            Vertex{glm::vec3{0.5f, -0.5f, 0.f}, glm::vec3{0.0f, 1.0f, 0.0f}},
-            Vertex{glm::vec3{0.5f, 0.5f, 0.f}, glm::vec3{0.0f, 0.0f, 1.0f}},
-            Vertex{glm::vec3{-0.5f, 0.5f, 0.f}, glm::vec3{1.0f, 1.0f, 1.0f}}
-    };
-    indices = {0, 1, 2, 2, 3, 0};
-    m_Meshes.emplace_back(std::make_unique<Mesh>(std::move(vertices), std::move(indices)));
-
+    //m_Meshes[1]->InitializeCircle({0, 0}, 1, 30);
+    //m_Meshes[1]->InitializeRoundedRect(-0.3, 0.3, 0.3, -0.3, 0.2, 20);
+    //m_Meshes[1]->InitializeRect(-0.3, 0.3, 0.3, -0.3);
     for (auto &mesh: m_Meshes) {
+        mesh->MapBuffers();
         mesh->UploadMesh(commandPool, graphicsQueue);
     }
-    //m_Meshes[0].initializeRoundedRect(-0.3, 0.3, 0.3, -0.3, 0.2, 20, commandPool, graphicsQueue);
-    //m_Meshes[0].initializeRect(-0.3, 0.3, 0.3, -0.3, commandPool, graphicsQueue);
-    //m_Meshes[0].initializeCircle({0,0},1,30, commandPool, graphicsQueue);
-
 }
 
 void Level::destroyLevel() {
