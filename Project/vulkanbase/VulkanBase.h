@@ -19,7 +19,7 @@
 #include <algorithm>
 #include "CommandBuffer.h"
 #include "CommandPool.h"
-#include "Mesh.h"
+#include "3DMesh.h"
 #include "Level.h"
 #include "RenderPass.h"
 #include <GraphicsPipeline.h>
@@ -71,10 +71,13 @@ private:
 		createImageViews();
 		
 		// week 03
-		m_GradientShader.Initialize();
+		m_3DShader.Initialize();
+        m_2DShader.Initialize();
 		m_RenderPass.createRenderPass(swapChainImageFormat);
-        m_GradientShader.CreateDescriptor();
-		m_GraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(),m_GradientShader);
+        Shader::CreateDescriptor();
+        GraphicsPipeline::CreatePipelineLayout();
+		m_3DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_3DShader);
+		m_2DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_2DShader);
 		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
 		// week 02
 		//triangleMesh.AddVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
@@ -116,11 +119,13 @@ private:
 			vkDestroyFramebuffer(device, framebuffer, nullptr);
 		}*/
 
-		m_GraphicsPipeline.destroyGraphicsPipeline();
-        m_GradientShader.DestroyDescriptorSetLayout();
+		m_3DGraphicsPipeline.destroyGraphicsPipeline();
+		m_2DGraphicsPipeline.destroyGraphicsPipeline();
+        GraphicsPipeline::DestroyGraphicsPipelineLayout();
+        Shader::DestroyDescriptorSetLayout();
 		m_RenderPass.destroyRenderPass();
 
-		//vkDestroyPipeline(device, m_GraphicsPipeline, nullptr);
+		//vkDestroyPipeline(device, m_3DGraphicsPipeline, nullptr);
 		//vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 		//vkDestroyRenderPass(device, renderPass, nullptr);
 
@@ -151,13 +156,16 @@ private:
 		}
 	}
 
-	Shader m_GradientShader{"shaders/shader.vert.spv",
-                            "shaders/shader.frag.spv" };
+	Shader m_3DShader{"shaders/3Dshader.vert.spv",
+                      "shaders/3Dshader.frag.spv" };
+    Shader m_2DShader{"shaders/2Dshader.vert.spv",
+                      "shaders/2Dshader.frag.spv" };
 	CommandPool m_CommandPool{};
 	CommandBuffer m_CommandBuffer{};
 	Level m_Level{};
 	RenderPass m_RenderPass{};
-	GraphicsPipeline m_GraphicsPipeline{};
+	GraphicsPipeline m_3DGraphicsPipeline{};
+	GraphicsPipeline m_2DGraphicsPipeline{};
 	DepthBuffer m_DepthBuffer;
 	// Week 01: 
 	// Actual window

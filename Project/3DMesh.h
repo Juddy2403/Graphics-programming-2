@@ -11,12 +11,12 @@
 #include "Vertex.h"
 
 class DataBuffer;
-class Mesh
+class Mesh3D
 {
 private:
 	std::unique_ptr<DataBuffer> m_VertexBuffer{};
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
-    std::vector<Vertex> m_Vertices = {};
+    std::vector<Vertex3D> m_Vertices = {};
     std::vector<uint16_t> m_Indices = {};
     UniformBufferObject m_UBOMatrixes{};
     DescriptorPool m_DescriptorPool;
@@ -27,16 +27,16 @@ private:
     void AddRectPlane(const glm::vec3 &bottomLeft, const glm::vec3 &topRight, bool isClockWise, bool areZValsInverted);
 
 public:
-    Mesh();
-    explicit Mesh(std::vector<Vertex>&& vertices, std::vector<uint16_t>&& indices);
-    Mesh(const Mesh& other) = delete;
-    Mesh(Mesh&& other) = delete;
-    Mesh& operator=(const Mesh& other) = delete;
-    Mesh& operator=(Mesh&& other) = delete;
-    ~Mesh() = default;
+    Mesh3D();
+    explicit Mesh3D(std::vector<Vertex3D>&& vertices, std::vector<uint16_t>&& indices);
+    Mesh3D(const Mesh3D& other) = delete;
+    Mesh3D(Mesh3D&& other) = delete;
+    Mesh3D& operator=(const Mesh3D& other) = delete;
+    Mesh3D& operator=(Mesh3D&& other) = delete;
+    ~Mesh3D() = default;
 
 	void Update(uint32_t currentFrame);
-    void ResetVertices(std::vector<Vertex>&& vertices);
+    void ResetVertices(std::vector<Vertex3D>&& vertices);
     void ResetIndices(std::vector<uint16_t>&& indices);
 	void UploadMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
     void MapBuffers();

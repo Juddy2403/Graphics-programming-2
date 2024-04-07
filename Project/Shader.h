@@ -39,11 +39,11 @@ public:
 
     Shader &operator=(const Shader &&) = delete;
 
-    void CreateDescriptor();
+    static void CreateDescriptor();
 
     static const VkDescriptorSetLayout &GetDescriptorSetLayout() { return m_DescriptorSetLayout; }
 
-    void DestroyDescriptorSetLayout();
+    static void DestroyDescriptorSetLayout();
 
 private:
 

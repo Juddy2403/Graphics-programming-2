@@ -1,13 +1,13 @@
 //#pragma once
 //#pragma once
 //#include <fstream>
-//#include "Mesh.h"
+//#include "Mesh3D.h"
 //#include <glm/glm.hpp>
 //
 ////Just parses vertices and indices
 //#pragma warning(push)
 //#pragma warning(disable : 4505) //Warning unreferenced local function
-//static bool ParseOBJ(const std::string& filename, std::vector<Vertex>& vertices, std::vector<uint32_t>& indices, bool flipAxisAndWinding = true)
+//static bool ParseOBJ(const std::string& filename, std::vector<Vertex3D>& vertices, std::vector<uint32_t>& indices, bool flipAxisAndWinding = true)
 //{
 //	std::ifstream file(filename);
 //	if (!file)
@@ -33,7 +33,7 @@
 //		}
 //		else if (sCommand == "v")
 //		{
-//			//Vertex
+//			//Vertex3D
 //			float x, y, z;
 //			file >> x >> y >> z;
 //
@@ -41,14 +41,14 @@
 //		}
 //		else if (sCommand == "vt")
 //		{
-//			// Vertex TexCoord
+//			// Vertex3D TexCoord
 //			float u, v;
 //			file >> u >> v;
 //			UVs.emplace_back(u, 1 - v);
 //		}
 //		else if (sCommand == "vn")
 //		{
-//			// Vertex Normal
+//			// Vertex3D Normal
 //			float x, y, z;
 //			file >> x >> y >> z;
 //
@@ -62,7 +62,7 @@
 //			//add the material index as attibute to the attribute array
 //			//
 //			// Faces or triangles
-//			Vertex vertex{};
+//			Vertex3D vertex{};
 //			size_t iPosition, iTexCoord, iNormal;
 //
 //			uint32_t tempIndices[3];

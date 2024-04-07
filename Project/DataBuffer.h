@@ -15,7 +15,7 @@ public:
 
     void Destroy();
 
-    //Used for the draw function inside Mesh
+    //Used for the draw function inside Mesh3D
     void BindAsVertexBuffer(VkCommandBuffer commandBuffer);
 
     void BindAsIndexBuffer(VkCommandBuffer commandBuffer);

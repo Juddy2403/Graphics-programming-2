@@ -5,10 +5,10 @@ VkDevice VulkanBase::device = VK_NULL_HANDLE;
 VkExtent2D VulkanBase::swapChainExtent;
 
 void VulkanBase::initWindow() {
-	glfwInit();
-	glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-	glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-	window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
+    glfwInit();
+    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
+    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+    window = glfwCreateWindow(WIDTH, HEIGHT, "Vulkan", nullptr, nullptr);
 }
 
 //void VulkanBase::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
@@ -29,72 +29,76 @@ void VulkanBase::initWindow() {
 //}
 
 void VulkanBase::drawFrame(uint32_t imageIndex) {
-	VkRenderPassBeginInfo renderPassInfo{};
-	renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-	renderPassInfo.renderPass = m_RenderPass.getRenderPass();
-	renderPassInfo.framebuffer = m_RenderPass.getSwapChainFramebuffers()[imageIndex];
-	renderPassInfo.renderArea.offset = { 0, 0 };
-	renderPassInfo.renderArea.extent = swapChainExtent;
+    VkRenderPassBeginInfo renderPassInfo{};
+    renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+    renderPassInfo.renderPass = m_RenderPass.getRenderPass();
+    renderPassInfo.framebuffer = m_RenderPass.getSwapChainFramebuffers()[imageIndex];
+    renderPassInfo.renderArea.offset = {0, 0};
+    renderPassInfo.renderArea.extent = swapChainExtent;
 
-	VkClearValue clearColor = { {{0.0f, 0.0f, 0.0f, 1.0f}} };
-	renderPassInfo.clearValueCount = 1;
-	renderPassInfo.pClearValues = &clearColor;
+    VkClearValue clearColor = {{{0.0f, 0.0f, 0.0f, 1.0f}}};
+    renderPassInfo.clearValueCount = 1;
+    renderPassInfo.pClearValues = &clearColor;
 
-	vkCmdBeginRenderPass(m_CommandBuffer.GetVkCommandBuffer(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
+    vkCmdBeginRenderPass(m_CommandBuffer.GetVkCommandBuffer(), &renderPassInfo, VK_SUBPASS_CONTENTS_INLINE);
 
-	vkCmdBindPipeline(m_CommandBuffer.GetVkCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS, m_GraphicsPipeline.getGraphicsPipeline());
+    VkViewport viewport{};
+    viewport.x = 0.0f;
+    viewport.y = 0.0f;
+    viewport.width = (float) swapChainExtent.width;
+    viewport.height = (float) swapChainExtent.height;
+    viewport.minDepth = 0.0f;
+    viewport.maxDepth = 1.0f;
+    vkCmdSetViewport(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &viewport);
 
-	VkViewport viewport{};
-	viewport.x = 0.0f;
-	viewport.y = 0.0f;
-	viewport.width = (float)swapChainExtent.width;
-	viewport.height = (float)swapChainExtent.height;
-	viewport.minDepth = 0.0f;
-	viewport.maxDepth = 1.0f;
-	vkCmdSetViewport(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &viewport);
+    VkRect2D scissor{};
+    scissor.offset = {0, 0};
+    scissor.extent = swapChainExtent;
+    vkCmdSetScissor(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &scissor);
 
-	VkRect2D scissor{};
-	scissor.offset = { 0, 0 };
-	scissor.extent = swapChainExtent;
-	vkCmdSetScissor(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &scissor);
+    vkCmdBindPipeline(m_CommandBuffer.GetVkCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS,
+                      m_2DGraphicsPipeline.getGraphicsPipeline());
 
-	//triangleMesh.draw(commandBuffer.GetCommandBuffer());
-    m_Level.DrawMeshes(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
+    m_Level.Draw2DMeshes(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
 
-	vkCmdEndRenderPass(m_CommandBuffer.GetVkCommandBuffer());
+    vkCmdBindPipeline(m_CommandBuffer.GetVkCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS,
+                      m_3DGraphicsPipeline.getGraphicsPipeline());
+
+    m_Level.Draw3DMeshes(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
+
+    vkCmdEndRenderPass(m_CommandBuffer.GetVkCommandBuffer());
 }
 
-QueueFamilyIndices VulkanBase::findQueueFamilies(VkPhysicalDevice vkDevice)
-{
-	QueueFamilyIndices indices;
+QueueFamilyIndices VulkanBase::findQueueFamilies(VkPhysicalDevice vkDevice) {
+    QueueFamilyIndices indices;
 
-	uint32_t queueFamilyCount = 0;
-	vkGetPhysicalDeviceQueueFamilyProperties(vkDevice, &queueFamilyCount, nullptr);
+    uint32_t queueFamilyCount = 0;
+    vkGetPhysicalDeviceQueueFamilyProperties(vkDevice, &queueFamilyCount, nullptr);
 
-	std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
-	vkGetPhysicalDeviceQueueFamilyProperties(vkDevice, &queueFamilyCount, queueFamilies.data());
+    std::vector<VkQueueFamilyProperties> queueFamilies(queueFamilyCount);
+    vkGetPhysicalDeviceQueueFamilyProperties(vkDevice, &queueFamilyCount, queueFamilies.data());
 
-	int i = 0;
-	for (const auto& queueFamily : queueFamilies) {
-		if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
-			indices.graphicsFamily = i;
-		}
+    int i = 0;
+    for (const auto &queueFamily: queueFamilies) {
+        if (queueFamily.queueFlags & VK_QUEUE_GRAPHICS_BIT) {
+            indices.graphicsFamily = i;
+        }
 
-		VkBool32 presentSupport = false;
-		vkGetPhysicalDeviceSurfaceSupportKHR(vkDevice, i, surface, &presentSupport);
+        VkBool32 presentSupport = false;
+        vkGetPhysicalDeviceSurfaceSupportKHR(vkDevice, i, surface, &presentSupport);
 
-		if (presentSupport) {
-			indices.presentFamily = i;
-		}
+        if (presentSupport) {
+            indices.presentFamily = i;
+        }
 
-		if (indices.isComplete()) {
-			break;
-		}
+        if (indices.isComplete()) {
+            break;
+        }
 
-		i++;
-	}
+        i++;
+    }
 
-	return indices;
+    return indices;
 }
 
 

@@ -34,15 +34,17 @@ set(SOURCES
     "labwork/Week04.cpp" 
     "labwork/Week05.cpp"
     "labwork/Week06.cpp"
- "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "Mesh.h" "Mesh.cpp"
+ "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "3DMesh.h" "3DMesh.cpp"
  "Level.h" "Level.cpp"  "RenderPass.h" "RenderPass.cpp"
  "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h"  "ObjectParser.h" "TimeManager.h" "Singleton.h" "DescriptorPool.h" "DescriptorPool.cpp" "DepthBuffer.h" "DepthBuffer.cpp"
         "DataBuffer.cpp"
         "DataBuffer.h"
-        "Vertex.h")
+        "Vertex.h"
+        "2DMesh.cpp"
+        "2DMesh.h")
 #
 # Create the executable
-add_executable(${PROJECT_NAME} ${SOURCES} ${GLSL_SOURCE_FILES}  "vulkanbase/VulkanUtil.cpp" )
+add_executable(${PROJECT_NAME} ${SOURCES} ${GLSL_SOURCE_FILES}  "vulkanbase/VulkanUtil.cpp")
 add_dependencies(${PROJECT_NAME} Shaders)
 # Link libraries
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

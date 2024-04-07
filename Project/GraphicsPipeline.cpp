@@ -1,5 +1,5 @@
 #include "GraphicsPipeline.h"
-#include <Mesh.h>
+#include <3DMesh.h>
 #include <Shader.h>
 #include <vulkanbase/VulkanBase.h>
 
@@ -53,23 +53,13 @@ void GraphicsPipeline::createGraphicsPipeline(
     dynamicState.dynamicStateCount = static_cast<uint32_t>(dynamicStates.size());
     dynamicState.pDynamicStates = dynamicStates.data();
 
-    VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
-    pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
-    pipelineLayoutInfo.setLayoutCount = 1;
-    pipelineLayoutInfo.pSetLayouts = &Shader::GetDescriptorSetLayout();
-    pipelineLayoutInfo.pushConstantRangeCount = 0;
-
-    if (vkCreatePipelineLayout(VulkanBase::device, &pipelineLayoutInfo, nullptr, &m_PipelineLayout) != VK_SUCCESS) {
-        throw std::runtime_error("failed to create pipeline layout!");
-    }
-
     VkGraphicsPipelineCreateInfo pipelineInfo{};
 
     pipelineInfo.sType = VK_STRUCTURE_TYPE_GRAPHICS_PIPELINE_CREATE_INFO;
 
     pipelineInfo.stageCount = 2;
     pipelineInfo.pStages = gradientShader.GetShaderStages().data();
-    pipelineInfo.pVertexInputState = &Vertex::CreateVertexInputStateInfo();
+    pipelineInfo.pVertexInputState = &Vertex3D::CreateVertexInputStateInfo();
     pipelineInfo.pInputAssemblyState = &Shader::CreateInputAssemblyStateInfo();
 
     pipelineInfo.pViewportState = &viewportState;
@@ -90,8 +80,21 @@ void GraphicsPipeline::createGraphicsPipeline(
 
 }
 
+void GraphicsPipeline::CreatePipelineLayout() {
+    VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
+    pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;
+    pipelineLayoutInfo.setLayoutCount = 1;
+    pipelineLayoutInfo.pSetLayouts = &Shader::GetDescriptorSetLayout();
+    pipelineLayoutInfo.pushConstantRangeCount = 0;
+
+    if (vkCreatePipelineLayout(VulkanBase::device, &pipelineLayoutInfo, nullptr, &m_PipelineLayout) != VK_SUCCESS) {
+        throw std::runtime_error("failed to create pipeline layout!");
+    }
+}
+
 void GraphicsPipeline::destroyGraphicsPipeline() {
     vkDestroyPipeline(VulkanBase::device, m_GraphicsPipeline, nullptr);
-    vkDestroyPipelineLayout(VulkanBase::device, m_PipelineLayout, nullptr);
 
 }
+
+void GraphicsPipeline::DestroyGraphicsPipelineLayout() { vkDestroyPipelineLayout(VulkanBase::device, m_PipelineLayout, nullptr); }

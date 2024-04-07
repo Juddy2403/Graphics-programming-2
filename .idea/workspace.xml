@@ -54,14 +54,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="968bb24f-2a49-406d-91e5-1a4b522e6289" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Project/2DMesh.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/2DMesh.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/shaders/2Dshader.frag" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/shaders/2Dshader.vert" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/DataBuffer.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DataBuffer.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/GraphicsPipeline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/GraphicsPipeline.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/GraphicsPipeline.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/GraphicsPipeline.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Mesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Mesh.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Mesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Mesh.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Level.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Mesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Mesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/ObjectParser.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/ObjectParser.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Shader.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Shader.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Vertex.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/Project/cmake-build-debug/build.ninja" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/labwork/VulkanBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/labwork/VulkanBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/shaders/shader.frag" beforeDir="false" afterPath="$PROJECT_DIR$/Project/shaders/3Dshader.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/shaders/shader.vert" beforeDir="false" afterPath="$PROJECT_DIR$/Project/shaders/3Dshader.vert" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/vulkanbase/VulkanBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/vulkanbase/VulkanBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/target-Shaders-Debug-12c5f43961b7bfbb81ac.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Project/VulkanLab01.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Project/VulkanLab01.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,6 +139,11 @@
   }
 }]]></component>
   <component name="RunManager" selected="CMake Application.VulkanLab01">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Shaders" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VulkanLab01" TARGET_NAME="Shaders" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -341,7 +369,7 @@
       <workItem from="1712420526325" duration="816000" />
       <workItem from="1712426102364" duration="11257000" />
       <workItem from="1712440754263" duration="563000" />
-      <workItem from="1712486910819" duration="18741000" />
+      <workItem from="1712486910819" duration="27417000" />
     </task>
     <servers />
   </component>

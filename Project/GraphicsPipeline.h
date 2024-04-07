@@ -10,10 +10,13 @@ private:
 public:
     //TODO: yeah dont do that
     static VkPipelineLayout m_PipelineLayout;
-
     VkPipeline& getGraphicsPipeline() { return m_GraphicsPipeline; }
     void createGraphicsPipeline(const VkRenderPass& renderPass,
                                 Shader& gradientShader);
     void destroyGraphicsPipeline();
+
+    static void DestroyGraphicsPipelineLayout() ;
+
+    static void CreatePipelineLayout() ;
 };
 

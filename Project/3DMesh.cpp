@@ -1,4 +1,4 @@
-#include "Mesh.h"
+#include "3DMesh.h"
 #include <vulkanbase/VulkanUtil.h>
 #include <glm/gtc/constants.hpp>
 #include <vulkanbase/VulkanBase.h>
@@ -7,28 +7,12 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Mesh::Mesh(std::vector<Vertex> &&vertices, std::vector<uint16_t> &&indices) {
-    m_UBOMatrixes.model = glm::mat4(1.f);
-    m_UBOMatrixes.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                                     glm::vec3(0.0f, 1.0f, 0.0f));
-    m_UBOMatrixes.proj = glm::perspective(glm::radians(45.0f),
-                                          VulkanBase::swapChainExtent.width /
-                                          (float) VulkanBase::swapChainExtent.height, 0.1f,
-                                          10.0f);
-    m_UBOMatrixes.proj[1][1] *= -1;
-    m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
-                                                  VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-                                                  VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-    m_IndexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
-                                                                                   VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-
+Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint16_t> &&indices): Mesh3D() {
     m_Vertices = std::move(vertices);
     m_Indices = std::move(indices);
-
-    m_DescriptorPool.Initialize(Shader::GetDescriptorSetLayout());
 }
 
-Mesh::Mesh() {
+Mesh3D::Mesh3D() {
     m_UBOMatrixes.model = glm::mat4(1.f);
     m_UBOMatrixes.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
                                      glm::vec3(0.0f, 1.0f, 0.0f));
@@ -46,19 +30,19 @@ Mesh::Mesh() {
     m_DescriptorPool.Initialize(Shader::GetDescriptorSetLayout());
 }
 
-void Mesh::Update(uint32_t currentFrame) {
+void Mesh3D::Update(uint32_t currentFrame) {
     float totalTime = TimeManager::GetInstance().GetTotalElapsed();
 
     m_UBOMatrixes.model = glm::rotate(glm::mat4(1.0f), totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 }
 
-void Mesh::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphicsQueue) {
+void Mesh3D::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphicsQueue) {
     m_VertexBuffer->Upload(commandPool, graphicsQueue);
     m_IndexBuffer->Upload(commandPool, graphicsQueue);
 }
 
-void Mesh::InitializeCircle(const glm::vec2 &center, float radius, int nrOfSegments) {
+void Mesh3D::InitializeCircle(const glm::vec2 &center, float radius, int nrOfSegments) {
     m_Vertices.clear();
     m_Indices.clear();
     const float angleIncrement = 2.0f * glm::pi<float>() / nrOfSegments;
@@ -77,14 +61,14 @@ void Mesh::InitializeCircle(const glm::vec2 &center, float radius, int nrOfSegme
     }
 }
 
-void Mesh::InitializeRect(float top, float left, float bottom, float right) {
+void Mesh3D::InitializeRect(float top, float left, float bottom, float right) {
     m_Vertices.clear();
     m_Indices.clear();
     AddRect(top, left, bottom, right);
 
 }
 
-void Mesh::AddRect(float top, float left, float bottom, float right) {
+void Mesh3D::AddRect(float top, float left, float bottom, float right) {
     AddVertex(glm::vec3(left, bottom, 0));
     AddVertex(glm::vec3(right, top, 0));
     AddVertex(glm::vec3(left, top, 0));
@@ -95,7 +79,7 @@ void Mesh::AddRect(float top, float left, float bottom, float right) {
 }
 
 void
-Mesh::AddRectPlane(const glm::vec3 &bottomLeft, const glm::vec3 &topRight, bool isClockWise, bool areZValsInverted = false) {
+Mesh3D::AddRectPlane(const glm::vec3 &bottomLeft, const glm::vec3 &topRight, bool isClockWise, bool areZValsInverted = false) {
     glm::vec3 topLeft(bottomLeft.x, topRight.y, (topRight.z < bottomLeft.z) ? topRight.z : bottomLeft.z);
     glm::vec3 bottomRight(topRight.x, bottomLeft.y, (topRight.z > bottomLeft.z) ? topRight.z : bottomLeft.z);
     if(areZValsInverted) {
@@ -117,7 +101,7 @@ Mesh::AddRectPlane(const glm::vec3 &bottomLeft, const glm::vec3 &topRight, bool 
 
 }
 
-void Mesh::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength) {
+void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength) {
     m_Vertices.clear();
     m_Indices.clear();
     const glm::vec3 forward{ glm::vec3(0.0f, 0.0f, 1.0f) };
@@ -140,7 +124,7 @@ void Mesh::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLengt
     AddRectPlane(bottomLeftBackCorner, bottomRightFrontCorner, false, true); // bottom plane
 }
 
-void Mesh::InitializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments) {
+void Mesh3D::InitializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments) {
 
     m_Vertices.clear();
     m_Indices.clear();
@@ -183,18 +167,18 @@ void Mesh::InitializeRoundedRect(float left, float top, float right, float botto
 }
 
 
-void Mesh::AddVertex(const glm::vec3 &pos, const glm::vec3 &color) {
+void Mesh3D::AddVertex(const glm::vec3 &pos, const glm::vec3 &color) {
     m_Vertices.emplace_back(pos, color);
     m_Indices.emplace_back(static_cast<uint16_t>(m_Indices.size()));
 }
 
-void Mesh::MapBuffers() {
+void Mesh3D::MapBuffers() {
     m_VertexBuffer->Map(m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
     m_IndexBuffer->Map(m_Indices.size() * sizeof(m_Indices[0]), m_Indices.data());
 }
 
 
-void Mesh::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
+void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
     m_DescriptorPool.UpdateUniformBuffer(currentFrame, m_UBOMatrixes);
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
@@ -205,22 +189,22 @@ void Mesh::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) con
     vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t >(m_Indices.size()), 1, 0, 0, 0);
 }
 
-void Mesh::ResetVertices(std::vector<Vertex> &&vertices) {
+void Mesh3D::ResetVertices(std::vector<Vertex3D> &&vertices) {
     m_Vertices.clear();
     m_Vertices = std::move(vertices);
 }
 
-void Mesh::ResetIndices(std::vector<uint16_t> &&indices) {
+void Mesh3D::ResetIndices(std::vector<uint16_t> &&indices) {
     m_Indices.clear();
     m_Indices = std::move(indices);
 }
 
-void Mesh::Destroy() {
+void Mesh3D::Destroy() {
     DestroyBuffers();
     m_DescriptorPool.DestroyUniformBuffers();
 }
 
-void Mesh::DestroyBuffers() {
+void Mesh3D::DestroyBuffers() {
     m_VertexBuffer->Destroy();
     m_IndexBuffer->Destroy();
 }
