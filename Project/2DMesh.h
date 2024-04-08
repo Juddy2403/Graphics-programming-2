@@ -16,8 +16,6 @@ private:
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
     std::vector<Vertex2D> m_Vertices = {};
     std::vector<uint16_t> m_Indices = {};
-    UniformBufferObject m_UBOMatrixes{};
-    DescriptorPool m_DescriptorPool;
     void DestroyBuffers();
 
     void AddRect(float top, float left, float bottom, float right);

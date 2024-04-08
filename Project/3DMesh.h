@@ -20,7 +20,7 @@ private:
     std::unordered_map<Vertex3D, uint32_t> m_UniqueVertices{};
     std::vector<Vertex3D> m_Vertices = {};
     std::vector<uint16_t> m_Indices = {};
-    UniformBufferObject m_UBOMatrixes{};
+    glm::mat4 m_WorldMatrix{glm::mat4(1)};
     DescriptorPool m_DescriptorPool;
     void DestroyBuffers();
 
@@ -46,6 +46,6 @@ public:
     void InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength);
 
     void Destroy();
-	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
+	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame, UniformBufferObject ubo) const;
 
 };

@@ -7,13 +7,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 Mesh2D::Mesh2D() {
-    m_UBOMatrixes.model = glm::mat4(1.f);
-    float aspectRatio = static_cast<float>(VulkanBase::swapChainExtent.width)/ VulkanBase::swapChainExtent.height;
-    glm::vec3 scaleFactors(1 / aspectRatio , 1  , 1.0f);
-    m_UBOMatrixes.view = glm::scale(glm::mat4(1.0f), scaleFactors);
-    //m_UBOMatrixes.view = glm::translate(m_UBOMatrixes.view , glm::vec3(- 1 , - 1 , 0));
-   // m_UBOMatrixes.view = glm::mat4(1.f);
-    m_UBOMatrixes.proj = glm::mat4(1.f);
     //m_UBOMatrixes.proj[1][1] *= -1;
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                                   VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
@@ -21,7 +14,6 @@ Mesh2D::Mesh2D() {
     m_IndexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                                                    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 
-    m_DescriptorPool.Initialize(Shader::GetDescriptorSetLayout());
 }
 
 Mesh2D::Mesh2D(std::vector<Vertex2D> &&vertices, std::vector<uint16_t> &&indices):Mesh2D() {
@@ -120,16 +112,14 @@ void Mesh2D::InitializeRoundedRect(float left, float top, float right, float bot
 
 void Mesh2D::Destroy() {
     DestroyBuffers();
-    m_DescriptorPool.DestroyUniformBuffers();
 }
 
 void Mesh2D::draw(VkCommandBuffer const &commandBuffer, uint32_t currentFrame) const {
-    m_DescriptorPool.UpdateUniformBuffer(currentFrame, m_UBOMatrixes);
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                             GraphicsPipeline::m_PipelineLayout, 0, 1,
-                            &m_DescriptorPool.GetDescriptorSets()[currentFrame], 0,
+                            &Level::Get2DDescriptorPool().GetDescriptorSets()[currentFrame], 0,
                             nullptr);
     vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(m_Indices.size()), 1, 0, 0, 0);
 }

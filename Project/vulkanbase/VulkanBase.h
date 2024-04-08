@@ -5,6 +5,7 @@
 #include <GLFW/glfw3.h>
 #define GLFW_EXPOSE_NATIVE_WIN32
 #include <GLFW/glfw3native.h>
+#include <glm/glm.hpp>
 #include "VulkanUtil.h"
 #include "Shader.h"
 #include <iostream>
@@ -24,7 +25,9 @@
 #include "RenderPass.h"
 #include <GraphicsPipeline.h>
 #include "TimeManager.h"
+#include "Camera.h"
 #include <DepthBuffer.h>
+#include <unordered_set>
 
 const std::vector<const char*> validationLayers = {
 	"VK_LAYER_KHRONOS_validation"
@@ -69,7 +72,7 @@ private:
 		// week 04 
 		createSwapChain();
 		createImageViews();
-		
+
 		// week 03
 		m_3DShader.Initialize();
         m_2DShader.Initialize();
@@ -79,6 +82,8 @@ private:
         m_3DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_3DShader, Vertex3D::CreateVertexInputStateInfo());
         m_2DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_2DShader, Vertex2D::CreateVertexInputStateInfo());
 		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
+        m_Camera.Initialize(45.f, {0.f,0.f,-2.f}, static_cast<float>(swapChainExtent.width) / static_cast<float>(swapChainExtent.height));
+
 		// week 02
 		//triangleMesh.AddVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
 		//triangleMesh.UploadMesh(device, physicalDevice);
@@ -89,7 +94,7 @@ private:
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
 		m_DepthBuffer.CreateDepthResources();
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
-		m_Level.initializeLevel(m_CommandPool.GetCommandPool(), graphicsQueue);
+		m_Level.initializeLevel(m_CommandPool.GetCommandPool(), graphicsQueue, m_Camera.m_ProjectionMatrix);
 
 		//createCommandPool();
 		//createCommandBuffer();
@@ -102,8 +107,9 @@ private:
 	void mainLoop() {
 		while (!glfwWindowShouldClose(window)) {
 			glfwPollEvents();
-			// week 06
+            ProcessInput();
 			TimeManager::GetInstance().Update();
+            m_Camera.Update();
 			drawFrame();
 		}
 		vkDeviceWaitIdle(device);
@@ -155,7 +161,7 @@ private:
 			throw std::runtime_error("failed to create window surface!");
 		}
 	}
-
+    Camera m_Camera{};
 	Shader m_3DShader{"shaders/3Dshader.vert.spv",
                       "shaders/3Dshader.frag.spv" };
     Shader m_2DShader{"shaders/2Dshader.vert.spv",
@@ -167,12 +173,13 @@ private:
 	GraphicsPipeline m_3DGraphicsPipeline{};
 	GraphicsPipeline m_2DGraphicsPipeline{};
 	DepthBuffer m_DepthBuffer;
-	// Week 01: 
+	// Week 01:
 	// Actual window
 	// simple fragment + vertex shader creation functions
 	// These 5 functions should be refactored into a separate C++ class
 	// with the correct internal state.
-
+    glm::vec2 m_LastMousePos{};
+    std::unordered_set<int> m_PressedKeys;
 	GLFWwindow* window;
 	void initWindow();
 
@@ -254,4 +261,12 @@ private:
 		std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
 		return VK_FALSE;
 	}
+
+    void keyEvent(int key, int scancode, int action, int mods);
+
+    void mouseMove(GLFWwindow *window, double xpos, double ypos);
+
+    void mouseEvent(GLFWwindow *window, int button, int action, int mods);
+
+    void ProcessInput();
 };

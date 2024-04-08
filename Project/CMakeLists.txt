@@ -50,16 +50,9 @@ add_dependencies(${PROJECT_NAME} Shaders)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(GLM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/glm")
-set(SDL_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDL2/include")
 
 target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_INCLUDE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${SDL_INCLUDE_DIR})
 
-# Assuming SDL library is in $(SolutionDir)/lib/SDL2/lib
-set(SDL_LIBRARY_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/SDL2/lib")
-
-# Link SDL library
-target_link_directories(${PROJECT_NAME} PRIVATE ${SDL_LIBRARY_DIR})
-#target_link_libraries(${PROJECT_NAME} PRIVATE SDL2)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} glfw)

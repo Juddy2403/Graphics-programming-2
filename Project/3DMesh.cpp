@@ -5,22 +5,12 @@
 
 #define GLM_FORCE_RADIANS
 
-#include <glm/gtc/matrix_transform.hpp>
-
 Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint16_t> &&indices) : Mesh3D() {
     m_Vertices = std::move(vertices);
     m_Indices = std::move(indices);
 }
 
 Mesh3D::Mesh3D() {
-    m_UBOMatrixes.model = glm::mat4(1.f);
-    m_UBOMatrixes.view = glm::lookAt(glm::vec3(2.0f, 2.0f, 2.0f), glm::vec3(0.0f, 0.0f, 0.0f),
-                                     glm::vec3(0.0f, 1.0f, 0.0f));
-    m_UBOMatrixes.proj = glm::perspective(glm::radians(45.0f),
-                                          VulkanBase::swapChainExtent.width /
-                                          (float) VulkanBase::swapChainExtent.height, 0.1f,
-                                          10.0f);
-    m_UBOMatrixes.proj[1][1] *= -1;
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                                   VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                   VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
@@ -33,7 +23,7 @@ Mesh3D::Mesh3D() {
 void Mesh3D::Update(uint32_t currentFrame) {
     float totalTime = TimeManager::GetInstance().GetTotalElapsed();
 
-    m_UBOMatrixes.model = glm::rotate(glm::mat4(1.0f), totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_WorldMatrix = glm::rotate(glm::mat4(1.0f), totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 }
 
@@ -128,8 +118,9 @@ void Mesh3D::MapBuffers() {
 }
 
 
-void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
-    m_DescriptorPool.UpdateUniformBuffer(currentFrame, m_UBOMatrixes);
+void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame, UniformBufferObject ubo) const {
+    ubo.model = m_WorldMatrix;
+    m_DescriptorPool.UpdateUniformBuffer(currentFrame, ubo);
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,

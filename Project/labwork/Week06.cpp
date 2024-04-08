@@ -45,7 +45,7 @@ void VulkanBase::drawFrame() {
 
 	m_CommandBuffer.Reset();
 	m_CommandBuffer.BeginRecording();
-	m_Level.Update(imageIndex);
+    m_Level.Update(imageIndex, m_Camera.m_ViewMatrix);
 	//record cmd buffer has been split in begin recording and end recording
 	//recordCommandBuffer(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
 
