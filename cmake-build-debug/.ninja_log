@@ -1,21 +1,21 @@
 # ninja log v5
-2	132	7342272616629909	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
-105	1771	7342315091523265	Project/CMakeFiles/VulkanLab01.dir/CommandBuffer.cpp.obj	6ac642aaa4ea0f9
+4	117	7342807987572437	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+12	1997	7342802676763788	Project/CMakeFiles/VulkanLab01.dir/CommandBuffer.cpp.obj	6ac642aaa4ea0f9
 34	1057	7341042750890143	_deps/glfw-build/src/CMakeFiles/glfw.dir/win32_thread.c.obj	ed17f2a5287f51de
-95	1707	7342315090852464	Project/CMakeFiles/VulkanLab01.dir/RenderPass.cpp.obj	6900ed1917288a8b
+15	1920	7342802675995937	Project/CMakeFiles/VulkanLab01.dir/RenderPass.cpp.obj	6900ed1917288a8b
 39	1049	7341042750829855	_deps/glfw-build/src/CMakeFiles/glfw.dir/win32_time.c.obj	a4fdb3e97fb5c07e
 10	1086	7341042751198811	_deps/glfw-build/src/CMakeFiles/glfw.dir/monitor.c.obj	e13fcc7951f20aaf
 13	1065	7341042750910149	_deps/glfw-build/src/CMakeFiles/glfw.dir/vulkan.c.obj	d5f42517a60e469d
 29	1073	7341042750930159	_deps/glfw-build/src/CMakeFiles/glfw.dir/win32_init.c.obj	8a127514730e0c74
-147	1689	7342315090721256	Project/CMakeFiles/VulkanLab01.dir/DepthBuffer.cpp.obj	d98e6cfc02bf261e
+1921	2952	7342802686359957	Project/CMakeFiles/VulkanLab01.dir/DepthBuffer.cpp.obj	d98e6cfc02bf261e
 25	1079	7341042751078174	_deps/glfw-build/src/CMakeFiles/glfw.dir/window.c.obj	3ad7cd3cd0eb697b
-120	1732	7342315091136070	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
+29	2069	7342802677525864	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
 1441	2657	7341042766935387	Project/CMakeFiles/VulkanLab01.dir/vulkanbase/VulkanUtil.cpp.obj	9366a27471f6a68c
 53	1075	7341042751007418	_deps/glfw-build/src/CMakeFiles/glfw.dir/wgl_context.c.obj	4295e97941b75a42
 1051	1345	7341042753811311	_deps/glfw-build/src/CMakeFiles/glfw.dir/osmesa_context.c.obj	eee3a161a771bdd8
 7	1084	7341042751188708	_deps/glfw-build/src/CMakeFiles/glfw.dir/context.c.obj	55dd46b85ca38eed
 48	1088	7341042751223981	_deps/glfw-build/src/CMakeFiles/glfw.dir/win32_window.c.obj	73cb346c05963d7
-2	95	7342315074834656	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/2Dshader.vert.spv	b06d000a76129044
+3	97	7342315528874630	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/2Dshader.vert.spv	b06d000a76129044
 1	1089	7341042751244000	_deps/glfw-build/src/CMakeFiles/glfw.dir/init.c.obj	8d96e5513523d60
 1065	1193	7341042752288047	Project/shaders/shader.frag.spv	c7b81935b5f5a096
 56	1090	7341042751268449	_deps/glfw-build/src/CMakeFiles/glfw.dir/egl_context.c.obj	4cbc4e39034caeca
@@ -23,75 +23,102 @@
 17	1092	7341042751278544	_deps/glfw-build/src/CMakeFiles/glfw.dir/input.c.obj	c0ec5eebae85a242
 21	1107	7341042751446313	_deps/glfw-build/src/CMakeFiles/glfw.dir/win32_joystick.c.obj	c7083f0a71f1a9ae
 42	1141	7341042751789773	_deps/glfw-build/src/CMakeFiles/glfw.dir/win32_monitor.c.obj	c2edaf79caabd356
-107	1769	7342315091503199	Project/CMakeFiles/VulkanLab01.dir/GraphicsPipeline.cpp.obj	12f02b962b77994d
+24	1946	7342802676256645	Project/CMakeFiles/VulkanLab01.dir/GraphicsPipeline.cpp.obj	12f02b962b77994d
 1057	1195	7341042752318055	Project/shaders/shader.vert.spv	4578b093c481f172
 5	97	7342274992928878	Project/shaders/2Dshader.frag.spv	3e87400cad8fe186
 1057	1195	7341042752318055	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/shader.vert.spv	4578b093c481f172
 1345	1441	7341042754730825	_deps/glfw-build/src/glfw3.lib	be3d8d6fa5ed673b
-142	1710	7342315090907960	Project/CMakeFiles/VulkanLab01.dir/CommandPool.cpp.obj	538ff05ad48f420
+47	1931	7342802676071107	Project/CMakeFiles/VulkanLab01.dir/CommandPool.cpp.obj	538ff05ad48f420
 41	2364	7341333855287152	Project/CMakeFiles/VulkanLab01.dir/GP2Shader.cpp.obj	3b5e8ead3b6fce8a
-123	1729	7342315091078152	Project/CMakeFiles/VulkanLab01.dir/main.cpp.obj	295e5ab7541f07c0
-115	1767	7342315091503199	Project/CMakeFiles/VulkanLab01.dir/labwork/Week04.cpp.obj	e37251e4a64b765d
-138	1813	7342315091998296	Project/CMakeFiles/VulkanLab01.dir/labwork/Week05.cpp.obj	7361d44e45aebf73
-133	1805	7342315091890134	Project/CMakeFiles/VulkanLab01.dir/labwork/Week06.cpp.obj	7199577d28488a78
-7	139	7342272616700160	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.vert.spv	fd16c0a28fe29af3
-102	1622	7342315090051104	Project/CMakeFiles/VulkanLab01.dir/Level.cpp.obj	8707fe7ffad47db6
+38	2046	7342802677240875	Project/CMakeFiles/VulkanLab01.dir/main.cpp.obj	295e5ab7541f07c0
+34	2074	7342802677568968	Project/CMakeFiles/VulkanLab01.dir/labwork/Week04.cpp.obj	e37251e4a64b765d
+52	2002	7342802676819016	Project/CMakeFiles/VulkanLab01.dir/labwork/Week05.cpp.obj	7361d44e45aebf73
+56	2039	7342802677165731	Project/CMakeFiles/VulkanLab01.dir/labwork/Week06.cpp.obj	7199577d28488a78
+3	95	7342806801004218	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.vert.spv	fd16c0a28fe29af3
+20	1884	7342802675633924	Project/CMakeFiles/VulkanLab01.dir/Level.cpp.obj	8707fe7ffad47db6
 41	2121	7341363730728191	Project/CMakeFiles/VulkanLab01.dir/Descriptor.cpp.obj	af290085b4032daa
 10	51	7341315664058522	Project/CMakeFiles/VulkanLab01.dir/VertexBuffers.cpp.obj	b90bedb3896a46c7
-2632	2879	7342315102293806	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	95	7342315074834656	Project/shaders/2Dshader.vert.spv	b06d000a76129044
-2	719	7342315513956176	build.ninja	23ae823a8e457a48
-1689	2598	7342315099856644	Project/CMakeFiles/VulkanLab01.dir/DataBuffer.cpp.obj	734035a919a201a5
-129	1737	7342315091205787	Project/CMakeFiles/VulkanLab01.dir/Shader.cpp.obj	cf49ca2ed4125e09
-111	1801	7342315091786848	Project/CMakeFiles/VulkanLab01.dir/DescriptorPool.cpp.obj	78f7e58117df24b6
-1623	2632	7342315100185680	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
-2	132	7342272616629909	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
-99	1818	7342315092039769	Project/CMakeFiles/VulkanLab01.dir/3DMesh.cpp.obj	8ed0585a5da929a5
-7	139	7342272616700160	Project/shaders/3Dshader.vert.spv	fd16c0a28fe29af3
-5	97	7342274992928878	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/2Dshader.frag.spv	3e87400cad8fe186
+1003	1141	7342803392158414	Project/VulkanLab01.exe	3c6b06c6ddb325b1
 3	97	7342315528874630	Project/shaders/2Dshader.vert.spv	b06d000a76129044
-3	97	7342315528874630	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/2Dshader.vert.spv	b06d000a76129044
-120	1849	7342315546340585	Project/CMakeFiles/VulkanLab01.dir/Level.cpp.obj	8707fe7ffad47db6
-108	1862	7342315546460187	Project/CMakeFiles/VulkanLab01.dir/CommandBuffer.cpp.obj	6ac642aaa4ea0f9
-97	1909	7342315546812447	Project/CMakeFiles/VulkanLab01.dir/main.cpp.obj	295e5ab7541f07c0
-135	1911	7342315546887062	Project/CMakeFiles/VulkanLab01.dir/RenderPass.cpp.obj	6900ed1917288a8b
-128	1923	7342315547097069	Project/CMakeFiles/VulkanLab01.dir/CommandPool.cpp.obj	538ff05ad48f420
-132	1926	7342315547124519	Project/CMakeFiles/VulkanLab01.dir/GraphicsPipeline.cpp.obj	12f02b962b77994d
-106	1938	7342315547235702	Project/CMakeFiles/VulkanLab01.dir/Shader.cpp.obj	cf49ca2ed4125e09
-103	1975	7342315547584619	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
-100	1977	7342315547594627	Project/CMakeFiles/VulkanLab01.dir/labwork/Week04.cpp.obj	e37251e4a64b765d
-124	2002	7342315547884087	Project/CMakeFiles/VulkanLab01.dir/labwork/Week05.cpp.obj	7361d44e45aebf73
-138	2003	7342315547905615	Project/CMakeFiles/VulkanLab01.dir/DescriptorPool.cpp.obj	78f7e58117df24b6
-143	2010	7342315547982319	Project/CMakeFiles/VulkanLab01.dir/DataBuffer.cpp.obj	734035a919a201a5
-116	2051	7342315548393711	Project/CMakeFiles/VulkanLab01.dir/3DMesh.cpp.obj	8ed0585a5da929a5
-112	2058	7342315548478832	Project/CMakeFiles/VulkanLab01.dir/labwork/Week06.cpp.obj	7199577d28488a78
-1850	2909	7342315557013259	Project/CMakeFiles/VulkanLab01.dir/DepthBuffer.cpp.obj	d98e6cfc02bf261e
-1863	2970	7342315557603477	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
-2970	3146	7342315559038802	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-4	932	7342315824794687	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
-932	1079	7342315825914236	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	874	7342316895207729	Project/CMakeFiles/VulkanLab01.dir/GraphicsPipeline.cpp.obj	12f02b962b77994d
-874	1006	7342316896262535	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-7	927	7342317391338691	Project/CMakeFiles/VulkanLab01.dir/Level.cpp.obj	8707fe7ffad47db6
-2	977	7342317391849224	Project/CMakeFiles/VulkanLab01.dir/GraphicsPipeline.cpp.obj	12f02b962b77994d
-977	1131	7342317393030703	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	932	7342317684466939	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
-932	1069	7342317685539213	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-3	1033	7342317914930177	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
-1033	1158	7342317915930732	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-3	935	7342319935361147	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
-936	1082	7342319936523109	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	896	7342321472943936	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
-896	1029	7342321473980219	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	964	7342327083497684	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
-965	1131	7342327084672444	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	935	7342327223158519	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
-936	1078	7342327224266950	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	1117	7342327553344881	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
-1118	1243	7342327554308348	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	904	7342328808236944	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
-904	1039	7342328809311698	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-3	1057	7342328959176003	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
-1058	1243	7342328960702942	Project/VulkanLab01.exe	3c6b06c6ddb325b1
-2	908	7342333795576958	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
-909	1123	7342333797280669	Project/VulkanLab01.exe	3c6b06c6ddb325b1
+2	719	7342808247187897	build.ninja	23ae823a8e457a48
+60	1986	7342802676643477	Project/CMakeFiles/VulkanLab01.dir/DataBuffer.cpp.obj	734035a919a201a5
+43	1984	7342802676598329	Project/CMakeFiles/VulkanLab01.dir/Shader.cpp.obj	cf49ca2ed4125e09
+4	2025	7342802677030161	Project/CMakeFiles/VulkanLab01.dir/DescriptorPool.cpp.obj	78f7e58117df24b6
+1885	3013	7342802686938801	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
+4	117	7342807987572437	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	1003	7342803391057844	Project/CMakeFiles/VulkanLab01.dir/3DMesh.cpp.obj	8ed0585a5da929a5
+3	95	7342806801004218	Project/shaders/3Dshader.vert.spv	fd16c0a28fe29af3
+5	97	7342274992928878	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/2Dshader.frag.spv	3e87400cad8fe186
+3	90	7342808262036548	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+3	90	7342808262036548	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+3	80	7342808629195771	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+3	80	7342808629195771	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	88	7342808728855671	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	88	7342808728855671	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	82	7342809019434509	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	82	7342809019434509	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	95	7342809333160862	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	95	7342809333160862	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	83	7342809899699735	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	83	7342809899699735	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+3	87	7342810212144565	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+3	87	7342810212144565	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	86	7342810289643010	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+2	86	7342810289643010	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+3	88	7342810441344709	Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+3	88	7342810441344709	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/Project/shaders/3Dshader.frag.spv	ef6f90d48bbbbc94
+28	2740	7342810971511946	Project/CMakeFiles/VulkanLab01.dir/Level.cpp.obj	8707fe7ffad47db6
+24	2769	7342810971742210	Project/CMakeFiles/VulkanLab01.dir/CommandBuffer.cpp.obj	6ac642aaa4ea0f9
+47	2784	7342810971907275	Project/CMakeFiles/VulkanLab01.dir/GraphicsPipeline.cpp.obj	12f02b962b77994d
+33	2789	7342810971951351	Project/CMakeFiles/VulkanLab01.dir/Shader.cpp.obj	cf49ca2ed4125e09
+56	2799	7342810972026375	Project/CMakeFiles/VulkanLab01.dir/DepthBuffer.cpp.obj	d98e6cfc02bf261e
+9	2802	7342810972086963	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
+52	2817	7342810972283421	Project/CMakeFiles/VulkanLab01.dir/RenderPass.cpp.obj	6900ed1917288a8b
+6	2820	7342810972319253	Project/CMakeFiles/VulkanLab01.dir/main.cpp.obj	295e5ab7541f07c0
+37	2824	7342810972354376	Project/CMakeFiles/VulkanLab01.dir/CommandPool.cpp.obj	538ff05ad48f420
+16	2862	7342810972701251	Project/CMakeFiles/VulkanLab01.dir/3DMesh.cpp.obj	8ed0585a5da929a5
+20	2867	7342810972746469	Project/CMakeFiles/VulkanLab01.dir/labwork/Week05.cpp.obj	7361d44e45aebf73
+42	2884	7342810972944808	Project/CMakeFiles/VulkanLab01.dir/DescriptorPool.cpp.obj	78f7e58117df24b6
+3	2915	7342810973284592	Project/CMakeFiles/VulkanLab01.dir/labwork/Week04.cpp.obj	e37251e4a64b765d
+13	2922	7342810973349752	Project/CMakeFiles/VulkanLab01.dir/labwork/Week06.cpp.obj	7199577d28488a78
+2740	3729	7342810981433796	Project/CMakeFiles/VulkanLab01.dir/DataBuffer.cpp.obj	734035a919a201a5
+2770	3802	7342810982125632	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
+3802	3984	7342810983649878	Project/VulkanLab01.exe	3c6b06c6ddb325b1
+7	2271	7342811080140904	Project/CMakeFiles/VulkanLab01.dir/Level.cpp.obj	8707fe7ffad47db6
+51	2365	7342811081073584	Project/CMakeFiles/VulkanLab01.dir/CommandPool.cpp.obj	538ff05ad48f420
+23	2371	7342811080992983	Project/CMakeFiles/VulkanLab01.dir/CommandBuffer.cpp.obj	6ac642aaa4ea0f9
+38	2375	7342811081186002	Project/CMakeFiles/VulkanLab01.dir/Shader.cpp.obj	cf49ca2ed4125e09
+28	2377	7342811081176452	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
+19	2379	7342811081202230	Project/CMakeFiles/VulkanLab01.dir/RenderPass.cpp.obj	6900ed1917288a8b
+55	2382	7342811081244249	Project/CMakeFiles/VulkanLab01.dir/DataBuffer.cpp.obj	734035a919a201a5
+34	2402	7342811081438308	Project/CMakeFiles/VulkanLab01.dir/main.cpp.obj	295e5ab7541f07c0
+46	2433	7342811081732989	Project/CMakeFiles/VulkanLab01.dir/labwork/Week05.cpp.obj	7361d44e45aebf73
+10	2436	7342811081732989	Project/CMakeFiles/VulkanLab01.dir/GraphicsPipeline.cpp.obj	12f02b962b77994d
+2	2460	7342811082016117	Project/CMakeFiles/VulkanLab01.dir/3DMesh.cpp.obj	8ed0585a5da929a5
+15	2470	7342811082118527	Project/CMakeFiles/VulkanLab01.dir/DescriptorPool.cpp.obj	78f7e58117df24b6
+31	2479	7342811082233851	Project/CMakeFiles/VulkanLab01.dir/labwork/Week04.cpp.obj	e37251e4a64b765d
+42	2491	7342811082348704	Project/CMakeFiles/VulkanLab01.dir/labwork/Week06.cpp.obj	7199577d28488a78
+2272	3293	7342811090383984	Project/CMakeFiles/VulkanLab01.dir/DepthBuffer.cpp.obj	d98e6cfc02bf261e
+2365	3377	7342811091201812	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
+3377	3617	7342811093277190	Project/VulkanLab01.exe	3c6b06c6ddb325b1
+12	2647	7342819653417215	Project/CMakeFiles/VulkanLab01.dir/Level.cpp.obj	8707fe7ffad47db6
+30	2681	7342819653646704	Project/CMakeFiles/VulkanLab01.dir/main.cpp.obj	295e5ab7541f07c0
+42	2694	7342819653742814	Project/CMakeFiles/VulkanLab01.dir/CommandPool.cpp.obj	538ff05ad48f420
+46	2697	7342819653906720	Project/CMakeFiles/VulkanLab01.dir/Shader.cpp.obj	cf49ca2ed4125e09
+34	2713	7342819654049420	Project/CMakeFiles/VulkanLab01.dir/labwork/Week04.cpp.obj	e37251e4a64b765d
+19	2726	7342819654273416	Project/CMakeFiles/VulkanLab01.dir/CommandBuffer.cpp.obj	6ac642aaa4ea0f9
+49	2729	7342819654231602	Project/CMakeFiles/VulkanLab01.dir/labwork/Week05.cpp.obj	7361d44e45aebf73
+23	2732	7342819654286837	Project/CMakeFiles/VulkanLab01.dir/GraphicsPipeline.cpp.obj	12f02b962b77994d
+16	2739	7342819654408599	Project/CMakeFiles/VulkanLab01.dir/RenderPass.cpp.obj	6900ed1917288a8b
+53	2787	7342819654851144	Project/CMakeFiles/VulkanLab01.dir/DepthBuffer.cpp.obj	d98e6cfc02bf261e
+38	2816	7342819655147163	Project/CMakeFiles/VulkanLab01.dir/labwork/Week06.cpp.obj	7199577d28488a78
+9	2838	7342819655312411	Project/CMakeFiles/VulkanLab01.dir/DescriptorPool.cpp.obj	78f7e58117df24b6
+3	2866	7342819655647087	Project/CMakeFiles/VulkanLab01.dir/3DMesh.cpp.obj	8ed0585a5da929a5
+27	2871	7342819655710296	Project/CMakeFiles/VulkanLab01.dir/labwork/VulkanBase.cpp.obj	45b8c657d8eb62d9
+2647	3790	7342819664956142	Project/CMakeFiles/VulkanLab01.dir/DataBuffer.cpp.obj	734035a919a201a5
+2682	3843	7342819665465345	Project/CMakeFiles/VulkanLab01.dir/2DMesh.cpp.obj	461d3518c031743d
+3843	4018	7342819666900856	Project/VulkanLab01.exe	3c6b06c6ddb325b1
+2	2547	7342820476928159	Project/CMakeFiles/VulkanLab01.dir/3DMesh.cpp.obj	8ed0585a5da929a5
+2547	2967	7342820480805037	Project/VulkanLab01.exe	3c6b06c6ddb325b1
+3	2343	7342893058415016	Project/CMakeFiles/VulkanLab01.dir/3DMesh.cpp.obj	8ed0585a5da929a5
+2343	2481	7342893059536550	Project/VulkanLab01.exe	3c6b06c6ddb325b1

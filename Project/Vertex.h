@@ -6,16 +6,18 @@
 //to fix the alignment requirements most of the time
 #define GLM_FORCE_DEFAULT_ALIGNED_GENTYPES
 #include <glm/glm.hpp>
+#define GLM_ENABLE_EXPERIMENTAL
+#include <glm/gtx/hash.hpp>
 
 struct Vertex3D {
     //should be a vec3
     alignas(16) glm::vec3 m_Pos{};
     //glm::vec2 m_TexCoord;
-    //glm::vec3 m_Normal;
+    alignas(16) glm::vec3 m_Normal{};
     //glm::vec3 m_Tangent;
     alignas(16) glm::vec3 m_Color{ 1,1,1 };
 
-    explicit Vertex3D(const glm::vec3 &pos, const glm::vec3 &color = {1, 1, 1}) : m_Pos(pos), m_Color(color) {}
+    //explicit Vertex3D(const glm::vec3 &pos, const glm::vec3 &color = {1, 1, 1}) : m_Pos(pos), m_Color(color) {}
 
     static VkPipelineVertexInputStateCreateInfo CreateVertexInputStateInfo()
     {
@@ -45,8 +47,8 @@ struct Vertex3D {
         return bindingDescription;
     }
 
-    static std::array<VkVertexInputAttributeDescription, 2> getAttributeDescriptions() {
-        std::array<VkVertexInputAttributeDescription, 2> attributeDescriptions{};
+    static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions() {
+        std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
 
         attributeDescriptions[0].binding = 0;
         attributeDescriptions[0].location = 0;
@@ -56,21 +58,39 @@ struct Vertex3D {
         attributeDescriptions[1].binding = 0;
         attributeDescriptions[1].location = 2;
         attributeDescriptions[1].format = VK_FORMAT_R32G32B32_SFLOAT;
-        attributeDescriptions[1].offset = offsetof(Vertex3D, m_Color);
+        attributeDescriptions[1].offset = offsetof(Vertex3D, m_Normal);
+
+        attributeDescriptions[2].binding = 0;
+        attributeDescriptions[2].location = 4;
+        attributeDescriptions[2].format = VK_FORMAT_R32G32B32_SFLOAT;
+        attributeDescriptions[2].offset = offsetof(Vertex3D, m_Color);
 
         return attributeDescriptions;
     }
+    bool operator==(const Vertex3D& other) const {
+        return m_Pos == other.m_Pos && m_Normal == other.m_Normal && m_Color == other.m_Color;
+    }
 };
+
+namespace std {
+    template<> struct hash<Vertex3D> {
+        size_t operator()(Vertex3D const& vertex) const {
+            return ((hash<glm::vec3>()(vertex.m_Pos) ^
+                     (hash<glm::vec3>()(vertex.m_Normal) << 1)) >> 1) ^
+                   (hash<glm::vec3>()(vertex.m_Color) << 1);
+        }
+    };
+}
 
 struct Vertex2D {
     //should be a vec3
     alignas(16) glm::vec2 m_Pos{};
     //glm::vec2 m_TexCoord;
-    //glm::vec3 m_Normal;
+    //alignas(16) glm::vec3 m_Normal;
     //glm::vec3 m_Tangent;
-    alignas(16) glm::vec3 m_Color{ 1,1,1 };
+    alignas(16) glm::vec3 m_Color{ 1.f,1.f,1.f };
 
-    explicit Vertex2D(const glm::vec2 &pos, const glm::vec3 &color = {1, 1, 1}) : m_Pos(pos), m_Color(color) {}
+    //explicit Vertex2D(const glm::vec2 &pos, const glm::vec3 &color = {1, 1, 1}) : m_Pos(pos), m_Color(color) {}
 
     static VkPipelineVertexInputStateCreateInfo CreateVertexInputStateInfo()
     {

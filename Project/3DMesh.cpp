@@ -7,7 +7,7 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint16_t> &&indices): Mesh3D() {
+Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint16_t> &&indices) : Mesh3D() {
     m_Vertices = std::move(vertices);
     m_Indices = std::move(indices);
 }
@@ -42,71 +42,43 @@ void Mesh3D::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphic
     m_IndexBuffer->Upload(commandPool, graphicsQueue);
 }
 
-void Mesh3D::InitializeCircle(const glm::vec2 &center, float radius, int nrOfSegments) {
-    m_Vertices.clear();
-    m_Indices.clear();
-    const float angleIncrement = 2.0f * glm::pi<float>() / nrOfSegments;
+void Mesh3D::AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &topRight, Vertex3D &bottomRight,
+                          bool isClockWise, bool keepNormals = true) {
 
-    glm::vec2 pos1 = {radius + center.x, center.y};
-
-    for (int i = 1; i <= nrOfSegments; ++i) {
-        const float angle = angleIncrement * i;
-        glm::vec2 pos2 = {radius * cos(angle) + center.x, radius * sin(angle) + center.y};
-
-        // Add vertex positions to the vertex buffer
-        AddVertex({pos2, 0});
-        AddVertex({center, 0});
-        AddVertex({pos1, 0});
-        pos1 = pos2;
+    if(!keepNormals)
+    {
+        glm::vec3 normal = glm::normalize(glm::cross(topLeft.m_Pos - bottomLeft.m_Pos, bottomRight.m_Pos - bottomLeft.m_Pos));
+        if(!isClockWise) normal *= -1;
+        bottomLeft.m_Normal = normal;
+        topLeft.m_Normal = normal;
+        bottomRight.m_Normal = normal;
+        topRight.m_Normal = normal;
     }
-}
-
-void Mesh3D::InitializeRect(float top, float left, float bottom, float right) {
-    m_Vertices.clear();
-    m_Indices.clear();
-    AddRect(top, left, bottom, right);
-
-}
-
-void Mesh3D::AddRect(float top, float left, float bottom, float right) {
-    AddVertex(glm::vec3(left, bottom, 0));
-    AddVertex(glm::vec3(right, top, 0));
-    AddVertex(glm::vec3(left, top, 0));
-
-    AddVertex(glm::vec3(left, bottom, 0));
-    AddVertex(glm::vec3(right, bottom, 0));
-    AddVertex(glm::vec3(right, top, 0));
-}
-
-void
-Mesh3D::AddRectPlane(const glm::vec3 &bottomLeft, const glm::vec3 &topRight, bool isClockWise, bool areZValsInverted = false) {
-    glm::vec3 topLeft(bottomLeft.x, topRight.y, (topRight.z < bottomLeft.z) ? topRight.z : bottomLeft.z);
-    glm::vec3 bottomRight(topRight.x, bottomLeft.y, (topRight.z > bottomLeft.z) ? topRight.z : bottomLeft.z);
-    if(areZValsInverted) {
-        topLeft.z = (topRight.z > bottomLeft.z) ? topRight.z : bottomLeft.z;
-        bottomRight.z = (topRight.z < bottomLeft.z) ? topRight.z : bottomLeft.z;
-    }
-    m_Vertices.emplace_back(bottomLeft);
-    m_Vertices.emplace_back(bottomRight);
-    m_Vertices.emplace_back(topLeft);
-    m_Vertices.emplace_back(topRight);
-
-    std::vector<uint16_t> indices;
-    uint16_t indicesSize = m_Indices.empty() ? 0 : *std::max_element(m_Indices.begin(), m_Indices.end()) + 1;
-    if (isClockWise) indices = {0, 2, 3, 0, 3, 1};
-    else indices = {0, 3, 2, 0, 1, 3};
-    for (auto &index: indices) {
-        m_Indices.push_back(index + indicesSize);
-    }
+    if (isClockWise) {
+        AddVertex(bottomLeft);
+        AddVertex(topLeft);
+        AddVertex(topRight);
+        AddVertex(bottomLeft);
+        AddVertex(topRight);
+        AddVertex(bottomRight);
+        }
+    else {
+        AddVertex(bottomLeft);
+        AddVertex(topRight);
+        AddVertex(topLeft);
+        AddVertex(bottomLeft);
+        AddVertex(bottomRight);
+        AddVertex(topRight);
+        }
 
 }
 
 void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength) {
     m_Vertices.clear();
     m_Indices.clear();
-    const glm::vec3 forward{ glm::vec3(0.0f, 0.0f, 1.0f) };
-    const glm::vec3 up{ glm::vec3(0.0f, 1.0f, 0.0f) };
-    const glm::vec3 right{ glm::vec3(1.0f, 0.0f, 0.0f) };
+    const glm::vec3 forward{glm::vec3(0.0f, 0.0f, 1.0f)};
+    const glm::vec3 up{glm::vec3(0.0f, 1.0f, 0.0f)};
+    const glm::vec3 right{glm::vec3(1.0f, 0.0f, 0.0f)};
 
     const glm::vec3 bottomRightBackCorner = bottomLeftBackCorner + sideLength * right;
     const glm::vec3 topLeftBackCorner = bottomLeftBackCorner + sideLength * up;
@@ -116,60 +88,38 @@ void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLen
     const glm::vec3 topLeftFrontCorner = topLeftBackCorner + sideLength * forward;
     const glm::vec3 topRightFrontCorner = topRightBackCorner + sideLength * forward;
 
-    AddRectPlane(bottomLeftBackCorner, topRightBackCorner, true); // back plane
-    AddRectPlane(bottomLeftFrontCorner, topRightFrontCorner, false); // front plane
-    AddRectPlane(bottomLeftBackCorner, topLeftFrontCorner, false); // left plane
-    AddRectPlane(topRightBackCorner, bottomRightFrontCorner, false); // right plane
-    AddRectPlane(topLeftBackCorner, topRightFrontCorner, true, true); // top plane
-    AddRectPlane(bottomLeftBackCorner, bottomRightFrontCorner, false, true); // bottom plane
-}
+    Vertex3D bottomLeftBackCornerVertex{bottomLeftBackCorner};
+    Vertex3D topRightFrontCornerVertex{topRightFrontCorner};
+    Vertex3D bottomRightBackCornerVertex{bottomRightBackCorner};
+    Vertex3D topLeftFrontCornerVertex{topLeftFrontCorner};
+    Vertex3D bottomLeftFrontCornerVertex{bottomLeftFrontCorner};
+    Vertex3D topRightBackCornerVertex{topRightBackCorner};
+    Vertex3D bottomRightFrontCornerVertex{bottomRightFrontCorner};
+    Vertex3D topLeftBackCornerVertex{topLeftBackCorner};
 
-void Mesh3D::InitializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments) {
-
-    m_Vertices.clear();
-    m_Indices.clear();
-    // Calculate the corner vertices
-    const std::vector<glm::vec2> corners = {
-            {right, top},     // Top-right     0
-            {left,  top},      // Top-left      1
-            {left,  bottom},  // Bottom-left   2
-            {right, bottom}     // Bottom-right  3
-    };
-
-    std::vector<glm::vec2> pos1;
-    std::vector<glm::vec2> pos2;
-
-    constexpr float rightAngle = glm::pi<float>() / 2.f;
-    const float angleIncrement = rightAngle / nrOfSegments;
-
-    for (size_t i = 0; i < 4; i++) {
-        pos1.emplace_back(corners[i].x + radius * cos((angleIncrement * 0 + rightAngle * i)),
-                          corners[i].y + radius * sin((angleIncrement * 0 + rightAngle * i)));
-    }
-    AddRect(pos1[1].y, pos1[1].x, pos1[3].y, pos1[3].x);
-    AddRect(pos1[0].y, pos1[2].x, pos1[2].y, pos1[0].x);
-
-    for (int j = 1; j <= nrOfSegments; ++j) {
-        pos2.clear();
-
-        for (size_t i = 0; i < 4; i++) {
-            pos2.emplace_back(corners[i].x + radius * cos((angleIncrement * j + rightAngle * i)),
-                              corners[i].y + radius * sin((angleIncrement * j + rightAngle * i)));
-
-            AddVertex({pos1[i], 0});
-            AddVertex({pos2[i], 0});
-            AddVertex({corners[i], 0});
-        }
-        pos1.clear();
-        pos1.insert(pos1.begin(), pos2.begin(), pos2.end());
-    }
+    AddRectPlane(bottomLeftBackCornerVertex, topLeftBackCornerVertex,
+                 topRightBackCornerVertex, bottomRightBackCornerVertex, true, false); // back plane
+    AddRectPlane(bottomLeftFrontCornerVertex, topLeftFrontCornerVertex,
+                 topRightFrontCornerVertex, bottomRightFrontCornerVertex, false, false); // front plane
+    AddRectPlane(bottomLeftBackCornerVertex, topLeftBackCornerVertex,
+                 topLeftFrontCornerVertex, bottomLeftFrontCornerVertex, false, false); // left plane
+    AddRectPlane(bottomRightBackCornerVertex, topRightBackCornerVertex,
+                 topRightFrontCornerVertex, bottomRightFrontCornerVertex, true, false); // right plane
+    AddRectPlane(topLeftBackCornerVertex, topLeftFrontCornerVertex, topRightFrontCornerVertex, topRightBackCornerVertex,
+                 true, false); // top plane
+    AddRectPlane(bottomLeftBackCornerVertex, bottomLeftFrontCornerVertex,
+                 bottomRightFrontCornerVertex, bottomRightBackCornerVertex, false, false); // bottom plane
 
 }
 
 
-void Mesh3D::AddVertex(const glm::vec3 &pos, const glm::vec3 &color) {
-    m_Vertices.emplace_back(pos, color);
-    m_Indices.emplace_back(static_cast<uint16_t>(m_Indices.size()));
+void Mesh3D::AddVertex(const Vertex3D &vertex) {
+    if(m_UniqueVertices.count(vertex) == 0)
+    {
+        m_UniqueVertices[vertex] = static_cast<uint32_t>(m_Vertices.size());
+        m_Vertices.push_back(vertex);
+    }
+    m_Indices.push_back(m_UniqueVertices[vertex]);
 }
 
 void Mesh3D::MapBuffers() {

@@ -5,9 +5,8 @@
 
 VkPipelineLayout GraphicsPipeline::m_PipelineLayout;
 
-void GraphicsPipeline::createGraphicsPipeline(
-        const VkRenderPass &renderPass,
-        Shader &gradientShader) {
+void GraphicsPipeline::createGraphicsPipeline(const VkRenderPass &renderPass, Shader &gradientShader,
+                                              VkPipelineVertexInputStateCreateInfo pipelineVerInputStateCreateInfo) {
     VkPipelineViewportStateCreateInfo viewportState{};
     viewportState.sType = VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_STATE_CREATE_INFO;
     viewportState.viewportCount = 1;
@@ -59,7 +58,7 @@ void GraphicsPipeline::createGraphicsPipeline(
 
     pipelineInfo.stageCount = 2;
     pipelineInfo.pStages = gradientShader.GetShaderStages().data();
-    pipelineInfo.pVertexInputState = &Vertex3D::CreateVertexInputStateInfo();
+    pipelineInfo.pVertexInputState = &pipelineVerInputStateCreateInfo;
     pipelineInfo.pInputAssemblyState = &Shader::CreateInputAssemblyStateInfo();
 
     pipelineInfo.pViewportState = &viewportState;

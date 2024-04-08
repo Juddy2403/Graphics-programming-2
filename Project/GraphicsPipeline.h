@@ -11,8 +11,8 @@ public:
     //TODO: yeah dont do that
     static VkPipelineLayout m_PipelineLayout;
     VkPipeline& getGraphicsPipeline() { return m_GraphicsPipeline; }
-    void createGraphicsPipeline(const VkRenderPass& renderPass,
-                                Shader& gradientShader);
+    void createGraphicsPipeline(const VkRenderPass &renderPass, Shader &gradientShader,
+                                VkPipelineVertexInputStateCreateInfo pipelineVerInputStateCreateInfo);
     void destroyGraphicsPipeline();
 
     static void DestroyGraphicsPipelineLayout() ;

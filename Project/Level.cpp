@@ -24,10 +24,10 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const VkQueue &gra
 //                     {1.0f,  1.0f, 1.0f}}
 //    };
     std::vector<Vertex2D> vertices = {
-           Vertex2D {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
-           Vertex2D {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
-           Vertex2D {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
-           Vertex2D {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
+           {{-0.5f, -0.5f}, {1.0f, 0.0f, 0.0f}},
+           {{0.5f, -0.5f}, {0.0f, 1.0f, 0.0f}},
+           {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
+           {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
     };
     std::vector<uint16_t> indices = {0, 2, 1, 2, 0, 3};
     m_2DMeshes.emplace_back(std::make_unique<Mesh2D>(std::move(vertices), std::move(indices)));

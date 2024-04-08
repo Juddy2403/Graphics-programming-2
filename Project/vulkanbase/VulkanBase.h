@@ -76,8 +76,8 @@ private:
 		m_RenderPass.createRenderPass(swapChainImageFormat);
         Shader::CreateDescriptor();
         GraphicsPipeline::CreatePipelineLayout();
-		m_3DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_3DShader);
-		m_2DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_2DShader);
+        m_3DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_3DShader, Vertex3D::CreateVertexInputStateInfo());
+        m_2DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_2DShader, Vertex2D::CreateVertexInputStateInfo());
 		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
 		// week 02
 		//triangleMesh.AddVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );

@@ -150,6 +150,6 @@ void Mesh2D::AddRect(float top, float left, float bottom, float right) {
 }
 
 void Mesh2D::AddVertex(const glm::vec2 &pos, const glm::vec3 &color) {
-    m_Vertices.emplace_back(pos, color);
+    m_Vertices.emplace_back(Vertex2D{pos, color});
     m_Indices.emplace_back(static_cast<uint16_t>(m_Indices.size()));
 }

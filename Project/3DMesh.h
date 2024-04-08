@@ -2,6 +2,7 @@
 #include <vulkan/vulkan_core.h>
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include <memory>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -16,15 +17,16 @@ class Mesh3D
 private:
 	std::unique_ptr<DataBuffer> m_VertexBuffer{};
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
+    std::unordered_map<Vertex3D, uint32_t> m_UniqueVertices{};
     std::vector<Vertex3D> m_Vertices = {};
     std::vector<uint16_t> m_Indices = {};
     UniformBufferObject m_UBOMatrixes{};
     DescriptorPool m_DescriptorPool;
     void DestroyBuffers();
 
-    void AddRect(float top, float left, float bottom, float right);
-    void AddVertex(const glm::vec3& pos, const glm::vec3& color = {1,1,1});
-    void AddRectPlane(const glm::vec3 &bottomLeft, const glm::vec3 &topRight, bool isClockWise, bool areZValsInverted);
+    void AddVertex(const Vertex3D &vertex);
+    void AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &topRight, Vertex3D &bottomRight,
+                      bool isClockWise, bool keepNormals);
 
 public:
     Mesh3D();
@@ -42,9 +44,6 @@ public:
     void MapBuffers();
 
     void InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength);
-	void InitializeCircle(const glm::vec2 &center, float radius, int nrOfSegments);
-	void InitializeRect(float top, float left, float bottom, float right);
-	void InitializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments);
 
     void Destroy();
 	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;

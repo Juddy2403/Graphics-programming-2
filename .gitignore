@@ -375,3 +375,8 @@ cmake-build-debug/.ninja_log
 cmake-build-debug/.ninja_deps
 cmake-build-debug/.cmake/api/v1/reply/target-Shaders-Debug-12c5f43961b7bfbb81ac.json
 .idea/workspace.xml
+cmake-build-debug/Project/VulkanLab01.exe
+cmake-build-debug/_deps/glfw-subbuild/.ninja_log
+cmake-build-debug/.ninja_log
+cmake-build-debug/.ninja_deps
+.idea/workspace.xml
