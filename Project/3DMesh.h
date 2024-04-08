@@ -40,6 +40,7 @@ public:
 	void Update(uint32_t currentFrame);
     void ResetVertices(std::vector<Vertex3D>&& vertices);
     void ResetIndices(std::vector<uint16_t>&& indices);
+    void Translate(const glm::vec3& translation);
 	void UploadMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
     void MapBuffers();
 

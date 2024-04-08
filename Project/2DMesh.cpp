@@ -57,28 +57,29 @@ void Mesh2D::InitializeCircle(const glm::vec2 &center, float radius, int nrOfSeg
         glm::vec2 pos2 = {radius * cos(angle) + center.x, radius * sin(angle) + center.y};
 
         // Add vertex positions to the vertex buffer
-        AddVertex(pos2);
-        AddVertex(center);
-        AddVertex(pos1);
+        AddVertex(pos2, {1.0f, 1.0f, 1.0f});
+        AddVertex(pos1,{1.0f, 1.0f, 1.0f});
+        AddVertex(center,{1.0f, 0.0f, 0.0f});
+
         pos1 = pos2;
     }
 }
 
-void Mesh2D::InitializeRect(float top, float left, float bottom, float right) {
+void Mesh2D::InitializeRect(const glm::vec2 &bottomLeft, float sideLen) {
     m_Vertices.clear();
     m_Indices.clear();
-    AddRect(top, left, bottom, right);
+    AddRect(bottomLeft.y + sideLen, bottomLeft.x, bottomLeft.y, bottomLeft.x + sideLen);
 }
 
-void Mesh2D::InitializeRoundedRect(float left, float top, float right, float bottom, float radius, int nrOfSegments) {
+void Mesh2D::InitializeRoundedRect(float left, float bottom, float right, float top, float radius, int nrOfSegments) {
     m_Vertices.clear();
     m_Indices.clear();
     // Calculate the corner vertices
     const std::vector<glm::vec2> corners = {
-            {right, top},     // Top-right     0
-            {left,  top},      // Top-left      1
-            {left,  bottom},  // Bottom-left   2
-            {right, bottom}     // Bottom-right  3
+            {right, bottom},     // Top-right     0
+            {left,  bottom},      // Top-left      1
+            {left,  top},  // Bottom-left   2
+            {right, top}     // Bottom-right  3
     };
 
     std::vector<glm::vec2> pos1;
@@ -101,9 +102,10 @@ void Mesh2D::InitializeRoundedRect(float left, float top, float right, float bot
             pos2.emplace_back(corners[i].x + radius * cos((angleIncrement * j + rightAngle * i)),
                               corners[i].y + radius * sin((angleIncrement * j + rightAngle * i)));
 
-            AddVertex(pos1[i]);
-            AddVertex(pos2[i]);
-            AddVertex(corners[i]);
+            AddVertex(pos1[i],{1.0f, 0.0f, 0.0f});
+            AddVertex(corners[i],{1.0f, 0.0f, 0.0f});
+            AddVertex(pos2[i],{1.0f, 0.0f, 0.0f});
+
         }
         pos1.clear();
         pos1.insert(pos1.begin(), pos2.begin(), pos2.end());
@@ -130,16 +132,26 @@ void Mesh2D::DestroyBuffers() {
 }
 
 void Mesh2D::AddRect(float top, float left, float bottom, float right) {
-    AddVertex(glm::vec3(left, bottom, 0));
-    AddVertex(glm::vec3(right, top, 0));
-    AddVertex(glm::vec3(left, top, 0));
+    AddVertex(glm::vec2(left, bottom),{1.0f, 0.0f, 0.0f});
+    AddVertex(glm::vec2(left, top),{0.0f, 0.0f, 1.0f});
+    AddVertex(glm::vec2(right, top),{0.0f, 1.0f, 0.0f});
 
-    AddVertex(glm::vec3(left, bottom, 0));
-    AddVertex(glm::vec3(right, bottom, 0));
-    AddVertex(glm::vec3(right, top, 0));
+    AddVertex(glm::vec2(left, bottom),{1.0f, 0.0f, 0.0f});
+    AddVertex(glm::vec2(right, top),{1.0f, 1.0f, 1.0f});
+    AddVertex(glm::vec2(right, bottom),{0.0f, 1.0f, 0.0f});
+
 }
 
 void Mesh2D::AddVertex(const glm::vec2 &pos, const glm::vec3 &color) {
-    m_Vertices.emplace_back(Vertex2D{pos, color});
-    m_Indices.emplace_back(static_cast<uint16_t>(m_Indices.size()));
+    AddVertex(Vertex2D{pos, color});
 }
+
+void Mesh2D::AddVertex(const Vertex2D &vertex) {
+    if(m_UniqueVertices.count(vertex) == 0)
+    {
+        m_UniqueVertices[vertex] = static_cast<uint32_t>(m_Vertices.size());
+        m_Vertices.push_back(vertex);
+    }
+    m_Indices.push_back(m_UniqueVertices[vertex]);
+}
+

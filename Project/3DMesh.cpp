@@ -21,9 +21,9 @@ Mesh3D::Mesh3D() {
 }
 
 void Mesh3D::Update(uint32_t currentFrame) {
-    float totalTime = TimeManager::GetInstance().GetTotalElapsed();
+    float totalTime = TimeManager::GetInstance().GetElapsed();
 
-    m_WorldMatrix = glm::rotate(glm::mat4(1.0f), totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_WorldMatrix = glm::rotate(m_WorldMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 }
 
@@ -148,6 +148,10 @@ void Mesh3D::Destroy() {
 void Mesh3D::DestroyBuffers() {
     m_VertexBuffer->Destroy();
     m_IndexBuffer->Destroy();
+}
+
+void Mesh3D::Translate(const glm::vec3 &translation) {
+    m_WorldMatrix = glm::translate(m_WorldMatrix, translation);
 }
 
 

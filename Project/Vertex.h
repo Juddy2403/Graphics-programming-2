@@ -12,11 +12,10 @@
 struct Vertex3D {
     //should be a vec3
     alignas(16) glm::vec3 m_Pos{};
-    //glm::vec2 m_TexCoord;
     alignas(16) glm::vec3 m_Normal{};
-    //glm::vec3 m_Tangent;
     alignas(16) glm::vec3 m_Color{ 1,1,1 };
-
+    glm::vec2 m_TexCoord;
+    glm::vec3 m_Tangent;
     //explicit Vertex3D(const glm::vec3 &pos, const glm::vec3 &color = {1, 1, 1}) : m_Pos(pos), m_Color(color) {}
 
     static VkPipelineVertexInputStateCreateInfo CreateVertexInputStateInfo()
@@ -135,7 +134,19 @@ struct Vertex2D {
 
         return attributeDescriptions;
     }
+    bool operator==(const Vertex2D& other) const {
+        return m_Pos == other.m_Pos;
+    }
 };
+
+namespace std {
+    template<> struct hash<Vertex2D> {
+        size_t operator()(Vertex2D const& vertex) const {
+            return ((hash<glm::vec2>()(vertex.m_Pos) ^
+                     (hash<glm::vec3>()(vertex.m_Color) << 1)) >> 1);
+        }
+    };
+}
 
 struct UniformBufferObject {
     alignas(16) glm::mat4 model;

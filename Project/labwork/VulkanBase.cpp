@@ -36,7 +36,6 @@ void VulkanBase::keyEvent(int key, int scancode, int action, int mods)
         // Remove the released key from the set
         m_PressedKeys.erase(key);
     }
-
 }
 
 void VulkanBase::ProcessInput(){

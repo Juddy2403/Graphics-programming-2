@@ -54,5 +54,7 @@ set(GLM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/glm")
 target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_INCLUDE_DIR})
 target_include_directories(${PROJECT_NAME} PUBLIC ${SDL_INCLUDE_DIR})
 
-
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} glfw)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/resources
+        DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
