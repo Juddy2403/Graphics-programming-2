@@ -1,9 +1,7 @@
 #include "Level.h"
 #include "GraphicsPipeline.h"
 #include "vulkanbase/VulkanBase.h"
-#include "ObjectParser.h"
 #include <vulkanbase/VulkanUtil.h>
-#include <glm/glm.hpp>
 
 #define GLM_FORCE_RADIANS
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,7 +36,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const VkQueue &gra
            {{0.5f, 0.5f}, {0.0f, 0.0f, 1.0f}},
            {{-0.5f, 0.5f}, {1.0f, 1.0f, 1.0f}}
     };
-    std::vector<uint16_t> indices = {0, 2, 1, 2, 0, 3};
+    std::vector<uint32_t> indices = {0, 2, 1, 2, 0, 3};
 
     //m_2DMeshes.emplace_back(std::make_unique<Mesh2D>(std::move(vertices), std::move(indices)));
     m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
@@ -52,10 +50,11 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const VkQueue &gra
 
     m_3DMeshes[0]->InitializeCube({-0.25f, -0.25f, -0.25f}, 0.5);
     std::vector<Vertex3D> vertices3D{};
-    if(ParseOBJ("resources/vehicle.obj", vertices3D, indices,false))
-    m_3DMeshes.emplace_back(std::make_unique<Mesh3D>(std::move(vertices3D), std::move(indices)));
-    else throw std::runtime_error("Failed to load 3D model");
-    m_3DMeshes[1]->Translate({10.f, -5.f, 30.5f});
+    m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
+    m_3DMeshes[1]->LoadModel("resources/vehicle.obj", true);
+    //m_3DMeshes[1]->Scale({0.1f, 0.1f, 0.1f});
+    //m_3DMeshes[1]->Rotate({180.f, -180.f, 0.f});
+    m_3DMeshes[1]->Translate({10.f, 5.f, 30.5f});
     m_3DMeshes[0]->Translate({-1.f, 0.f, 0.f});
     for (auto &mesh: m_3DMeshes) {
         mesh->MapBuffers();

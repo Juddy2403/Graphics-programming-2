@@ -54,34 +54,186 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="968bb24f-2a49-406d-91e5-1a4b522e6289" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Project/resources/PosCol3D.fx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/PosCol3D_Base.fx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/fireFX_diffuse.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/uv_grid_2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/vehicle_diffuse.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/vehicle_gloss.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/vehicle_normal.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/vehicle_specular.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/lib/tiny_obj_loader.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/query/cache-v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/query/cmakeFiles-v1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/query/codemodel-v2" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/query/toolchains-v1" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/cache-v2-e2f86b2d0e165762c40a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/cmakeFiles-v1-091dd2c342b6703fb44b.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/codemodel-v2-a1cb20e3f7257d1a03ea.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/directory-.-Release-d0094a50bb2071803777.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/directory-Project-Release-8c0035df2fdd8f09a232.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/directory-_deps.glfw-build-Release-f4d5db4954eeb0dcae46.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/directory-_deps.glfw-build.examples-Release-2b4920d2b9c5ce6248a9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/directory-_deps.glfw-build.src-Release-ed9f9ef175e8af129e98.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/directory-_deps.glfw-build.tests-Release-ef57c8521d1b85d26a56.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-Shaders-Release-f342b19ea24369adc494.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-VulkanLab01-Release-2f75a92baba3c3476420.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-boing-Release-b0b8634109db85a9abd8.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-clipboard-Release-32cb88aabe132a2b181e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-cursor-Release-943d638ac66f4d7075d2.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-empty-Release-a8a9b021c6585f1359d6.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-events-Release-14c6eea4fb8647bfc6e3.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-gamma-Release-385b078b6eeae64d3c51.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-gears-Release-95a4ce4393c632fcdc07.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-glfw-Release-bb3f4a4297e0ddd26137.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-glfwinfo-Release-0fcd28479d4a4695ca9c.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-heightmap-Release-c3c9ff7f2df9b69fb792.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-icon-Release-77f8471278841d61aa2a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-iconify-Release-b95e0aeb454fff2fe71a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-inputlag-Release-124b47953b5459b0742a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-joysticks-Release-7c62f1d0cc70748d5293.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-monitors-Release-d3f895763508d89c1079.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-msaa-Release-012168964b1db41bf0ab.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-offscreen-Release-f2882f27519d67e218a9.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-opacity-Release-01d75192123815bc346b.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-particles-Release-6eeca1b222b883824538.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-reopen-Release-718f23722014520bba64.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-sharing-Release-f28428ac5b3c798fd5bd.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-simple-Release-d16866b17754dc36a1d6.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-splitview-Release-abedbb7d4c18a76752df.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-tearing-Release-9bc111b66732a1e75a61.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-threads-Release-48270352e015ff1ffcd0.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-timeout-Release-323afb5545c228b11954.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-title-Release-2c2a5570067e8e16c77f.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-triangle-vulkan-Release-ca404319ccfdedf07d7a.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-uninstall-Release-69f38cc420414fe568ea.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-update_mappings-Release-a6c59e590636603fb572.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-wave-Release-ceee03a0bd52439d8e4e.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/target-windows-Release-e5a793ac56aba74ba2da.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.cmake/api/v1/reply/toolchains-v1-684f4f7bbb25466972ac.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.ninja_deps" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/.ninja_log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/CMakeCache.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/VulkanLab01.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/cmake_install.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/resources/PosCol3D.fx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/resources/PosCol3D_Base.fx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/resources/fireFX_diffuse.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/resources/uv_grid_2.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/resources/vehicle_diffuse.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/resources/vehicle_gloss.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/resources/vehicle_normal.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/resources/vehicle_specular.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/shaders/2Dshader.frag.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/shaders/2Dshader.vert.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/shaders/3Dshader.frag.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/Project/shaders/3Dshader.vert.spv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/CMakeFiles/Export/f367bd07922f2ecfc14cf5547f1f7c4e/glfw3Targets-release.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/CMakeFiles/Export/f367bd07922f2ecfc14cf5547f1f7c4e/glfw3Targets.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/cmake_install.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/cmake_uninstall.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/boing.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/boing.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/gears.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/gears.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/heightmap.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/heightmap.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/offscreen.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/offscreen.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/particles.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/particles.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/sharing.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/sharing.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/simple.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/simple.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/splitview.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/splitview.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/wave.dir/glfw.i" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/CMakeFiles/wave.dir/glfw.rc.res" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/boing.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/cmake_install.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/gears.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/heightmap.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/offscreen.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/particles.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/sharing.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/simple.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/splitview.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/examples/wave.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/src/cmake_install.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/src/glfw3.lib" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/src/glfw3.pc" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/src/glfw3Config.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/src/glfw3ConfigVersion.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/src/glfw_config.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/clipboard.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/cmake_install.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/cursor.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/empty.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/events.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/gamma.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/glfwinfo.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/icon.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/iconify.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/inputlag.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/joysticks.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/monitors.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/msaa.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/opacity.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/reopen.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/tearing.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/threads.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/timeout.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/title.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/triangle-vulkan.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-build/tests/windows.exe" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-src" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/.ninja_log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeCache.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeFiles/3.27.8/CMakeSystem.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeFiles/TargetDirectories.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeFiles/cmake.check_cache" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeFiles/glfw-populate-complete" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeFiles/glfw-populate.dir/Labels.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeFiles/glfw-populate.dir/Labels.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeFiles/rules.ninja" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/CMakeLists.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/build.ninja" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/cmake_install.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-gitclone-lastrun.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-gitinfo.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-mkdir" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch-info.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update-info.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-cfgcmd.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-gitclone.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-gitupdate.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/_deps/glfw-subbuild/glfw-populate-prefix/tmp/glfw-populate-mkdirs.cmake" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/build.ninja" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmake-build-release/cmake_install.cmake" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/2DMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/2DMesh.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/2DMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/2DMesh.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/3DMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/3DMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Camera.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Camera.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/DataBuffer.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DataBuffer.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/ObjectParser.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/ObjectParser.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Vertex.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/ObjectParser.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Shader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Shader.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/labwork/VulkanBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/labwork/VulkanBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeCache.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Project/VulkanLab01.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Project/VulkanLab01.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/Project/VulkanLab01.exe" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-build/src/glfw3.lib" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/CMakeCache.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/CMakeCache.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +286,7 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
+    "settings.editor.selected.configurable": "CMakeSettings",
     "structure.view.defaults.are.configured": "true",
     "vue.rearranger.settings.migration": "true"
   }
@@ -373,6 +525,10 @@
       <workItem from="1712486910819" duration="27747000" />
       <workItem from="1712569561138" duration="9793000" />
       <workItem from="1712589657838" duration="22139000" />
+      <workItem from="1712659083795" duration="3908000" />
+      <workItem from="1712663799161" duration="2208000" />
+      <workItem from="1712741912889" duration="638000" />
+      <workItem from="1712827456212" duration="364000" />
     </task>
     <servers />
   </component>

@@ -4,7 +4,6 @@
 #include <glm/gtc/constants.hpp>
 #include <vulkanbase/VulkanBase.h>
 #define GLM_FORCE_RADIANS
-#include <glm/gtc/matrix_transform.hpp>
 
 Mesh2D::Mesh2D() {
     //m_UBOMatrixes.proj[1][1] *= -1;
@@ -16,7 +15,7 @@ Mesh2D::Mesh2D() {
 
 }
 
-Mesh2D::Mesh2D(std::vector<Vertex2D> &&vertices, std::vector<uint16_t> &&indices):Mesh2D() {
+Mesh2D::Mesh2D(std::vector<Vertex2D> &&vertices, std::vector<uint32_t> &&indices):Mesh2D() {
     m_Vertices = std::move(vertices);
     m_Indices = std::move(indices);
 }
@@ -30,7 +29,7 @@ void Mesh2D::ResetVertices(std::vector<Vertex2D> &&vertices) {
     m_Vertices = std::move(vertices);
 }
 
-void Mesh2D::ResetIndices(std::vector<uint16_t> &&indices) {
+void Mesh2D::ResetIndices(std::vector<uint32_t> &&indices) {
     m_Indices.clear();
     m_Indices = std::move(indices);
 }

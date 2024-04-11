@@ -1,11 +1,14 @@
 #include "3DMesh.h"
 #include <vulkanbase/VulkanUtil.h>
-#include <glm/gtc/constants.hpp>
 #include <vulkanbase/VulkanBase.h>
+
+#define TINYOBJLOADER_IMPLEMENTATION
+
+#include "tiny_obj_loader.h"
 
 #define GLM_FORCE_RADIANS
 
-Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint16_t> &&indices) : Mesh3D() {
+Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices) : Mesh3D() {
     m_Vertices = std::move(vertices);
     m_Indices = std::move(indices);
 }
@@ -22,8 +25,8 @@ Mesh3D::Mesh3D() {
 
 void Mesh3D::Update(uint32_t currentFrame) {
     float totalTime = TimeManager::GetInstance().GetElapsed();
-
-    m_WorldMatrix = glm::rotate(m_WorldMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_RotationMatrix = glm::rotate(m_RotationMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_WorldMatrix = m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
 
 }
 
@@ -35,10 +38,10 @@ void Mesh3D::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphic
 void Mesh3D::AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &topRight, Vertex3D &bottomRight,
                           bool isClockWise, bool keepNormals = true) {
 
-    if(!keepNormals)
-    {
-        glm::vec3 normal = glm::normalize(glm::cross(topLeft.m_Pos - bottomLeft.m_Pos, bottomRight.m_Pos - bottomLeft.m_Pos));
-        if(!isClockWise) normal *= -1;
+    if (!keepNormals) {
+        glm::vec3 normal = glm::normalize(
+                glm::cross(topLeft.m_Pos - bottomLeft.m_Pos, bottomRight.m_Pos - bottomLeft.m_Pos));
+        if (!isClockWise) normal *= -1;
         bottomLeft.m_Normal = normal;
         topLeft.m_Normal = normal;
         bottomRight.m_Normal = normal;
@@ -51,15 +54,14 @@ void Mesh3D::AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &top
         AddVertex(bottomLeft);
         AddVertex(topRight);
         AddVertex(bottomRight);
-        }
-    else {
+    } else {
         AddVertex(bottomLeft);
         AddVertex(topRight);
         AddVertex(topLeft);
         AddVertex(bottomLeft);
         AddVertex(bottomRight);
         AddVertex(topRight);
-        }
+    }
 
 }
 
@@ -104,8 +106,7 @@ void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLen
 
 
 void Mesh3D::AddVertex(const Vertex3D &vertex) {
-    if(m_UniqueVertices.count(vertex) == 0)
-    {
+    if (m_UniqueVertices.count(vertex) == 0) {
         m_UniqueVertices[vertex] = static_cast<uint32_t>(m_Vertices.size());
         m_Vertices.push_back(vertex);
     }
@@ -135,7 +136,7 @@ void Mesh3D::ResetVertices(std::vector<Vertex3D> &&vertices) {
     m_Vertices = std::move(vertices);
 }
 
-void Mesh3D::ResetIndices(std::vector<uint16_t> &&indices) {
+void Mesh3D::ResetIndices(std::vector<uint32_t> &&indices) {
     m_Indices.clear();
     m_Indices = std::move(indices);
 }
@@ -151,7 +152,56 @@ void Mesh3D::DestroyBuffers() {
 }
 
 void Mesh3D::Translate(const glm::vec3 &translation) {
-    m_WorldMatrix = glm::translate(m_WorldMatrix, translation);
+    m_TranslationMatrix = glm::translate(m_TranslationMatrix, translation);
+}
+
+void Mesh3D::LoadModel(const std::string &path, bool triangulate = true) {
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+    std::string err;
+
+    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path.c_str(),0,triangulate)) {
+        throw std::runtime_error(err);
+    }
+
+    for (const auto &shape: shapes) {
+        for (const auto &index: shape.mesh.indices) {
+            Vertex3D vertex{};
+
+            vertex.m_Pos = {
+                    attrib.vertices[3 * index.vertex_index + 0],
+                    attrib.vertices[3 * index.vertex_index + 1],
+                    attrib.vertices[3 * index.vertex_index + 2]
+            };
+
+            if (3 * index.normal_index + 2 < attrib.normals.size()) {
+                vertex.m_Normal = {
+                        attrib.normals[3 * index.normal_index + 0],
+                        attrib.normals[3 * index.normal_index + 1],
+                        attrib.normals[3 * index.normal_index + 2]
+                };
+            } else {
+                // Handle the case where normal data is missing or out of bounds
+                vertex.m_Normal = {0.0f, 0.0f, 0.0f};
+            }
+
+            vertex.m_Color = {1.0f, 1.0f, 1.0f};
+
+            AddVertex(vertex);
+        }
+    }
+}
+
+void Mesh3D::Rotate(const glm::vec3 &rotation) {
+    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+}
+
+void Mesh3D::Scale(const glm::vec3 &scale) {
+    m_ScaleMatrix = glm::scale(m_ScaleMatrix, scale);
 }
 
 

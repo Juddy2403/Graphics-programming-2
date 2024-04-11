@@ -13,7 +13,7 @@ void DataBuffer::BindAsVertexBuffer(VkCommandBuffer commandBuffer) {
 }
 
 void DataBuffer::BindAsIndexBuffer(VkCommandBuffer commandBuffer) {
-    vkCmdBindIndexBuffer(commandBuffer, m_VkBuffer, 0, VK_INDEX_TYPE_UINT16);
+    vkCmdBindIndexBuffer(commandBuffer, m_VkBuffer, 0, VK_INDEX_TYPE_UINT32);
 }
 
 void DataBuffer::Map(VkDeviceSize size, void *data) {

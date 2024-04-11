@@ -36,7 +36,7 @@ set(SOURCES
     "labwork/Week06.cpp"
  "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "3DMesh.h" "3DMesh.cpp"
  "Level.h" "Level.cpp"  "RenderPass.h" "RenderPass.cpp"
- "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h"  "ObjectParser.h" "TimeManager.h" "Singleton.h" "DescriptorPool.h" "DescriptorPool.cpp" "DepthBuffer.h" "DepthBuffer.cpp"
+ "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h" "TimeManager.h" "Singleton.h" "DescriptorPool.h" "DescriptorPool.cpp" "DepthBuffer.h" "DepthBuffer.cpp"
         "DataBuffer.cpp"
         "DataBuffer.h"
         "Vertex.h"
@@ -50,9 +50,8 @@ add_dependencies(${PROJECT_NAME} Shaders)
 target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 set(GLM_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/lib/glm")
-
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lib)
 target_include_directories(${PROJECT_NAME} PUBLIC ${GLM_INCLUDE_DIR})
-target_include_directories(${PROJECT_NAME} PUBLIC ${SDL_INCLUDE_DIR})
 
 target_link_libraries(${PROJECT_NAME} PRIVATE ${Vulkan_LIBRARIES} glfw)
 

@@ -19,8 +19,12 @@ private:
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
     std::unordered_map<Vertex3D, uint32_t> m_UniqueVertices{};
     std::vector<Vertex3D> m_Vertices = {};
-    std::vector<uint16_t> m_Indices = {};
+    std::vector<uint32_t> m_Indices = {};
     glm::mat4 m_WorldMatrix{glm::mat4(1)};
+    glm::mat4 m_RotationMatrix{glm::mat4(1.f)};
+    glm::mat4 m_TranslationMatrix{glm::mat4(1.f)};
+    glm::mat4 m_ScaleMatrix{glm::mat4(1.f)};
+
     DescriptorPool m_DescriptorPool;
     void DestroyBuffers();
 
@@ -30,7 +34,8 @@ private:
 
 public:
     Mesh3D();
-    explicit Mesh3D(std::vector<Vertex3D>&& vertices, std::vector<uint16_t>&& indices);
+    explicit Mesh3D(std::vector<Vertex3D>&& vertices, std::vector<uint32_t>&& indices);
+    void LoadModel(const std::string &path, bool triangulate);
     Mesh3D(const Mesh3D& other) = delete;
     Mesh3D(Mesh3D&& other) = delete;
     Mesh3D& operator=(const Mesh3D& other) = delete;
@@ -39,8 +44,10 @@ public:
 
 	void Update(uint32_t currentFrame);
     void ResetVertices(std::vector<Vertex3D>&& vertices);
-    void ResetIndices(std::vector<uint16_t>&& indices);
+    void ResetIndices(std::vector<uint32_t>&& indices);
     void Translate(const glm::vec3& translation);
+    void Rotate(const glm::vec3& rotation);
+    void Scale(const glm::vec3& scale);
 	void UploadMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
     void MapBuffers();
 

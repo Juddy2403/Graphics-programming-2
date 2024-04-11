@@ -9,7 +9,6 @@
 #include "DescriptorPool.h"
 #include "DataBuffer.h"
 #include "Vertex.h"
-#include "../cmake-build-debug/_deps/glfw-src/deps/linmath.h"
 
 class Mesh2D {
 private:
@@ -17,7 +16,7 @@ private:
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
     std::unordered_map<Vertex2D, uint32_t> m_UniqueVertices{};
     std::vector<Vertex2D> m_Vertices = {};
-    std::vector<uint16_t> m_Indices = {};
+    std::vector<uint32_t> m_Indices = {};
     void DestroyBuffers();
 
     void AddRect(float top, float left, float bottom, float right);
@@ -26,7 +25,7 @@ private:
 
 public:
     Mesh2D();
-    explicit Mesh2D(std::vector<Vertex2D>&& vertices, std::vector<uint16_t>&& indices);
+    explicit Mesh2D(std::vector<Vertex2D>&& vertices, std::vector<uint32_t>&& indices);
     Mesh2D(const Mesh2D& other) = delete;
     Mesh2D(Mesh2D&& other) = delete;
     Mesh2D& operator=(const Mesh2D& other) = delete;
@@ -35,7 +34,7 @@ public:
 
     void Update(uint32_t currentFrame);
     void ResetVertices(std::vector<Vertex2D>&& vertices);
-    void ResetIndices(std::vector<uint16_t>&& indices);
+    void ResetIndices(std::vector<uint32_t>&& indices);
     void UploadMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
     void MapBuffers();
 
