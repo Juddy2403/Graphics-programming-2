@@ -54,7 +54,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const VkQueue &gra
     m_3DMeshes[1]->LoadModel("resources/vehicle.obj", true);
     //m_3DMeshes[1]->Scale({0.1f, 0.1f, 0.1f});
     //m_3DMeshes[1]->Rotate({180.f, -180.f, 0.f});
-    m_3DMeshes[1]->Translate({10.f, 5.f, 30.5f});
+    m_3DMeshes[1]->Translate({10.f, -5.f, 30.5f});
     m_3DMeshes[0]->Translate({-1.f, 0.f, 0.f});
     for (auto &mesh: m_3DMeshes) {
         mesh->MapBuffers();

@@ -71,7 +71,7 @@ void VulkanBase::mouseMove(GLFWwindow* window, double xpos, double ypos)
         if(m_Camera.m_TotalYaw < -360.f)
             m_Camera.m_TotalYaw += 360.f;
         if(dy != 0.f)
-        m_Camera.m_TotalPitch += m_Camera.m_RotationSpeed * TimeManager::GetInstance().GetElapsed() * dy;
+        m_Camera.m_TotalPitch -= m_Camera.m_RotationSpeed * TimeManager::GetInstance().GetElapsed() * dy;
         m_Camera.m_TotalPitch = std::clamp(m_Camera.m_TotalPitch, -60.f, 60.f);
     }
     m_LastMousePos ={xpos, ypos};

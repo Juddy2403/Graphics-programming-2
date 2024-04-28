@@ -45,6 +45,7 @@ struct Camera
 	void CalculateProjectionMatrix(float aspectRatio)
 	{
         m_ProjectionMatrix = glm::perspectiveLH(m_FovAngle, aspectRatio, m_Near, m_Far);
+        m_ProjectionMatrix[1][1] *= -1;
 	}
 
 	void Update()

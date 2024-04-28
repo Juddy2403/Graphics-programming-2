@@ -30,9 +30,8 @@ set(SOURCES
     "vulkanbase/VulkanUtil.h"
     # Add other source files here
     "labwork/VulkanBase.cpp"
-     
-    "labwork/Week04.cpp" 
-    "labwork/Week05.cpp"
+
+        "labwork/Week05.cpp"
     "labwork/Week06.cpp"
  "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "3DMesh.h" "3DMesh.cpp"
  "Level.h" "Level.cpp"  "RenderPass.h" "RenderPass.cpp"
@@ -41,7 +40,12 @@ set(SOURCES
         "DataBuffer.h"
         "Vertex.h"
         "2DMesh.cpp"
-        "2DMesh.h")
+        "2DMesh.h"
+        SwapChain.cpp
+        SwapChain.h
+        ImageView.cpp
+        ImageView.h
+)
 #
 # Create the executable
 add_executable(${PROJECT_NAME} ${SOURCES} ${GLSL_SOURCE_FILES}  "vulkanbase/VulkanUtil.cpp")

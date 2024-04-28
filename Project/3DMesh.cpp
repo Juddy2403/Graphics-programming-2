@@ -25,7 +25,7 @@ Mesh3D::Mesh3D() {
 
 void Mesh3D::Update(uint32_t currentFrame) {
     float totalTime = TimeManager::GetInstance().GetElapsed();
-    m_RotationMatrix = glm::rotate(m_RotationMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    //m_RotationMatrix = glm::rotate(m_RotationMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     m_WorldMatrix = m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
 
 }
@@ -69,7 +69,7 @@ void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLen
     m_Vertices.clear();
     m_Indices.clear();
     const glm::vec3 forward{glm::vec3(0.0f, 0.0f, 1.0f)};
-    const glm::vec3 up{glm::vec3(0.0f, 1.0f, 0.0f)};
+    const glm::vec3 up{glm::vec3(0.0f, -1.0f, 0.0f)};
     const glm::vec3 right{glm::vec3(1.0f, 0.0f, 0.0f)};
 
     const glm::vec3 bottomRightBackCorner = bottomLeftBackCorner + sideLength * right;
@@ -91,16 +91,17 @@ void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLen
 
     AddRectPlane(bottomLeftBackCornerVertex, topLeftBackCornerVertex,
                  topRightBackCornerVertex, bottomRightBackCornerVertex, true, false); // back plane
-    AddRectPlane(bottomLeftFrontCornerVertex, topLeftFrontCornerVertex,
-                 topRightFrontCornerVertex, bottomRightFrontCornerVertex, false, false); // front plane
+    AddRectPlane(bottomLeftBackCornerVertex, bottomLeftFrontCornerVertex,
+                 bottomRightFrontCornerVertex, bottomRightBackCornerVertex, false, false); // bottom plane
     AddRectPlane(bottomLeftBackCornerVertex, topLeftBackCornerVertex,
                  topLeftFrontCornerVertex, bottomLeftFrontCornerVertex, false, false); // left plane
     AddRectPlane(bottomRightBackCornerVertex, topRightBackCornerVertex,
                  topRightFrontCornerVertex, bottomRightFrontCornerVertex, true, false); // right plane
+    AddRectPlane(bottomLeftFrontCornerVertex, topLeftFrontCornerVertex,
+                 topRightFrontCornerVertex, bottomRightFrontCornerVertex, false, false); // front plane
     AddRectPlane(topLeftBackCornerVertex, topLeftFrontCornerVertex, topRightFrontCornerVertex, topRightBackCornerVertex,
                  true, false); // top plane
-    AddRectPlane(bottomLeftBackCornerVertex, bottomLeftFrontCornerVertex,
-                 bottomRightFrontCornerVertex, bottomRightBackCornerVertex, false, false); // bottom plane
+
 
 }
 
@@ -161,7 +162,7 @@ void Mesh3D::LoadModel(const std::string &path, bool triangulate = true) {
     std::vector<tinyobj::material_t> materials;
     std::string err;
 
-    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path.c_str(),0,triangulate)) {
+    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path.c_str(), 0, triangulate)) {
         throw std::runtime_error(err);
     }
 

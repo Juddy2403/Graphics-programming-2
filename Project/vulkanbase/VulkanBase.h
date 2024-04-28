@@ -26,6 +26,7 @@
 #include <GraphicsPipeline.h>
 #include "TimeManager.h"
 #include "Camera.h"
+#include "SwapChain.h"
 #include <DepthBuffer.h>
 #include <unordered_set>
 
@@ -35,12 +36,6 @@ const std::vector<const char*> validationLayers = {
 
 const std::vector<const char*> deviceExtensions = {
 	VK_KHR_SWAPCHAIN_EXTENSION_NAME
-};
-
-struct SwapChainSupportDetails {
-	VkSurfaceCapabilitiesKHR capabilities;
-	std::vector<VkSurfaceFormatKHR> formats;
-	std::vector<VkPresentModeKHR> presentModes;
 };
 
 class VulkanBase {
@@ -69,36 +64,25 @@ private:
 		pickPhysicalDevice();
 		createLogicalDevice();
 
-		// week 04 
-		createSwapChain();
-		createImageViews();
+		// week 04
+        m_SwapChain.CreateSwapChain(surface, window, findQueueFamilies(physicalDevice));
+        m_SwapChain.GetImageView().CreateImageViews();
 
 		// week 03
 		m_3DShader.Initialize();
         m_2DShader.Initialize();
-		m_RenderPass.createRenderPass(swapChainImageFormat);
+		m_RenderPass.createRenderPass(m_SwapChain.GetImageView().m_SwapChainImageFormat);
         Shader::CreateDescriptor();
         GraphicsPipeline::CreatePipelineLayout();
         m_3DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_3DShader, Vertex3D::CreateVertexInputStateInfo());
         m_2DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_2DShader, Vertex2D::CreateVertexInputStateInfo());
-		m_RenderPass.createFrameBuffers(swapChainImageViews,swapChainExtent);
+		m_RenderPass.createFrameBuffers(m_SwapChain.GetImageView().m_SwapChainImageViews,swapChainExtent);
         m_Camera.Initialize(45.f, {0.f,0.f,-2.f}, static_cast<float>(swapChainExtent.width) / static_cast<float>(swapChainExtent.height));
-
-		// week 02
-		//triangleMesh.AddVertex({-0.8f,0.4f}, {1.f,1.f,1.f} );
-		//triangleMesh.UploadMesh(device, physicalDevice);
-		//triangleMesh.InitializeCircle({0.f,0.f},0.3,50);
-		//triangleMesh.InitializeRoundedRect(-0.3, 0.3, 0.3, -0.3,0.2,20);
-
 
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
 		m_DepthBuffer.CreateDepthResources();
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
 		m_Level.initializeLevel(m_CommandPool.GetCommandPool(), graphicsQueue, m_Camera.m_ProjectionMatrix);
-
-		//createCommandPool();
-		//createCommandBuffer();
-
 
 		// week 06
 		createSyncObjects();
@@ -135,14 +119,14 @@ private:
 		//vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
 		//vkDestroyRenderPass(device, renderPass, nullptr);
 
-		for (auto imageView : swapChainImageViews) {
+		for (auto imageView : m_SwapChain.GetImageView().m_SwapChainImageViews) {
 			vkDestroyImageView(device, imageView, nullptr);
 		}
 
 		if (enableValidationLayers) {
 			DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 		}
-		vkDestroySwapchainKHR(device, swapChain, nullptr);
+		vkDestroySwapchainKHR(device, m_SwapChain.GetSwapChain() , nullptr);
 
 		//triangleMesh.destroyMesh();
 		m_Level.destroyLevel();
@@ -194,13 +178,13 @@ private:
 
 	void drawFrame(uint32_t imageIndex);
 	//void createCommandBuffer();
-	//void createCommandPool(); 
+	//void createCommandPool();
 	//void Buffer(VkCommandBuffer commandBuffer, uint32_t imageIndex);
-	
+
 	// Week 03
 	// Renderpass concept
 	// Graphics pipeline
-	
+
 	//std::vector<VkFramebuffer> swapChainFramebuffers;
 	/*VkPipelineLayout pipelineLayout;
 	VkPipeline graphicsPipeline;*/
@@ -213,25 +197,13 @@ private:
 	// Week 04
 	// Swap chain and image view support
 
-	VkSwapchainKHR swapChain;
-	std::vector<VkImage> swapChainImages;
-	VkFormat swapChainImageFormat;
-
-	std::vector<VkImageView> swapChainImageViews;
-
-	SwapChainSupportDetails querySwapChainSupport(VkPhysicalDevice device);
-	VkPresentModeKHR chooseSwapPresentMode(const std::vector<VkPresentModeKHR>& availablePresentModes);
-	VkExtent2D chooseSwapExtent(const VkSurfaceCapabilitiesKHR& capabilities);
-	VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
-	void createSwapChain();
-	void createImageViews();
-
-	// Week 05 
+    SwapChain m_SwapChain{};
+	// Week 05
 	// Logical and physical device
 
 	VkQueue graphicsQueue;
 	VkQueue presentQueue;
-	
+
 	void pickPhysicalDevice();
 	bool isDeviceSuitable(VkPhysicalDevice device);
 	void createLogicalDevice();

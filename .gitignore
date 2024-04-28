@@ -590,3 +590,9 @@ cmake-build-release/Project/shaders/2Dshader.vert.spv
 cmake-build-release/Project/shaders/3Dshader.frag.spv
 cmake-build-release/Project/shaders/3Dshader.vert.spv
 cmake-build-release/Project/VulkanLab01.exe
+.idea/workspace.xml
+cmake-build-debug/.ninja_deps
+cmake-build-debug/.ninja_log
+cmake-build-debug/_deps/glfw-subbuild/.ninja_log
+cmake-build-debug/build.ninja
+cmake-build-debug/CMakeFiles/clion-Debug-log.txt
