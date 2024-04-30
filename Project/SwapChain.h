@@ -28,6 +28,7 @@ public:
     void CreateSwapChain(const VkSurfaceKHR &surface, GLFWwindow *window, const QueueFamilyIndices &indices);
     VkSwapchainKHR &GetSwapChain() { return m_SwapChain; }
     ImageView &GetImageView() { return m_ImageView; }
+    void DestroySwapChain();
 
 };
 

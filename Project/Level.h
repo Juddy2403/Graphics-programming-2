@@ -20,6 +20,6 @@ public:
 	void Draw3DMeshes(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
 
     void Draw2DMeshes(VkCommandBuffer const &commandBuffer, uint32_t currentFrame) const;
-
+    void WindowHasBeenResized(const glm::mat4& projMatrix);
     void initializeLevel(VkCommandPool const &commandPool, VkQueue const &graphicsQueue, const glm::mat4 &projMatrix);
 };

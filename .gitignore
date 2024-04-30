@@ -596,3 +596,9 @@ cmake-build-debug/.ninja_log
 cmake-build-debug/_deps/glfw-subbuild/.ninja_log
 cmake-build-debug/build.ninja
 cmake-build-debug/CMakeFiles/clion-Debug-log.txt
+.idea/workspace.xml
+cmake-build-debug/.ninja_deps
+cmake-build-debug/.ninja_log
+cmake-build-debug/_deps/glfw-subbuild/.ninja_log
+cmake-build-debug/build.ninja
+cmake-build-debug/CMakeFiles/clion-Debug-log.txt

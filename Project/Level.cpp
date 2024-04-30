@@ -27,6 +27,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const VkQueue &gra
     float aspectRatio = static_cast<float>(VulkanBase::swapChainExtent.width)/ VulkanBase::swapChainExtent.height;
     glm::vec3 scaleFactors(1 / aspectRatio , 1  , 1.0f);
     m_2DUBOMatrixes.view = glm::scale(glm::mat4(1.0f), scaleFactors);
+
     m_2DUBOMatrixes.proj = glm::mat4(1.f);
     m_2DDescriptorPool.Initialize(Shader::GetDescriptorSetLayout());
 
@@ -85,6 +86,13 @@ void Level::Draw2DMeshes(const VkCommandBuffer &commandBuffer, uint32_t currentF
     for (const auto &mesh: m_2DMeshes) {
         mesh->draw(commandBuffer, currentFrame);
     }
+}
+
+void Level::WindowHasBeenResized(const glm::mat4 &projMatrix) {
+    m_3DUBOMatrixes.proj = projMatrix;
+    float aspectRatio = static_cast<float>(VulkanBase::swapChainExtent.width)/ VulkanBase::swapChainExtent.height;
+    glm::vec3 scaleFactors(1 / aspectRatio , 1  , 1.0f);
+    m_2DUBOMatrixes.view = glm::scale(glm::mat4(1.0f), scaleFactors);
 }
 
 

@@ -93,6 +93,19 @@ private:
 			glfwPollEvents();
             ProcessInput();
 			TimeManager::GetInstance().Update();
+            if(m_HasWindowResized)
+            {
+                vkDeviceWaitIdle(device);
+                m_SwapChain.DestroySwapChain();
+                m_SwapChain.CreateSwapChain(surface, window, findQueueFamilies(physicalDevice));
+                m_SwapChain.GetImageView().CreateImageViews();
+                m_RenderPass.destroyRenderPass();
+                m_RenderPass.createRenderPass(m_SwapChain.GetImageView().m_SwapChainImageFormat);
+                m_Camera.CalculateProjectionMatrix(static_cast<float>(m_Width) / static_cast<float>(m_Height));
+                m_Level.WindowHasBeenResized(m_Camera.m_ProjectionMatrix);
+                m_RenderPass.createFrameBuffers(m_SwapChain.GetImageView().m_SwapChainImageViews,swapChainExtent);
+                m_HasWindowResized = false;
+            }
             m_Camera.Update();
 			drawFrame();
 		}
@@ -105,9 +118,6 @@ private:
 		vkDestroyFence(device, inFlightFence, nullptr);
 
 		m_CommandPool.DestroyCommandPool();
-		/*for (auto framebuffer : swapChainFramebuffers) {
-			vkDestroyFramebuffer(device, framebuffer, nullptr);
-		}*/
 
 		m_3DGraphicsPipeline.destroyGraphicsPipeline();
 		m_2DGraphicsPipeline.destroyGraphicsPipeline();
@@ -115,22 +125,12 @@ private:
         Shader::DestroyDescriptorSetLayout();
 		m_RenderPass.destroyRenderPass();
 
-		//vkDestroyPipeline(device, m_3DGraphicsPipeline, nullptr);
-		//vkDestroyPipelineLayout(device, pipelineLayout, nullptr);
-		//vkDestroyRenderPass(device, renderPass, nullptr);
-
-		for (auto imageView : m_SwapChain.GetImageView().m_SwapChainImageViews) {
-			vkDestroyImageView(device, imageView, nullptr);
-		}
-
 		if (enableValidationLayers) {
 			DestroyDebugUtilsMessengerEXT(instance, debugMessenger, nullptr);
 		}
-		vkDestroySwapchainKHR(device, m_SwapChain.GetSwapChain() , nullptr);
+        m_SwapChain.DestroySwapChain();
 
-		//triangleMesh.destroyMesh();
 		m_Level.destroyLevel();
-		//m_Descriptor.DestroyUniformBuffers();
 		vkDestroyDevice(device, nullptr);
 
 		vkDestroySurfaceKHR(instance, surface, nullptr);
@@ -145,6 +145,9 @@ private:
 			throw std::runtime_error("failed to create window surface!");
 		}
 	}
+    static uint32_t m_Width;
+    static uint32_t m_Height;
+    static bool m_HasWindowResized;
     Camera m_Camera{};
 	Shader m_3DShader{"shaders/3Dshader.vert.spv",
                       "shaders/3Dshader.frag.spv" };
@@ -220,10 +223,10 @@ private:
 	VkSemaphore renderFinishedSemaphore;
 	VkFence inFlightFence;
 
-	void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
+	static void populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo);
 	void setupDebugMessenger();
-	std::vector<const char*> getRequiredExtensions();
-	bool checkDeviceExtensionSupport(VkPhysicalDevice device);
+	static std::vector<const char*> getRequiredExtensions();
+	static bool checkDeviceExtensionSupport(VkPhysicalDevice device);
 	void createInstance();
 
 	void createSyncObjects();
@@ -241,4 +244,6 @@ private:
     void mouseEvent(GLFWwindow *window, int button, int action, int mods);
 
     void ProcessInput();
+
+    static void WindowResized(GLFWwindow *window, int width, int height);
 };

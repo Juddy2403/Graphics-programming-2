@@ -117,3 +117,10 @@ void SwapChain::CreateSwapChain(const VkSurfaceKHR &surface, GLFWwindow *window,
     m_ImageView.m_SwapChainImageFormat = surfaceFormat.format;
     VulkanBase::swapChainExtent = extent;
 }
+
+void SwapChain::DestroySwapChain() {
+    for (auto imageView : m_ImageView.m_SwapChainImageViews) {
+        vkDestroyImageView(VulkanBase::device, imageView, nullptr);
+    }
+    vkDestroySwapchainKHR(VulkanBase::device, m_SwapChain , nullptr);
+}

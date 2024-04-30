@@ -29,11 +29,9 @@ set(SOURCES
     "vulkanbase/VulkanBase.h" 
     "vulkanbase/VulkanUtil.h"
     # Add other source files here
-    "labwork/VulkanBase.cpp"
+    "vulkanbase/VulkanBase.cpp"
 
-        "labwork/Week05.cpp"
-    "labwork/Week06.cpp"
- "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "3DMesh.h" "3DMesh.cpp"
+        "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "3DMesh.h" "3DMesh.cpp"
  "Level.h" "Level.cpp"  "RenderPass.h" "RenderPass.cpp"
  "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h" "TimeManager.h" "Singleton.h" "DescriptorPool.h" "DescriptorPool.cpp" "DepthBuffer.h" "DepthBuffer.cpp"
         "DataBuffer.cpp"
