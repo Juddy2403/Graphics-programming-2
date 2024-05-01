@@ -50,6 +50,7 @@ public:
 	static VkPhysicalDevice physicalDevice;
 	static VkDevice device;
 	static VkExtent2D swapChainExtent;
+    static VkQueue graphicsQueue;
 
 private:
 
@@ -82,7 +83,7 @@ private:
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
 		m_DepthBuffer.CreateDepthResources();
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
-		m_Level.initializeLevel(m_CommandPool.GetCommandPool(), graphicsQueue, m_Camera.m_ProjectionMatrix);
+        m_Level.initializeLevel(m_CommandPool.GetCommandPool(), m_Camera.m_ProjectionMatrix);
 
 		// week 06
 		createSyncObjects();
@@ -204,7 +205,6 @@ private:
 	// Week 05
 	// Logical and physical device
 
-	VkQueue graphicsQueue;
 	VkQueue presentQueue;
 
 	void pickPhysicalDevice();

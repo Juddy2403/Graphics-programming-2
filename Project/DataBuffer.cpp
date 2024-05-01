@@ -1,4 +1,4 @@
-//#include "DataBuffer.h"
+#include "DataBuffer.h"
 #include <vulkanbase/VulkanBase.h>
 
 DataBuffer::DataBuffer(VkBufferUsageFlags usage, VkMemoryPropertyFlags properties):
@@ -103,11 +103,7 @@ void DataBuffer::CopyBuffer(VkCommandPool const &commandPool, VkQueue const &gra
 
     commandBufferClass.EndRecording();
 
-    VkSubmitInfo submitInfo{};
-    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-    commandBufferClass.Submit(submitInfo);
-
-    vkQueueSubmit(graphicsQueue, 1, &submitInfo, VK_NULL_HANDLE);
+    commandBufferClass.Submit();
     vkQueueWaitIdle(graphicsQueue);
 
     commandBufferClass.FreeCommandBuffer(commandPool);

@@ -8,5 +8,7 @@ struct ImageView final {
     std::vector<VkImageView> m_SwapChainImageViews;
 
     void CreateImageViews();
+
+    static VkImageView CreateImageView(VkImage image, VkFormat format);
 };
 

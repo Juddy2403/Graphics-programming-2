@@ -16,8 +16,6 @@ private:
     VkSwapchainKHR m_SwapChain;
     ImageView m_ImageView;
 
-    SwapChainSupportDetails QuerySwapChainSupport(const VkSurfaceKHR &surface);
-
     VkPresentModeKHR ChooseSwapPresentMode(const std::vector<VkPresentModeKHR> &availablePresentModes);
 
     VkExtent2D ChooseSwapExtent(const VkSurfaceCapabilitiesKHR &capabilities, GLFWwindow *window);
@@ -25,6 +23,7 @@ private:
     VkSurfaceFormatKHR ChooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR> &availableFormats);
 
 public:
+    SwapChainSupportDetails QuerySwapChainSupport(const VkSurfaceKHR &surface);
     void CreateSwapChain(const VkSurfaceKHR &surface, GLFWwindow *window, const QueueFamilyIndices &indices);
     VkSwapchainKHR &GetSwapChain() { return m_SwapChain; }
     ImageView &GetImageView() { return m_ImageView; }

@@ -17,5 +17,5 @@ public:
 	void Reset() const;
 	void BeginRecording(const VkCommandBufferUsageFlags& flags = 0) const;
 	void EndRecording() const;
-	void Submit(VkSubmitInfo& info) const;
+	void Submit(VkSubmitInfo submitInfo = {}, VkFence fence = VK_NULL_HANDLE) const;
 };

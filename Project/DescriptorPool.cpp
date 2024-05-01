@@ -6,36 +6,9 @@
 
 #include <glm/gtc/matrix_transform.hpp>
 
-DescriptorPool::DescriptorPool() {
-}
-
 const std::vector<VkDescriptorSet> &DescriptorPool::GetDescriptorSets() const {
     return descriptorSets;
 }
-
-//void DescriptorPool::CreateDescriptor()
-//{
-//	VkDescriptorSetLayoutBinding uboLayoutBinding{};
-//	uboLayoutBinding.binding = 0;
-//	uboLayoutBinding.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-//	uboLayoutBinding.descriptorCount = 1;
-//	uboLayoutBinding.stageFlags = VK_SHADER_STAGE_VERTEX_BIT;
-//	uboLayoutBinding.pImmutableSamplers = nullptr; // Optional
-//
-//	VkDescriptorSetLayoutCreateInfo layoutInfo{};
-//	layoutInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_LAYOUT_CREATE_INFO;
-//	layoutInfo.bindingCount = 1;
-//	layoutInfo.pBindings = &uboLayoutBinding;
-//
-//	if (vkCreateDescriptorSetLayout(VulkanBase::device, &layoutInfo, nullptr, &m_DescriptorSetLayout) != VK_SUCCESS) {
-//		throw std::runtime_error("failed to create descriptor set layout!");
-//	}
-//}
-
-//void DescriptorPool::DestroyDescriptorSetLayout()
-//{
-//	vkDestroyDescriptorSetLayout(VulkanBase::device, m_DescriptorSetLayout, nullptr);
-//}
 
 void DescriptorPool::UpdateUniformBuffer(uint32_t currentFrame, UniformBufferObject ubo) const {
     memcpy(uniformBuffersMapped[currentFrame], &ubo, sizeof(ubo));
@@ -53,31 +26,33 @@ void DescriptorPool::DestroyUniformBuffers() {
     vkDestroyDescriptorPool(VulkanBase::device, m_DescriptorPool, nullptr);
 }
 
-void DescriptorPool::CreateUniformBuffers()
-{
-	VkDeviceSize bufferSize = sizeof(UniformBufferObject);
+void DescriptorPool::CreateUniformBuffers() {
+    VkDeviceSize bufferSize = sizeof(UniformBufferObject);
 
-	uniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
-	uniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
-	uniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
+    uniformBuffers.resize(MAX_FRAMES_IN_FLIGHT);
+    uniformBuffersMemory.resize(MAX_FRAMES_IN_FLIGHT);
+    uniformBuffersMapped.resize(MAX_FRAMES_IN_FLIGHT);
 
-	for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
-		DataBuffer::CreateBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
-			uniformBuffers[i], uniformBuffersMemory[i]);
+    for (size_t i = 0; i < MAX_FRAMES_IN_FLIGHT; i++) {
+        DataBuffer::CreateBuffer(bufferSize, VK_BUFFER_USAGE_UNIFORM_BUFFER_BIT,
+                                 VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT | VK_MEMORY_PROPERTY_HOST_COHERENT_BIT,
+                                 uniformBuffers[i], uniformBuffersMemory[i]);
 
-		vkMapMemory(VulkanBase::device, uniformBuffersMemory[i], 0, bufferSize, 0, &uniformBuffersMapped[i]);
-	}
+        vkMapMemory(VulkanBase::device, uniformBuffersMemory[i], 0, bufferSize, 0, &uniformBuffersMapped[i]);
+    }
 }
 
 void DescriptorPool::CreateDescriptorPool() {
-    VkDescriptorPoolSize poolSize{};
-    poolSize.type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-    poolSize.descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    std::array<VkDescriptorPoolSize, 2> poolSizes{};
+    poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+    poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
     VkDescriptorPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
-    poolInfo.poolSizeCount = 1;
-    poolInfo.pPoolSizes = &poolSize;
+    poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
+    poolInfo.pPoolSizes = poolSizes.data();
     poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     //TODO: someone needs to catch these exceptions mate
     if (vkCreateDescriptorPool(VulkanBase::device, &poolInfo, nullptr, &m_DescriptorPool) != VK_SUCCESS) {
@@ -85,8 +60,8 @@ void DescriptorPool::CreateDescriptorPool() {
     }
 }
 
-void DescriptorPool::CreateDescriptorSets(VkDescriptorSetLayout layout) {
-    std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, layout);
+void DescriptorPool::CreateDescriptorSets(VkImageView imageView) {
+    std::vector<VkDescriptorSetLayout> layouts(MAX_FRAMES_IN_FLIGHT, Shader::GetDescriptorSetLayout());
     VkDescriptorSetAllocateInfo allocInfo{};
     allocInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_SET_ALLOCATE_INFO;
     allocInfo.descriptorPool = m_DescriptorPool;
@@ -104,26 +79,52 @@ void DescriptorPool::CreateDescriptorSets(VkDescriptorSetLayout layout) {
         bufferInfo.offset = 0;
         bufferInfo.range = sizeof(UniformBufferObject);
 
-        VkWriteDescriptorSet descriptorWrite{};
-        descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
-        descriptorWrite.dstSet = descriptorSets[i];
-        descriptorWrite.dstBinding = 0;
-        descriptorWrite.dstArrayElement = 0;
+        if (imageView == VK_NULL_HANDLE) {
+            VkWriteDescriptorSet descriptorWrite{};
+            descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrite.dstSet = descriptorSets[i];
+            descriptorWrite.dstBinding = 0;
+            descriptorWrite.dstArrayElement = 0;
+            descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            descriptorWrite.descriptorCount = 1;
+            descriptorWrite.pBufferInfo = &bufferInfo;
+            descriptorWrite.pImageInfo = nullptr; // Optional
+            descriptorWrite.pTexelBufferView = nullptr; // Optional
 
-        descriptorWrite.descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
-        descriptorWrite.descriptorCount = 1;
+            vkUpdateDescriptorSets(VulkanBase::device, 1, &descriptorWrite, 0, nullptr);
+        } else {
+            VkDescriptorImageInfo imageInfo{};
+            imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+            imageInfo.imageView = imageView;
+            imageInfo.sampler = Texture::GetTextureSampler();
 
-        descriptorWrite.pBufferInfo = &bufferInfo;
-        descriptorWrite.pImageInfo = nullptr; // Optional
-        descriptorWrite.pTexelBufferView = nullptr; // Optional
+            std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
 
-        vkUpdateDescriptorSets(VulkanBase::device, 1, &descriptorWrite, 0, nullptr);
+            descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrites[0].dstSet = descriptorSets[i];
+            descriptorWrites[0].dstBinding = 0;
+            descriptorWrites[0].dstArrayElement = 0;
+            descriptorWrites[0].descriptorType = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
+            descriptorWrites[0].descriptorCount = 1;
+            descriptorWrites[0].pBufferInfo = &bufferInfo;
+
+            descriptorWrites[1].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+            descriptorWrites[1].dstSet = descriptorSets[i];
+            descriptorWrites[1].dstBinding = 1;
+            descriptorWrites[1].dstArrayElement = 0;
+            descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+            descriptorWrites[1].descriptorCount = 1;
+            descriptorWrites[1].pImageInfo = &imageInfo;
+
+            vkUpdateDescriptorSets(VulkanBase::device, static_cast<uint32_t>(descriptorWrites.size()),
+                                   descriptorWrites.data(), 0, nullptr);
+        }
     }
 }
 
-void DescriptorPool::Initialize(VkDescriptorSetLayout layout) {
+void DescriptorPool::Initialize(VkImageView imageView) {
     CreateUniformBuffers();
     CreateDescriptorPool();
-    CreateDescriptorSets(layout);
+    CreateDescriptorSets(imageView);
 }
 

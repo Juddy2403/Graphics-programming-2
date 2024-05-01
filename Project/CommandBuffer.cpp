@@ -36,10 +36,15 @@ void CommandBuffer::EndRecording() const
 	}
 }
 
-void CommandBuffer::Submit(VkSubmitInfo& info) const
+void CommandBuffer::Submit(VkSubmitInfo submitInfo, VkFence fence) const
 {
-	info.commandBufferCount = 1;
-	info.pCommandBuffers = &m_CommandBuffer;
+    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+    submitInfo.commandBufferCount = 1;
+    submitInfo.pCommandBuffers = &m_CommandBuffer;
+    if (vkQueueSubmit(VulkanBase::graphicsQueue, 1, &submitInfo, fence) != VK_SUCCESS) {
+        throw std::runtime_error("failed to submit draw command buffer!");
+    }
+    vkQueueWaitIdle(VulkanBase::graphicsQueue);
 }
 
 VkCommandBuffer CommandBuffer::CreateCommandBuffer(const VkCommandPool& commandPool) {
@@ -63,19 +68,3 @@ void CommandBuffer::FreeCommandBuffer(const VkCommandPool& commandPool)
 	vkFreeCommandBuffers(VulkanBase::device, commandPool, 1, &m_CommandBuffer);
 }
 
-//void CommandBuffer::recordCommandBuffer(VkCommandBuffer commandBuffer, uint32_t imageIndex) {
-//	VkCommandBufferBeginInfo beginInfo{};
-//	beginInfo.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
-//	beginInfo.flags = 0; // Optional
-//	beginInfo.pInheritanceInfo = nullptr; // Optional
-//
-//	if (vkBeginCommandBuffer(commandBuffer, &beginInfo) != VK_SUCCESS) {
-//		throw std::runtime_error("failed to begin recording command buffer!");
-//	}
-//	drawFrame(imageIndex);
-//
-//
-//	if (vkEndCommandBuffer(commandBuffer) != VK_SUCCESS) {
-//		throw std::runtime_error("failed to record command buffer!");
-//	}
-//}

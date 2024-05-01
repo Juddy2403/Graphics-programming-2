@@ -1,6 +1,5 @@
 #pragma once
 #include <vulkan/vulkan_core.h>
-
 #include <stdexcept>
 
 class DataBuffer {
@@ -25,10 +24,10 @@ public:
     //[[nodiscard]] VkDeviceSize GetSizeInBytes() const { return m_Size; }
 
     static void CreateBuffer(VkDeviceSize size, VkBufferUsageFlags usage, VkMemoryPropertyFlags properties, VkBuffer& buffer, VkDeviceMemory& bufferMemory);
+    static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
 
 private:
     static void CopyBuffer(const VkCommandPool& commandPool, const VkQueue& graphicsQueue, VkBuffer srcBuffer, VkBuffer dstBuffer, VkDeviceSize size);
-    static uint32_t FindMemoryType(uint32_t typeFilter, VkMemoryPropertyFlags properties);
     bool m_HasBeenMapped{false};
     VkBufferUsageFlags m_Usage{};
     VkMemoryPropertyFlags m_Properties{};

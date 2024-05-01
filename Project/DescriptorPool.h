@@ -21,11 +21,11 @@ private:
 
     void CreateUniformBuffers();
     void CreateDescriptorPool();
-    void CreateDescriptorSets(VkDescriptorSetLayout layout);
+    void CreateDescriptorSets(VkImageView imageView);
 public:
 
-    DescriptorPool();
-    void Initialize(VkDescriptorSetLayout layout);
+    DescriptorPool() = default;
+    void Initialize(VkImageView imageView = VK_NULL_HANDLE);
     [[nodiscard]] const std::vector<VkDescriptorSet>& GetDescriptorSets() const;
     //void CreateDescriptor();
     //void DestroyDescriptorSetLayout();

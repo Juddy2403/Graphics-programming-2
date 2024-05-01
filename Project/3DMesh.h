@@ -10,6 +10,7 @@
 #include "DescriptorPool.h"
 #include "DataBuffer.h"
 #include "Vertex.h"
+#include "Texture.h"
 
 class DataBuffer;
 class Mesh3D
@@ -26,6 +27,7 @@ private:
     glm::mat4 m_ScaleMatrix{glm::mat4(1.f)};
 
     DescriptorPool m_DescriptorPool;
+    Texture m_AlbedoTexture{};
     void DestroyBuffers();
 
     void AddVertex(const Vertex3D &vertex);
@@ -56,4 +58,5 @@ public:
     void Destroy();
 	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame, UniformBufferObject ubo) const;
 
+    void UploadAlbedoTexture(VkCommandPool const &commandPool, const std::string &path);
 };

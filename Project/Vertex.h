@@ -10,13 +10,11 @@
 #include <glm/gtx/hash.hpp>
 
 struct Vertex3D {
-    //should be a vec3
     alignas(16) glm::vec3 m_Pos{};
     alignas(16) glm::vec3 m_Normal{};
     alignas(16) glm::vec3 m_Color{ 1,1,1 };
-    glm::vec2 m_TexCoord;
-    glm::vec3 m_Tangent;
-    //explicit Vertex3D(const glm::vec3 &pos, const glm::vec3 &color = {1, 1, 1}) : m_Pos(pos), m_Color(color) {}
+    alignas(16) glm::vec2 m_TexCoord;
+    alignas(16) glm::vec3 m_Tangent;
 
     static VkPipelineVertexInputStateCreateInfo CreateVertexInputStateInfo()
     {
@@ -46,8 +44,8 @@ struct Vertex3D {
         return bindingDescription;
     }
 
-    static std::array<VkVertexInputAttributeDescription, 3> getAttributeDescriptions() {
-        std::array<VkVertexInputAttributeDescription, 3> attributeDescriptions{};
+    static std::array<VkVertexInputAttributeDescription, 4> getAttributeDescriptions() {
+        std::array<VkVertexInputAttributeDescription, 4> attributeDescriptions{};
 
         attributeDescriptions[0].binding = 0;
         attributeDescriptions[0].location = 0;
@@ -64,10 +62,15 @@ struct Vertex3D {
         attributeDescriptions[2].format = VK_FORMAT_R32G32B32_SFLOAT;
         attributeDescriptions[2].offset = offsetof(Vertex3D, m_Color);
 
+        attributeDescriptions[3].binding = 0;
+        attributeDescriptions[3].location = 6;
+        attributeDescriptions[3].format = VK_FORMAT_R32G32_SFLOAT;
+        attributeDescriptions[3].offset = offsetof(Vertex3D, m_TexCoord);
+
         return attributeDescriptions;
     }
     bool operator==(const Vertex3D& other) const {
-        return m_Pos == other.m_Pos && m_Normal == other.m_Normal && m_Color == other.m_Color;
+        return m_Pos == other.m_Pos && m_Normal == other.m_Normal && m_Color == other.m_Color && m_TexCoord == other.m_TexCoord;
     }
 };
 
@@ -76,7 +79,8 @@ namespace std {
         size_t operator()(Vertex3D const& vertex) const {
             return ((hash<glm::vec3>()(vertex.m_Pos) ^
                      (hash<glm::vec3>()(vertex.m_Normal) << 1)) >> 1) ^
-                   (hash<glm::vec3>()(vertex.m_Color) << 1);
+                   (hash<glm::vec3>()(vertex.m_Color) << 1) ^
+                   (hash<glm::vec2>()(vertex.m_TexCoord) << 1);
         }
     };
 }

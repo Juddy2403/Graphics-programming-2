@@ -5,9 +5,10 @@ VkDevice VulkanBase::device = VK_NULL_HANDLE;
 VkExtent2D VulkanBase::swapChainExtent;
 uint32_t VulkanBase::m_Width = 800;
 uint32_t VulkanBase::m_Height = 600;
+VkQueue VulkanBase::graphicsQueue;
 bool VulkanBase::m_HasWindowResized = false;
 
-void VulkanBase::WindowResized(GLFWwindow* window, int width, int height) {
+void VulkanBase::WindowResized(GLFWwindow *window, int width, int height) {
     m_Width = width;
     m_Height = height;
     m_HasWindowResized = true;
@@ -19,27 +20,26 @@ void VulkanBase::initWindow() {
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
     window = glfwCreateWindow(m_Width, m_Height, "Vulkan", nullptr, nullptr);
     glfwSetWindowUserPointer(window, this);
-    glfwSetKeyCallback(window, [](GLFWwindow* glfWwindow, int key, int scancode, int action, int mods) {
-        void* pUser = glfwGetWindowUserPointer(glfWwindow);
-        VulkanBase* vBase = static_cast<VulkanBase*>(pUser);
+    glfwSetKeyCallback(window, [](GLFWwindow *glfWwindow, int key, int scancode, int action, int mods) {
+        void *pUser = glfwGetWindowUserPointer(glfWwindow);
+        VulkanBase *vBase = static_cast<VulkanBase *>(pUser);
         vBase->keyEvent(key, scancode, action, mods);
     });
-    glfwSetCursorPosCallback(window, [](GLFWwindow* glfWwindow, double xpos, double ypos) {
-        void* pUser = glfwGetWindowUserPointer(glfWwindow);
-        VulkanBase* vBase = static_cast<VulkanBase*>(pUser);
+    glfwSetCursorPosCallback(window, [](GLFWwindow *glfWwindow, double xpos, double ypos) {
+        void *pUser = glfwGetWindowUserPointer(glfWwindow);
+        VulkanBase *vBase = static_cast<VulkanBase *>(pUser);
         vBase->mouseMove(glfWwindow, xpos, ypos);
     });
-    glfwSetMouseButtonCallback(window, [](GLFWwindow* glfWwindow, int button, int action, int mods) {
-        void* pUser = glfwGetWindowUserPointer(glfWwindow);
-        VulkanBase* vBase = static_cast<VulkanBase*>(pUser);
+    glfwSetMouseButtonCallback(window, [](GLFWwindow *glfWwindow, int button, int action, int mods) {
+        void *pUser = glfwGetWindowUserPointer(glfWwindow);
+        VulkanBase *vBase = static_cast<VulkanBase *>(pUser);
         vBase->mouseEvent(glfWwindow, button, action, mods);
     });
 
     glfwSetFramebufferSizeCallback(window, VulkanBase::WindowResized);
 }
 
-void VulkanBase::keyEvent(int key, int scancode, int action, int mods)
-{
+void VulkanBase::keyEvent(int key, int scancode, int action, int mods) {
     if (action == GLFW_PRESS) {
         // Add the pressed key to the set
         m_PressedKeys.insert(key);
@@ -49,7 +49,7 @@ void VulkanBase::keyEvent(int key, int scancode, int action, int mods)
     }
 }
 
-void VulkanBase::ProcessInput(){
+void VulkanBase::ProcessInput() {
 
     if (m_PressedKeys.count(GLFW_KEY_LEFT_SHIFT)) m_Camera.m_MovementSpeed = 8.f;
     else m_Camera.m_MovementSpeed = 4.f;
@@ -67,30 +67,27 @@ void VulkanBase::ProcessInput(){
         m_Camera.m_Origin += (m_Camera.m_MovementSpeed * TimeManager::GetInstance().GetElapsed()) * m_Camera.m_Right;
 }
 
-void VulkanBase::mouseMove(GLFWwindow* window, double xpos, double ypos)
-{
+void VulkanBase::mouseMove(GLFWwindow *window, double xpos, double ypos) {
     int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
-    if (state == GLFW_PRESS)
-    {
+    if (state == GLFW_PRESS) {
         float dx = m_LastMousePos.x - static_cast<float>(xpos);
         float dy = m_LastMousePos.y - static_cast<float>(ypos);
 
-        if(dx != 0.f)
-        m_Camera.m_TotalYaw -= m_Camera.m_RotationSpeed * TimeManager::GetInstance().GetElapsed() * dx;
-        if(m_Camera.m_TotalYaw > 360.f)
+        if (dx != 0.f)
+            m_Camera.m_TotalYaw -= m_Camera.m_RotationSpeed * TimeManager::GetInstance().GetElapsed() * dx;
+        if (m_Camera.m_TotalYaw > 360.f)
             m_Camera.m_TotalYaw -= 360.f;
-        if(m_Camera.m_TotalYaw < -360.f)
+        if (m_Camera.m_TotalYaw < -360.f)
             m_Camera.m_TotalYaw += 360.f;
-        if(dy != 0.f)
-        m_Camera.m_TotalPitch -= m_Camera.m_RotationSpeed * TimeManager::GetInstance().GetElapsed() * dy;
+        if (dy != 0.f)
+            m_Camera.m_TotalPitch -= m_Camera.m_RotationSpeed * TimeManager::GetInstance().GetElapsed() * dy;
         m_Camera.m_TotalPitch = std::clamp(m_Camera.m_TotalPitch, -60.f, 60.f);
     }
-    m_LastMousePos ={xpos, ypos};
+    m_LastMousePos = {xpos, ypos};
 }
-void VulkanBase::mouseEvent(GLFWwindow* window, int button, int action, int mods)
-{
-    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS)
-    {
+
+void VulkanBase::mouseEvent(GLFWwindow *window, int button, int action, int mods) {
+    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
 //        double xpos, ypos;
 //        glfwGetCursorPos(window, &xpos, &ypos);
 
@@ -180,14 +177,14 @@ void VulkanBase::pickPhysicalDevice() {
         throw std::runtime_error("failed to find GPUs with Vulkan support!");
     }
 
-    std::vector<VkPhysicalDevice> devices{ deviceCount };
+    std::vector<VkPhysicalDevice> devices{deviceCount};
     vkEnumeratePhysicalDevices(instance, &deviceCount, devices.data());
 
     if (deviceCount == 0) {
         throw std::runtime_error("failed to find GPUs with Vulkan support!");
     }
 
-    for (const auto& device : devices) {
+    for (const auto &device: devices) {
         if (isDeviceSuitable(device)) {
             physicalDevice = device;
             break;
@@ -202,18 +199,21 @@ void VulkanBase::pickPhysicalDevice() {
 bool VulkanBase::isDeviceSuitable(VkPhysicalDevice device) {
     QueueFamilyIndices indices = findQueueFamilies(device);
     bool extensionsSupported = checkDeviceExtensionSupport(device);
-    return indices.isComplete() && extensionsSupported;
 
+    VkPhysicalDeviceFeatures supportedFeatures;
+    vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
+
+    return indices.isComplete() && extensionsSupported && supportedFeatures.samplerAnisotropy;
 }
 
 void VulkanBase::createLogicalDevice() {
     QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
 
     std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-    std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
+    std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(), indices.presentFamily.value()};
 
     float queuePriority = 1.0f;
-    for (uint32_t queueFamily : uniqueQueueFamilies) {
+    for (uint32_t queueFamily: uniqueQueueFamilies) {
         VkDeviceQueueCreateInfo queueCreateInfo{};
         queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
         queueCreateInfo.queueFamilyIndex = queueFamily;
@@ -228,6 +228,7 @@ void VulkanBase::createLogicalDevice() {
     queueCreateInfo.queueCount = 1;
 
     VkPhysicalDeviceFeatures deviceFeatures{};
+    deviceFeatures.samplerAnisotropy = VK_TRUE;
 
     VkDeviceCreateInfo createInfo{};
     createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
@@ -243,8 +244,7 @@ void VulkanBase::createLogicalDevice() {
     if (enableValidationLayers) {
         createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
         createInfo.ppEnabledLayerNames = validationLayers.data();
-    }
-    else {
+    } else {
         createInfo.enabledLayerCount = 0;
     }
 
@@ -258,11 +258,15 @@ void VulkanBase::createLogicalDevice() {
 
 //week 06
 
-void VulkanBase::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT& createInfo) {
+void VulkanBase::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
     createInfo = {};
     createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
-    createInfo.messageSeverity = VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
-    createInfo.messageType = VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
+    createInfo.messageSeverity =
+            VK_DEBUG_UTILS_MESSAGE_SEVERITY_VERBOSE_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT |
+            VK_DEBUG_UTILS_MESSAGE_SEVERITY_ERROR_BIT_EXT;
+    createInfo.messageType =
+            VK_DEBUG_UTILS_MESSAGE_TYPE_GENERAL_BIT_EXT | VK_DEBUG_UTILS_MESSAGE_TYPE_VALIDATION_BIT_EXT |
+            VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
     createInfo.pfnUserCallback = debugCallback;
 }
 
@@ -299,7 +303,8 @@ void VulkanBase::drawFrame() {
     vkResetFences(device, 1, &inFlightFence);
 
     uint32_t imageIndex;
-    vkAcquireNextImageKHR(device, m_SwapChain.GetSwapChain(), UINT64_MAX, imageAvailableSemaphore, VK_NULL_HANDLE, &imageIndex);
+    vkAcquireNextImageKHR(device, m_SwapChain.GetSwapChain(), UINT64_MAX, imageAvailableSemaphore, VK_NULL_HANDLE,
+                          &imageIndex);
 
     m_CommandBuffer.Reset();
     m_CommandBuffer.BeginRecording();
@@ -311,23 +316,17 @@ void VulkanBase::drawFrame() {
     m_CommandBuffer.EndRecording();
 
     VkSubmitInfo submitInfo{};
-    submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
-
-    VkSemaphore waitSemaphores[] = { imageAvailableSemaphore };
-    VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+    VkSemaphore waitSemaphores[] = {imageAvailableSemaphore};
+    VkPipelineStageFlags waitStages[] = {VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT};
     submitInfo.waitSemaphoreCount = 1;
     submitInfo.pWaitSemaphores = waitSemaphores;
     submitInfo.pWaitDstStageMask = waitStages;
 
-    m_CommandBuffer.Submit(submitInfo);
-
-    VkSemaphore signalSemaphores[] = { renderFinishedSemaphore };
+    VkSemaphore signalSemaphores[] = {renderFinishedSemaphore};
     submitInfo.signalSemaphoreCount = 1;
     submitInfo.pSignalSemaphores = signalSemaphores;
 
-    if (vkQueueSubmit(graphicsQueue, 1, &submitInfo, inFlightFence) != VK_SUCCESS) {
-        throw std::runtime_error("failed to submit draw command buffer!");
-    }
+    m_CommandBuffer.Submit(submitInfo, inFlightFence);
 
     VkPresentInfoKHR presentInfo{};
     presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
@@ -335,7 +334,7 @@ void VulkanBase::drawFrame() {
     presentInfo.waitSemaphoreCount = 1;
     presentInfo.pWaitSemaphores = signalSemaphores;
 
-    VkSwapchainKHR swapChains[] = { m_SwapChain.GetSwapChain() };
+    VkSwapchainKHR swapChains[] = {m_SwapChain.GetSwapChain()};
     presentInfo.swapchainCount = 1;
     presentInfo.pSwapchains = swapChains;
 
@@ -351,10 +350,10 @@ bool checkValidationLayerSupport() {
     std::vector<VkLayerProperties> availableLayers(layerCount);
     vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-    for (const char* layerName : validationLayers) {
+    for (const char *layerName: validationLayers) {
         bool layerFound = false;
 
-        for (const auto& layerProperties : availableLayers) {
+        for (const auto &layerProperties: availableLayers) {
             if (strcmp(layerName, layerProperties.layerName) == 0) {
                 layerFound = true;
                 break;
@@ -369,12 +368,12 @@ bool checkValidationLayerSupport() {
     return true;
 }
 
-std::vector<const char*> VulkanBase::getRequiredExtensions() {
+std::vector<const char *> VulkanBase::getRequiredExtensions() {
     uint32_t glfwExtensionCount = 0;
-    const char** glfwExtensions;
+    const char **glfwExtensions;
     glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
 
-    std::vector<const char*> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
+    std::vector<const char *> extensions(glfwExtensions, glfwExtensions + glfwExtensionCount);
 
     if (enableValidationLayers) {
         extensions.push_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
@@ -392,7 +391,7 @@ bool VulkanBase::checkDeviceExtensionSupport(VkPhysicalDevice device) {
 
     std::set<std::string> requiredExtensions(deviceExtensions.begin(), deviceExtensions.end());
 
-    for (const auto& extension : availableExtensions) {
+    for (const auto &extension: availableExtensions) {
         requiredExtensions.erase(extension.extensionName);
     }
 
@@ -426,9 +425,8 @@ void VulkanBase::createInstance() {
         createInfo.ppEnabledLayerNames = validationLayers.data();
 
         populateDebugMessengerCreateInfo(debugCreateInfo);
-        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT*)&debugCreateInfo;
-    }
-    else {
+        createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT *) &debugCreateInfo;
+    } else {
         createInfo.enabledLayerCount = 0;
 
         createInfo.pNext = nullptr;

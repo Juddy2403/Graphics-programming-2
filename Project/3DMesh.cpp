@@ -14,13 +14,12 @@ Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices
 }
 
 Mesh3D::Mesh3D() {
+    m_DescriptorPool.Initialize();
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                                   VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                   VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
     m_IndexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_INDEX_BUFFER_BIT, VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                                                    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
-
-    m_DescriptorPool.Initialize(Shader::GetDescriptorSetLayout());
 }
 
 void Mesh3D::Update(uint32_t currentFrame) {
@@ -33,6 +32,12 @@ void Mesh3D::Update(uint32_t currentFrame) {
 void Mesh3D::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphicsQueue) {
     m_VertexBuffer->Upload(commandPool, graphicsQueue);
     m_IndexBuffer->Upload(commandPool, graphicsQueue);
+}
+
+void Mesh3D::UploadAlbedoTexture(const VkCommandPool &commandPool,const std::string& path) {
+    m_AlbedoTexture.CreateTextureImage(commandPool, path);
+    m_DescriptorPool.DestroyUniformBuffers();
+    m_DescriptorPool.Initialize(m_AlbedoTexture.GetTextureImageView());
 }
 
 void Mesh3D::AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &topRight, Vertex3D &bottomRight,
@@ -145,6 +150,7 @@ void Mesh3D::ResetIndices(std::vector<uint32_t> &&indices) {
 void Mesh3D::Destroy() {
     DestroyBuffers();
     m_DescriptorPool.DestroyUniformBuffers();
+    m_AlbedoTexture.DestroyTexture();
 }
 
 void Mesh3D::DestroyBuffers() {
