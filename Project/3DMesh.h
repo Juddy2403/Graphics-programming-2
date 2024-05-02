@@ -16,6 +16,8 @@ class DataBuffer;
 class Mesh3D
 {
 private:
+    static Texture m_DefaultTexture;
+
 	std::unique_ptr<DataBuffer> m_VertexBuffer{};
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
     std::unordered_map<Vertex3D, uint32_t> m_UniqueVertices{};
@@ -35,6 +37,9 @@ private:
                       bool isClockWise, bool keepNormals);
 
 public:
+    static void LoadDefaultTexture(VkCommandPool const &commandPool, const std::string &path);
+    static void UnloadDefaultTexture();
+
     Mesh3D();
     explicit Mesh3D(std::vector<Vertex3D>&& vertices, std::vector<uint32_t>&& indices);
     void LoadModel(const std::string &path, bool triangulate);
@@ -44,7 +49,7 @@ public:
     Mesh3D& operator=(Mesh3D&& other) = delete;
     ~Mesh3D() = default;
 
-	void Update(uint32_t currentFrame);
+	void Update(uint32_t currentFrame, UniformBufferObject ubo);
     void ResetVertices(std::vector<Vertex3D>&& vertices);
     void ResetIndices(std::vector<uint32_t>&& indices);
     void Translate(const glm::vec3& translation);
@@ -56,7 +61,7 @@ public:
     void InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength);
 
     void Destroy();
-	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame, UniformBufferObject ubo) const;
+	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
 
     void UploadAlbedoTexture(VkCommandPool const &commandPool, const std::string &path);
 };

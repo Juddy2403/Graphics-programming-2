@@ -7,21 +7,22 @@
 #include "Vertex.h"
 
 
-class DescriptorPool
+class DescriptorPool final
 {
 private:
     //static VkDescriptorSetLayout m_DescriptorSetLayout;
 
-    std::vector<VkBuffer> uniformBuffers;
-    std::vector<VkDeviceMemory> uniformBuffersMemory;
-    std::vector<void*> uniformBuffersMapped;
+    std::vector<VkBuffer> m_UniformBuffers;
+    std::vector<VkDeviceMemory> m_UniformBuffersMemory;
+    std::vector<void*> m_UniformBuffersMapped;
     VkDescriptorPool m_DescriptorPool;
 
     std::vector<VkDescriptorSet> descriptorSets;
+    VkImageView m_ImageView;
 
     void CreateUniformBuffers();
     void CreateDescriptorPool();
-    void CreateDescriptorSets(VkImageView imageView);
+    void CreateDescriptorSets();
 public:
 
     DescriptorPool() = default;
@@ -29,8 +30,9 @@ public:
     [[nodiscard]] const std::vector<VkDescriptorSet>& GetDescriptorSets() const;
     //void CreateDescriptor();
     //void DestroyDescriptorSetLayout();
-    void UpdateUniformBuffer(uint32_t currentFrame, UniformBufferObject ubo) const;
+    void UpdateUniformBuffer(uint32_t currentFrame, UniformBufferObject ubo);
 
     void DestroyUniformBuffers();
 
+    void UpdateDescriptorSets(uint32_t currentFrame);
 };

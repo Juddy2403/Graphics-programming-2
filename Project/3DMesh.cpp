@@ -8,13 +8,14 @@
 
 #define GLM_FORCE_RADIANS
 
+Texture Mesh3D::m_DefaultTexture;
 Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices) : Mesh3D() {
     m_Vertices = std::move(vertices);
     m_Indices = std::move(indices);
 }
 
 Mesh3D::Mesh3D() {
-    m_DescriptorPool.Initialize();
+    m_DescriptorPool.Initialize(m_DefaultTexture.GetTextureImageView());
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                                   VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                   VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
@@ -22,11 +23,12 @@ Mesh3D::Mesh3D() {
                                                                                    VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
 }
 
-void Mesh3D::Update(uint32_t currentFrame) {
+void Mesh3D::Update(uint32_t currentFrame, UniformBufferObject ubo) {
     float totalTime = TimeManager::GetInstance().GetElapsed();
     //m_RotationMatrix = glm::rotate(m_RotationMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     m_WorldMatrix = m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
-
+    ubo.model = m_WorldMatrix;
+    m_DescriptorPool.UpdateUniformBuffer(currentFrame, ubo);
 }
 
 void Mesh3D::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphicsQueue) {
@@ -125,9 +127,8 @@ void Mesh3D::MapBuffers() {
 }
 
 
-void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame, UniformBufferObject ubo) const {
-    ubo.model = m_WorldMatrix;
-    m_DescriptorPool.UpdateUniformBuffer(currentFrame, ubo);
+void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
+
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
@@ -195,6 +196,16 @@ void Mesh3D::LoadModel(const std::string &path, bool triangulate = true) {
 
             vertex.m_Color = {1.0f, 1.0f, 1.0f};
 
+            if (2 * index.texcoord_index + 1 < attrib.texcoords.size()) {
+                vertex.m_TexCoord = {
+                        attrib.texcoords[2 * index.texcoord_index + 0],
+                        1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
+                };
+            } else {
+                // Handle the case where texture coordinate data is missing or out of bounds
+                vertex.m_TexCoord = {0.0f, 0.0f};
+            }
+
             AddVertex(vertex);
         }
     }
@@ -209,6 +220,14 @@ void Mesh3D::Rotate(const glm::vec3 &rotation) {
 
 void Mesh3D::Scale(const glm::vec3 &scale) {
     m_ScaleMatrix = glm::scale(m_ScaleMatrix, scale);
+}
+
+void Mesh3D::LoadDefaultTexture(VkCommandPool const &commandPool, const std::string &path) {
+    m_DefaultTexture.CreateTextureImage(commandPool, path);
+}
+
+void Mesh3D::UnloadDefaultTexture() {
+    m_DefaultTexture.DestroyTexture();
 }
 
 
