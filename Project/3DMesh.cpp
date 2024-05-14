@@ -7,6 +7,7 @@
 #include "tiny_obj_loader.h"
 
 #define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 Texture Mesh3D::m_DefaultTexture;
 Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices) : Mesh3D() {
@@ -180,7 +181,7 @@ void Mesh3D::LoadModel(const std::string &path, bool triangulate = true) {
             vertex.m_Pos = {
                     attrib.vertices[3 * index.vertex_index + 0],
                     attrib.vertices[3 * index.vertex_index + 1],
-                    attrib.vertices[3 * index.vertex_index + 2]
+                    -attrib.vertices[3 * index.vertex_index + 2]  // flip the z axis
             };
 
             if (3 * index.normal_index + 2 < attrib.normals.size()) {

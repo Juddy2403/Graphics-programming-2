@@ -27,7 +27,6 @@
 #include "TimeManager.h"
 #include "Camera.h"
 #include "SwapChain.h"
-#include <DepthBuffer.h>
 #include <unordered_set>
 
 const std::vector<const char*> validationLayers = {
@@ -81,7 +80,6 @@ private:
         m_Camera.Initialize(45.f, {0.f,0.f,-2.f}, static_cast<float>(swapChainExtent.width) / static_cast<float>(swapChainExtent.height));
 
 		m_CommandPool = CommandPool{surface, findQueueFamilies(physicalDevice)};
-		m_DepthBuffer.CreateDepthResources();
 		m_CommandBuffer = CommandBuffer{ m_CommandPool.GetCommandPool() };
         m_Level.initializeLevel(m_CommandPool.GetCommandPool(), m_Camera.m_ProjectionMatrix);
 
@@ -160,7 +158,6 @@ private:
 	RenderPass m_RenderPass{};
 	GraphicsPipeline m_3DGraphicsPipeline{};
 	GraphicsPipeline m_2DGraphicsPipeline{};
-	DepthBuffer m_DepthBuffer;
 	// Week 01:
 	// Actual window
 	// simple fragment + vertex shader creation functions

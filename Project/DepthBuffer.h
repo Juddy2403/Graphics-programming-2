@@ -1,12 +1,19 @@
 #pragma once
 
 #include <vulkan/vulkan_core.h>
-//TODO: not implemented yet
+#include <vector>
+
 class DepthBuffer {
 private:
     VkImage depthImage;
     VkDeviceMemory depthImageMemory;
     VkImageView depthImageView;
+
+    static VkFormat FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
+    bool HasStencilComponent(VkFormat format);
 public:
+    VkImageView GetDepthImageView() { return depthImageView; }
+    static VkFormat FindDepthFormat();
     void CreateDepthResources();
+    void DestroyDepthResources();
 };

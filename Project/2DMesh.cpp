@@ -4,6 +4,7 @@
 #include <glm/gtc/constants.hpp>
 #include <vulkanbase/VulkanBase.h>
 #define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 Mesh2D::Mesh2D() {
     //m_UBOMatrixes.proj[1][1] *= -1;

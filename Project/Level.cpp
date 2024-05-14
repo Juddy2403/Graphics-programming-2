@@ -41,19 +41,19 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     std::vector<uint32_t> indices = {0, 2, 1, 2, 0, 3};
 
     //m_2DMeshes.emplace_back(std::make_unique<Mesh2D>(std::move(vertices), std::move(indices)));
-    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    m_2DMeshes[0]->InitializeRect({-0.5f,0.2f}, 0.5);
-    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    m_2DMeshes[1]->InitializeCircle({0.4f, -0.2f}, 0.3f, 100);
-    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    m_2DMeshes[2]->InitializeRoundedRect(0.2f, 0.6f, 0.6f, 0.3f, 0.1f, 100);
+//    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
+//    m_2DMeshes[0]->InitializeRect({-0.5f,0.2f}, 0.5);
+//    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
+//    m_2DMeshes[1]->InitializeCircle({0.4f, -0.2f}, 0.3f, 100);
+//    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
+//    m_2DMeshes[2]->InitializeRoundedRect(0.2f, 0.6f, 0.6f, 0.3f, 0.1f, 100);
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     m_3DMeshes[0]->InitializeCube({-0.25f, -0.25f, -0.25f}, 0.5);
     m_3DMeshes[0]->Translate({-1.f, 0.f, 0.f});
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    m_3DMeshes[1]->LoadModel("resources/vehicle.obj", true);
+    m_3DMeshes[1]->LoadModel("resources/007jillie.obj", true);
     m_3DMeshes[1]->UploadAlbedoTexture(commandPool, "resources/textures/vehicle_diffuse.png");
     m_3DMeshes[1]->Translate({10.f, -5.f, 30.5f});
 

@@ -1,11 +1,13 @@
 #pragma once
 #include <vulkan/vulkan_core.h>
 #include <vector>
+#include "DepthBuffer.h"
 
 class RenderPass
 {
 private:
 	VkRenderPass m_RenderPass;
+    DepthBuffer m_DepthBuffer;
 	std::vector<VkFramebuffer> m_SwapChainFramebuffers;
 
 public:
