@@ -40,11 +40,13 @@ void DescriptorPool::CreateUniformBuffers() {
 }
 
 void DescriptorPool::CreateDescriptorPool() {
-    std::array<VkDescriptorPoolSize, 2> poolSizes{};
+    std::array<VkDescriptorPoolSize, 3> poolSizes{};
     poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     poolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[2].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
     VkDescriptorPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
@@ -97,7 +99,12 @@ void DescriptorPool::UpdateDescriptorSets(uint32_t currentFrame) {
         imageInfo.imageView = m_AlbedoImageView;
         imageInfo.sampler = Texture::GetTextureSampler();
 
-        std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
+        VkDescriptorImageInfo normalImageInfo{};
+        normalImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        normalImageInfo.imageView = m_NormalImageView;
+        normalImageInfo.sampler = Texture::GetTextureSampler();
+
+        std::array<VkWriteDescriptorSet, 3> descriptorWrites{};
 
         descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
         descriptorWrites[0].dstSet = descriptorSets[currentFrame];
@@ -114,6 +121,15 @@ void DescriptorPool::UpdateDescriptorSets(uint32_t currentFrame) {
         descriptorWrites[1].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
         descriptorWrites[1].descriptorCount = 1;
         descriptorWrites[1].pImageInfo = &imageInfo;
+
+        descriptorWrites[2].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[2].dstSet = descriptorSets[currentFrame];
+        descriptorWrites[2].dstBinding = 2;
+        descriptorWrites[2].dstArrayElement = 0;
+        descriptorWrites[2].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorWrites[2].descriptorCount = 1;
+        descriptorWrites[2].pImageInfo = &normalImageInfo;
+
         vkUpdateDescriptorSets(VulkanBase::device, static_cast<uint32_t>(descriptorWrites.size()),
                                descriptorWrites.data(), 0, nullptr);
     }
@@ -128,5 +144,9 @@ void DescriptorPool::Initialize() {
 
 void DescriptorPool::SetAlbedoImageView(VkImageView imageView) {
     m_AlbedoImageView = imageView;
+}
+
+void DescriptorPool::SetNormalImageView(VkImageView imageView) {
+    m_NormalImageView = imageView;
 }
 

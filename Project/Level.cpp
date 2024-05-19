@@ -55,6 +55,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     m_3DMeshes[1]->LoadModel("resources/vehicle.obj", true);
     m_3DMeshes[1]->UploadAlbedoTexture(commandPool, "resources/textures/vehicle_diffuse.png");
+    m_3DMeshes[1]->UploadNormalTexture(commandPool, "resources/textures/vehicle_normal.png");
     m_3DMeshes[1]->Translate({10.f, -5.f, 30.5f});
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());

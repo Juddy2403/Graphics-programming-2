@@ -18,6 +18,7 @@ Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices
 
 Mesh3D::Mesh3D() {
     m_DescriptorPool.SetAlbedoImageView(m_DefaultTexture.GetTextureImageView());
+    m_DescriptorPool.SetNormalImageView(m_DefaultTexture.GetTextureImageView());
     m_DescriptorPool.Initialize();
 
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
@@ -270,6 +271,13 @@ void Mesh3D::InitializeSphere(const glm::vec3 &center, float radius) {
         }
     }
 
+}
+
+void Mesh3D::UploadNormalTexture(VkCommandPool const &commandPool, const std::string &path) {
+    m_NormalTexture.CreateTextureImage(commandPool, path);
+    m_DescriptorPool.DestroyUniformBuffers();
+    m_DescriptorPool.SetNormalImageView(m_NormalTexture.GetTextureImageView());
+    m_DescriptorPool.Initialize();
 }
 
 
