@@ -4,8 +4,6 @@
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
-#include <glm/gtc/matrix_transform.hpp>
-
 const std::vector<VkDescriptorSet> &DescriptorPool::GetDescriptorSets() const {
     return descriptorSets;
 }
@@ -53,7 +51,6 @@ void DescriptorPool::CreateDescriptorPool() {
     poolInfo.poolSizeCount = static_cast<uint32_t>(poolSizes.size());
     poolInfo.pPoolSizes = poolSizes.data();
     poolInfo.maxSets = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
-    //TODO: someone needs to catch these exceptions mate
     if (vkCreateDescriptorPool(VulkanBase::device, &poolInfo, nullptr, &m_DescriptorPool) != VK_SUCCESS) {
         throw std::runtime_error("failed to create descriptor pool!");
     }
@@ -82,7 +79,7 @@ void DescriptorPool::UpdateDescriptorSets(uint32_t currentFrame) {
     bufferInfo.offset = 0;
     bufferInfo.range = sizeof(UniformBufferObject);
 
-    if (m_ImageView == VK_NULL_HANDLE) {
+    if (m_AlbedoImageView == VK_NULL_HANDLE) {
         VkWriteDescriptorSet descriptorWrite{};
         descriptorWrite.sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
         descriptorWrite.dstSet = descriptorSets[currentFrame];
@@ -97,7 +94,7 @@ void DescriptorPool::UpdateDescriptorSets(uint32_t currentFrame) {
     } else {
         VkDescriptorImageInfo imageInfo{};
         imageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
-        imageInfo.imageView = m_ImageView;
+        imageInfo.imageView = m_AlbedoImageView;
         imageInfo.sampler = Texture::GetTextureSampler();
 
         std::array<VkWriteDescriptorSet, 2> descriptorWrites{};
@@ -122,11 +119,14 @@ void DescriptorPool::UpdateDescriptorSets(uint32_t currentFrame) {
     }
 }
 
-
-void DescriptorPool::Initialize(VkImageView imageView) {
+void DescriptorPool::Initialize() {
     CreateUniformBuffers();
     CreateDescriptorPool();
-    m_ImageView = imageView;
+   // m_AlbedoImageView = defaultImageView;
     CreateDescriptorSets();
+}
+
+void DescriptorPool::SetAlbedoImageView(VkImageView imageView) {
+    m_AlbedoImageView = imageView;
 }
 

@@ -55,9 +55,19 @@
   <component name="ChangeListManager">
     <list default="true" id="968bb24f-2a49-406d-91e5-1a4b522e6289" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/3DMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/3DMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Camera.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Camera.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/DescriptorPool.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DescriptorPool.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/DescriptorPool.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/DescriptorPool.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/shaders/3Dshader.frag" beforeDir="false" afterPath="$PROJECT_DIR$/Project/shaders/3Dshader.frag" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,37 +102,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "CMake Application.VulkanLab01.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "D:/Howest/Sem 4/Programming 4/allocators_test",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.keymap",
-    "structure.view.defaults.are.configured": "true",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;CMake Application.VulkanLab01.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Howest/Sem 4/Programming 4/allocators_test&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.keymap&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\Howest\Sem 4\Graphics programming 2\Project\vulkanbase" />
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.VulkanLab01">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Shaders" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VulkanLab01" TARGET_NAME="Shaders" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
@@ -373,6 +388,8 @@
       <workItem from="1714577777000" duration="20107000" />
       <workItem from="1714670946494" duration="2636000" />
       <workItem from="1714767069195" duration="51000" />
+      <workItem from="1715705269997" duration="7612000" />
+      <workItem from="1716131120913" duration="7551000" />
     </task>
     <servers />
   </component>

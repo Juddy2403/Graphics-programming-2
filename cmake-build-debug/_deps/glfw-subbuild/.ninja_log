@@ -1,29 +1,14 @@
 # ninja log v5
 0	41	7341040604801302	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-mkdir	4c1954876ff3d2e7
-1	88	0	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update	b87aa5097dfe21a7
-88	126	7363759751612007	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch	156a927aa743b834
+0	126	0	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update	b87aa5097dfe21a7
+126	184	7363759972542014	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch	156a927aa743b834
 0	41	7341040604801302	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-mkdir	4c1954876ff3d2e7
 42	6795	7341040672337187	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download	60641f35dcda09e2
-88	126	7363759751612007	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch	156a927aa743b834
-42	6795	7341040672337187	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download	60641f35dcda09e2
-1	88	0	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update	b87aa5097dfe21a7
-126	167	7363759752013695	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure	b96a0646308d5bd7
-274	323	7363759753584634	CMakeFiles/glfw-populate-complete	293cd1e6ea2c5de2
-126	167	7363759752013695	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure	b96a0646308d5bd7
-168	205	7363759752402243	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build	58a3ff9004f546ac
-168	205	7363759752402243	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build	58a3ff9004f546ac
-205	239	7363759752744021	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install	d50acb57a31c8e2e
-205	239	7363759752744021	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install	d50acb57a31c8e2e
-239	273	7363759753088937	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test	28085e418b4dadb
-239	273	7363759753088937	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test	28085e418b4dadb
-274	323	7363759753584634	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done	293cd1e6ea2c5de2
-274	323	7363759753584634	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/CMakeFiles/glfw-populate-complete	293cd1e6ea2c5de2
-274	323	7363759753584634	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done	293cd1e6ea2c5de2
-0	126	0	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update	b87aa5097dfe21a7
-0	126	0	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update	b87aa5097dfe21a7
-126	184	7363759972542014	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch	156a927aa743b834
 126	184	7363759972542014	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch	156a927aa743b834
+42	6795	7341040672337187	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-download	60641f35dcda09e2
+0	126	0	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update	b87aa5097dfe21a7
 185	239	7363759973056546	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure	b96a0646308d5bd7
+455	525	7363759975967068	CMakeFiles/glfw-populate-complete	293cd1e6ea2c5de2
 185	239	7363759973056546	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure	b96a0646308d5bd7
 240	313	7363759973808577	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build	58a3ff9004f546ac
 240	313	7363759973808577	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build	58a3ff9004f546ac
@@ -31,7 +16,22 @@
 313	386	7363759974549809	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install	d50acb57a31c8e2e
 386	454	7363759975229182	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test	28085e418b4dadb
 386	454	7363759975229182	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test	28085e418b4dadb
-455	525	7363759975967068	CMakeFiles/glfw-populate-complete	293cd1e6ea2c5de2
 455	525	7363759975967068	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done	293cd1e6ea2c5de2
 455	525	7363759975967068	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/CMakeFiles/glfw-populate-complete	293cd1e6ea2c5de2
 455	525	7363759975967068	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done	293cd1e6ea2c5de2
+0	110	0	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update	b87aa5097dfe21a7
+0	110	0	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-update	b87aa5097dfe21a7
+110	158	7378359306024219	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch	156a927aa743b834
+110	158	7378359306024219	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-patch	156a927aa743b834
+158	202	7378359306480909	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure	b96a0646308d5bd7
+158	202	7378359306480909	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-configure	b96a0646308d5bd7
+202	245	7378359306911562	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build	58a3ff9004f546ac
+202	245	7378359306911562	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-build	58a3ff9004f546ac
+245	290	7378359307347829	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install	d50acb57a31c8e2e
+245	290	7378359307347829	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-install	d50acb57a31c8e2e
+290	337	7378359307832727	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test	28085e418b4dadb
+290	337	7378359307832727	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-test	28085e418b4dadb
+337	405	7378359308507347	CMakeFiles/glfw-populate-complete	293cd1e6ea2c5de2
+337	405	7378359308507347	glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done	293cd1e6ea2c5de2
+337	405	7378359308507347	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/CMakeFiles/glfw-populate-complete	293cd1e6ea2c5de2
+337	405	7378359308507347	D:/Howest/Sem 4/Graphics programming 2/cmake-build-debug/_deps/glfw-subbuild/glfw-populate-prefix/src/glfw-populate-stamp/glfw-populate-done	293cd1e6ea2c5de2

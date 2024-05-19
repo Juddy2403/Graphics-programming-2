@@ -11,7 +11,7 @@ void main() {
     const vec3 lightDirection = normalize(vec3(0.5, -0.5, 0.5));
 
     // Calculate the dot product between the normal and the light direction
-    float diff = max(dot(fragNormal, lightDirection), 0.2);
+    float diff = max(dot(fragNormal, -lightDirection), 0.2);
 
     // Simple diffuse lighting
     vec3 diffuse = diff * fragColor; // Assuming white light

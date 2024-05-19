@@ -10,13 +10,16 @@
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 Texture Mesh3D::m_DefaultTexture;
+
 Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices) : Mesh3D() {
     m_Vertices = std::move(vertices);
     m_Indices = std::move(indices);
 }
 
 Mesh3D::Mesh3D() {
-    m_DescriptorPool.Initialize(m_DefaultTexture.GetTextureImageView());
+    m_DescriptorPool.SetAlbedoImageView(m_DefaultTexture.GetTextureImageView());
+    m_DescriptorPool.Initialize();
+
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                                   VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                   VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
@@ -37,10 +40,12 @@ void Mesh3D::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphic
     m_IndexBuffer->Upload(commandPool, graphicsQueue);
 }
 
-void Mesh3D::UploadAlbedoTexture(const VkCommandPool &commandPool,const std::string& path) {
+void Mesh3D::UploadAlbedoTexture(const VkCommandPool &commandPool, const std::string &path) {
     m_AlbedoTexture.CreateTextureImage(commandPool, path);
     m_DescriptorPool.DestroyUniformBuffers();
-    m_DescriptorPool.Initialize(m_AlbedoTexture.GetTextureImageView());
+    m_DescriptorPool.SetAlbedoImageView(m_AlbedoTexture.GetTextureImageView());
+    m_DescriptorPool.Initialize();
+
 }
 
 void Mesh3D::AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &topRight, Vertex3D &bottomRight,
@@ -49,7 +54,7 @@ void Mesh3D::AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &top
     if (!keepNormals) {
         glm::vec3 normal = glm::normalize(
                 glm::cross(topLeft.m_Pos - bottomLeft.m_Pos, bottomRight.m_Pos - bottomLeft.m_Pos));
-        if (!isClockWise) normal *= -1;
+        if (isClockWise) normal *= -1;
         bottomLeft.m_Normal = normal;
         topLeft.m_Normal = normal;
         bottomRight.m_Normal = normal;
@@ -76,17 +81,14 @@ void Mesh3D::AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &top
 void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength) {
     m_Vertices.clear();
     m_Indices.clear();
-    const glm::vec3 forward{glm::vec3(0.0f, 0.0f, 1.0f)};
-    const glm::vec3 up{glm::vec3(0.0f, -1.0f, 0.0f)};
-    const glm::vec3 right{glm::vec3(1.0f, 0.0f, 0.0f)};
 
-    const glm::vec3 bottomRightBackCorner = bottomLeftBackCorner + sideLength * right;
-    const glm::vec3 topLeftBackCorner = bottomLeftBackCorner + sideLength * up;
-    const glm::vec3 topRightBackCorner = bottomRightBackCorner + sideLength * up;
-    const glm::vec3 bottomLeftFrontCorner = bottomLeftBackCorner + sideLength * forward;
-    const glm::vec3 bottomRightFrontCorner = bottomRightBackCorner + sideLength * forward;
-    const glm::vec3 topLeftFrontCorner = topLeftBackCorner + sideLength * forward;
-    const glm::vec3 topRightFrontCorner = topRightBackCorner + sideLength * forward;
+    const glm::vec3 bottomRightBackCorner = bottomLeftBackCorner + sideLength * Camera::RIGHT;
+    const glm::vec3 topLeftBackCorner = bottomLeftBackCorner + sideLength * Camera::UP;
+    const glm::vec3 topRightBackCorner = bottomRightBackCorner + sideLength * Camera::UP;
+    const glm::vec3 bottomLeftFrontCorner = bottomLeftBackCorner + sideLength * Camera::FORWARD;
+    const glm::vec3 bottomRightFrontCorner = bottomRightBackCorner + sideLength * Camera::FORWARD;
+    const glm::vec3 topLeftFrontCorner = topLeftBackCorner + sideLength * Camera::FORWARD;
+    const glm::vec3 topRightFrontCorner = topRightBackCorner + sideLength * Camera::FORWARD;
 
     Vertex3D bottomLeftBackCornerVertex{bottomLeftBackCorner};
     Vertex3D topRightFrontCornerVertex{topRightFrontCorner};
@@ -98,21 +100,18 @@ void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLen
     Vertex3D topLeftBackCornerVertex{topLeftBackCorner};
 
     AddRectPlane(bottomLeftBackCornerVertex, topLeftBackCornerVertex,
-                 topRightBackCornerVertex, bottomRightBackCornerVertex, true, false); // back plane
+                 topRightBackCornerVertex, bottomRightBackCornerVertex, false, false); // back plane
     AddRectPlane(bottomLeftBackCornerVertex, bottomLeftFrontCornerVertex,
-                 bottomRightFrontCornerVertex, bottomRightBackCornerVertex, false, false); // bottom plane
+                 bottomRightFrontCornerVertex, bottomRightBackCornerVertex, true, false); // bottom plane
     AddRectPlane(bottomLeftBackCornerVertex, topLeftBackCornerVertex,
-                 topLeftFrontCornerVertex, bottomLeftFrontCornerVertex, false, false); // left plane
+                 topLeftFrontCornerVertex, bottomLeftFrontCornerVertex, true, false); // left plane
     AddRectPlane(bottomRightBackCornerVertex, topRightBackCornerVertex,
-                 topRightFrontCornerVertex, bottomRightFrontCornerVertex, true, false); // right plane
+                 topRightFrontCornerVertex, bottomRightFrontCornerVertex, false, false); // right plane
     AddRectPlane(bottomLeftFrontCornerVertex, topLeftFrontCornerVertex,
-                 topRightFrontCornerVertex, bottomRightFrontCornerVertex, false, false); // front plane
+                 topRightFrontCornerVertex, bottomRightFrontCornerVertex, true, false); // front plane
     AddRectPlane(topLeftBackCornerVertex, topLeftFrontCornerVertex, topRightFrontCornerVertex, topRightBackCornerVertex,
-                 true, false); // top plane
-
-
+                 false, false); // top plane
 }
-
 
 void Mesh3D::AddVertex(const Vertex3D &vertex) {
     if (m_UniqueVertices.count(vertex) == 0) {
@@ -126,7 +125,6 @@ void Mesh3D::MapBuffers() {
     m_VertexBuffer->Map(m_Vertices.size() * sizeof(m_Vertices[0]), m_Vertices.data());
     m_IndexBuffer->Map(m_Indices.size() * sizeof(m_Indices[0]), m_Indices.data());
 }
-
 
 void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
 
@@ -181,14 +179,14 @@ void Mesh3D::LoadModel(const std::string &path, bool triangulate = true) {
             vertex.m_Pos = {
                     attrib.vertices[3 * index.vertex_index + 0],
                     attrib.vertices[3 * index.vertex_index + 1],
-                    -attrib.vertices[3 * index.vertex_index + 2]  // flip the z axis
+                    -attrib.vertices[3 * index.vertex_index + 2]  // flip the z axis cause im using a left handed system
             };
 
             if (3 * index.normal_index + 2 < attrib.normals.size()) {
                 vertex.m_Normal = {
                         attrib.normals[3 * index.normal_index + 0],
                         attrib.normals[3 * index.normal_index + 1],
-                        attrib.normals[3 * index.normal_index + 2]
+                        -attrib.normals[3 * index.normal_index + 2]
                 };
             } else {
                 // Handle the case where normal data is missing or out of bounds
@@ -213,9 +211,9 @@ void Mesh3D::LoadModel(const std::string &path, bool triangulate = true) {
 }
 
 void Mesh3D::Rotate(const glm::vec3 &rotation) {
-    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.x), Camera::RIGHT);
+    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.y), Camera::UP);
+    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.z), Camera::FORWARD);
 
 }
 
@@ -229,6 +227,49 @@ void Mesh3D::LoadDefaultTexture(VkCommandPool const &commandPool, const std::str
 
 void Mesh3D::UnloadDefaultTexture() {
     m_DefaultTexture.DestroyTexture();
+}
+
+void Mesh3D::InitializeSphere(const glm::vec3 &center, float radius) {
+    m_Vertices.clear();
+    m_Indices.clear();
+    const int sectorCount = 36;
+    const int stackCount = 18;
+    const auto PI = glm::pi<float>();
+    const float sectorStep = 2 * PI / sectorCount;
+    const float stackStep = PI / stackCount;
+    for (int i = 0; i <= stackCount; ++i) {
+        float stackAngle = PI / 2 - i * stackStep;
+        float xy = radius * cosf(stackAngle);
+        float z = radius * sinf(stackAngle);
+        for (int j = 0; j <= sectorCount; ++j) {
+            float sectorAngle = j * sectorStep;
+            float x = xy * cosf(sectorAngle);
+            float y = xy * sinf(sectorAngle);
+            Vertex3D vertex{};
+            vertex.m_Pos = {x + center.x, y + center.y, z + center.z};
+            vertex.m_Normal = glm::normalize(vertex.m_Pos - center);
+            vertex.m_Color = {1.0f, 1.0f, 1.0f};
+            vertex.m_TexCoord = {static_cast<float>(j) / sectorCount, 1.0f - static_cast<float>(i) / stackCount};
+            m_Vertices.push_back(vertex);
+        }
+    }
+    for (int i = 0; i < stackCount; ++i) {
+        int k1 = i * (sectorCount + 1);
+        int k2 = k1 + sectorCount + 1;
+        for (int j = 0; j < sectorCount; ++j, ++k1, ++k2) {
+            if (i != 0) {
+                m_Indices.push_back(k1);
+                m_Indices.push_back(k1 + 1);
+                m_Indices.push_back(k2);
+            }
+            if (i != (stackCount - 1)) {
+                m_Indices.push_back(k1 + 1);
+                m_Indices.push_back(k2 + 1);
+                m_Indices.push_back(k2);
+            }
+        }
+    }
+
 }
 
 

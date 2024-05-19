@@ -18,7 +18,7 @@ private:
     VkDescriptorPool m_DescriptorPool;
 
     std::vector<VkDescriptorSet> descriptorSets;
-    VkImageView m_ImageView;
+    VkImageView m_AlbedoImageView;
 
     void CreateUniformBuffers();
     void CreateDescriptorPool();
@@ -26,7 +26,8 @@ private:
 public:
 
     DescriptorPool() = default;
-    void Initialize(VkImageView imageView = VK_NULL_HANDLE);
+    void Initialize();
+    void SetAlbedoImageView(VkImageView imageView);
     [[nodiscard]] const std::vector<VkDescriptorSet>& GetDescriptorSets() const;
     //void CreateDescriptor();
     //void DestroyDescriptorSetLayout();

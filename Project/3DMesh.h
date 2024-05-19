@@ -59,6 +59,7 @@ public:
     void MapBuffers();
 
     void InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLength);
+    void InitializeSphere(const glm::vec3& center, float radius);
 
     void Destroy();
 	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;

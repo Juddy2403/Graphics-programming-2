@@ -16,9 +16,13 @@ struct Camera
 	glm::vec3 m_Origin{};
 	float m_FovAngle{90.f };
 
-	glm::vec3 m_Forward{glm::vec3(0.0f, 0.0f, 1.0f) };
-	glm::vec3 m_Up{glm::vec3(0.0f, 1.0f, 0.0f) };
-	glm::vec3 m_Right{glm::vec3(1.0f, 0.0f, 0.0f) };
+    constexpr static glm::vec3 UP{0.f, 1.f, 0.f};
+    constexpr static glm::vec3 FORWARD{0.f, 0.f, 1.f};
+    constexpr static glm::vec3 RIGHT{1.f, 0.f, 0.f};
+
+	glm::vec3 m_Forward{FORWARD};
+	glm::vec3 m_Up{UP};
+	glm::vec3 m_Right{RIGHT};
 
 	float m_TotalPitch{};
 	float m_TotalYaw{};

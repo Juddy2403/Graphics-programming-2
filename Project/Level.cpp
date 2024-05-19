@@ -53,19 +53,22 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_3DMeshes[0]->Translate({-1.f, 0.f, 0.f});
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    m_3DMeshes[1]->LoadModel("resources/007jillie.obj", true);
+    m_3DMeshes[1]->LoadModel("resources/vehicle.obj", true);
     m_3DMeshes[1]->UploadAlbedoTexture(commandPool, "resources/textures/vehicle_diffuse.png");
     m_3DMeshes[1]->Translate({10.f, -5.f, 30.5f});
 
+    m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
+    m_3DMeshes[2]->InitializeSphere({0.f, 0.f, 0.f}, 0.5);
+
     std::vector<Vertex3D> verticesTextureTest = {
-            {{-0.5f, -0.5f,5.f},{0.f,0.f,1.f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
-            {{0.5f, -0.5f,5.f},{0.f,0.f,1.f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
-            {{0.5f, 0.5f,5.f},{0.f,0.f,1.f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
-            {{-0.5f, 0.5f,5.f},{0.f,0.f,1.f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}
+            {{-0.5f, -0.5f,5.f},{0.f,0.f,-1.f}, {1.0f, 1.0f, 1.0f}, {1.0f, 0.0f}},
+            {{0.5f, -0.5f,5.f},{0.f,0.f,-1.f}, {1.0f, 1.0f, 1.0f}, {0.0f, 0.0f}},
+            {{0.5f, 0.5f,5.f},{0.f,0.f,-1.f}, {1.0f, 1.0f, 1.0f}, {0.0f, 1.0f}},
+            {{-0.5f, 0.5f,5.f},{0.f,0.f,-1.f}, {1.0f, 1.0f, 1.0f}, {1.0f, 1.0f}}
     };
     std::vector<uint32_t> indicesTextureTest = {0, 1, 2, 2, 3, 0};
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>(std::move(verticesTextureTest), std::move(indicesTextureTest)));
-    m_3DMeshes[2]->UploadAlbedoTexture(commandPool, "resources/textures/texture.jpg");
+    m_3DMeshes[3]->UploadAlbedoTexture(commandPool, "resources/textures/texture.jpg");
 
     for (auto &mesh: m_3DMeshes) {
         mesh->MapBuffers();
