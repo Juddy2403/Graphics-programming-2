@@ -19,6 +19,8 @@ Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices
 Mesh3D::Mesh3D() {
     m_DescriptorPool.SetAlbedoImageView(m_DefaultTexture.GetTextureImageView());
     m_DescriptorPool.SetNormalImageView(m_DefaultTexture.GetTextureImageView());
+    m_DescriptorPool.SetGlossImageView(m_DefaultTexture.GetTextureImageView());
+    m_DescriptorPool.SetSpecularImageView(m_DefaultTexture.GetTextureImageView());
     m_DescriptorPool.Initialize();
 
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
@@ -152,6 +154,9 @@ void Mesh3D::Destroy() {
     DestroyBuffers();
     m_DescriptorPool.DestroyUniformBuffers();
     m_AlbedoTexture.DestroyTexture();
+    m_NormalTexture.DestroyTexture();
+    m_GlossTexture.DestroyTexture();
+    m_SpecularTexture.DestroyTexture();
 }
 
 void Mesh3D::DestroyBuffers() {
@@ -277,6 +282,20 @@ void Mesh3D::UploadNormalTexture(VkCommandPool const &commandPool, const std::st
     m_NormalTexture.CreateTextureImage(commandPool, path);
     m_DescriptorPool.DestroyUniformBuffers();
     m_DescriptorPool.SetNormalImageView(m_NormalTexture.GetTextureImageView());
+    m_DescriptorPool.Initialize();
+}
+
+void Mesh3D::UploadGlossTexture(VkCommandPool const &commandPool, const std::string &path) {
+    m_GlossTexture.CreateTextureImage(commandPool, path);
+    m_DescriptorPool.DestroyUniformBuffers();
+    m_DescriptorPool.SetGlossImageView(m_GlossTexture.GetTextureImageView());
+    m_DescriptorPool.Initialize();
+}
+
+void Mesh3D::UploadSpecularTexture(VkCommandPool const &commandPool, const std::string &path) {
+    m_SpecularTexture.CreateTextureImage(commandPool, path);
+    m_DescriptorPool.DestroyUniformBuffers();
+    m_DescriptorPool.SetSpecularImageView(m_SpecularTexture.GetTextureImageView());
     m_DescriptorPool.Initialize();
 }
 

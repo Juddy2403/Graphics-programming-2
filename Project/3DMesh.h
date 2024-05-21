@@ -31,6 +31,8 @@ private:
     DescriptorPool m_DescriptorPool;
     Texture m_AlbedoTexture{};
     Texture m_NormalTexture{};
+    Texture m_GlossTexture{};
+    Texture m_SpecularTexture{};
     void DestroyBuffers();
 
     void AddVertex(const Vertex3D &vertex);
@@ -67,4 +69,6 @@ public:
 
     void UploadAlbedoTexture(VkCommandPool const &commandPool, const std::string &path);
     void UploadNormalTexture(VkCommandPool const &commandPool, const std::string &path);
+    void UploadGlossTexture(VkCommandPool const &commandPool, const std::string &path);
+    void UploadSpecularTexture(VkCommandPool const &commandPool, const std::string &path);
 };

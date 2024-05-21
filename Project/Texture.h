@@ -18,6 +18,13 @@ private:
     VkImageView m_TextureImageView;
     static VkSampler m_TextureSampler;
 public:
+    Texture() = default;
+    Texture(const Texture& other) = delete;
+    Texture(Texture&& other) = delete;
+    Texture& operator=(const Texture& other) noexcept;
+    Texture& operator=(Texture&& other) noexcept ;
+    ~Texture() = default;
+
     void CreateTextureImage(const VkCommandPool &commandPool, const std::string &path);
     void CreateTextureImageView();
     static void CreateTextureSampler();

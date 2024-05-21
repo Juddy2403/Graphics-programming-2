@@ -311,6 +311,8 @@ void VulkanBase::drawFrame() {
 
     m_CommandBuffer.Reset();
     m_CommandBuffer.BeginRecording();
+    vkCmdPushConstants(m_CommandBuffer.GetVkCommandBuffer(), GraphicsPipeline::m_PipelineLayout,
+                       VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(glm::vec3), &m_Camera.m_Forward);
     m_Level.Update(imageIndex, m_Camera.m_ViewMatrix);
     //record cmd buffer has been split in begin recording and end recording
     //recordCommandBuffer(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);

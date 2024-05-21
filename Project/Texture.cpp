@@ -233,5 +233,26 @@ void Texture::DestroyTextureSampler() {
     vkDestroySampler(VulkanBase::device, m_TextureSampler, nullptr);
 }
 
+Texture &Texture::operator=(const Texture &other) noexcept {
+    if (this != &other) {
+        m_TextureImage = other.m_TextureImage;
+        m_TextureImageMemory = other.m_TextureImageMemory;
+        m_TextureImageView = other.m_TextureImageView;
+    }
+    return *this;
+}
+
+Texture &Texture::operator=(Texture &&other) noexcept {
+    if (this != &other) {
+        m_TextureImage = other.m_TextureImage;
+        m_TextureImageMemory = other.m_TextureImageMemory;
+        m_TextureImageView = other.m_TextureImageView;
+        other.m_TextureImage = VK_NULL_HANDLE;
+        other.m_TextureImageMemory = VK_NULL_HANDLE;
+        other.m_TextureImageView = VK_NULL_HANDLE;
+    }
+    return *this;
+}
+
 
 

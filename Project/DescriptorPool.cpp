@@ -40,13 +40,17 @@ void DescriptorPool::CreateUniformBuffers() {
 }
 
 void DescriptorPool::CreateDescriptorPool() {
-    std::array<VkDescriptorPoolSize, 3> poolSizes{};
+    std::array<VkDescriptorPoolSize, 5> poolSizes{};
     poolSizes[0].type = VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER;
     poolSizes[0].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     poolSizes[1].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     poolSizes[1].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
     poolSizes[2].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
     poolSizes[2].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[3].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    poolSizes[3].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
+    poolSizes[4].type = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+    poolSizes[4].descriptorCount = static_cast<uint32_t>(MAX_FRAMES_IN_FLIGHT);
 
     VkDescriptorPoolCreateInfo poolInfo{};
     poolInfo.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
@@ -104,7 +108,17 @@ void DescriptorPool::UpdateDescriptorSets(uint32_t currentFrame) {
         normalImageInfo.imageView = m_NormalImageView;
         normalImageInfo.sampler = Texture::GetTextureSampler();
 
-        std::array<VkWriteDescriptorSet, 3> descriptorWrites{};
+        VkDescriptorImageInfo glossImageInfo{};
+        glossImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        glossImageInfo.imageView = m_GlossImageView;
+        glossImageInfo.sampler = Texture::GetTextureSampler();
+
+        VkDescriptorImageInfo specularImageInfo{};
+        specularImageInfo.imageLayout = VK_IMAGE_LAYOUT_SHADER_READ_ONLY_OPTIMAL;
+        specularImageInfo.imageView = m_SpecularImageView;
+        specularImageInfo.sampler = Texture::GetTextureSampler();
+
+        std::array<VkWriteDescriptorSet, 5> descriptorWrites{};
 
         descriptorWrites[0].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
         descriptorWrites[0].dstSet = descriptorSets[currentFrame];
@@ -130,6 +144,22 @@ void DescriptorPool::UpdateDescriptorSets(uint32_t currentFrame) {
         descriptorWrites[2].descriptorCount = 1;
         descriptorWrites[2].pImageInfo = &normalImageInfo;
 
+        descriptorWrites[3].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[3].dstSet = descriptorSets[currentFrame];
+        descriptorWrites[3].dstBinding = 3;
+        descriptorWrites[3].dstArrayElement = 0;
+        descriptorWrites[3].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorWrites[3].descriptorCount = 1;
+        descriptorWrites[3].pImageInfo = &glossImageInfo;
+
+        descriptorWrites[4].sType = VK_STRUCTURE_TYPE_WRITE_DESCRIPTOR_SET;
+        descriptorWrites[4].dstSet = descriptorSets[currentFrame];
+        descriptorWrites[4].dstBinding = 4;
+        descriptorWrites[4].dstArrayElement = 0;
+        descriptorWrites[4].descriptorType = VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER;
+        descriptorWrites[4].descriptorCount = 1;
+        descriptorWrites[4].pImageInfo = &specularImageInfo;
+
         vkUpdateDescriptorSets(VulkanBase::device, static_cast<uint32_t>(descriptorWrites.size()),
                                descriptorWrites.data(), 0, nullptr);
     }
@@ -148,5 +178,13 @@ void DescriptorPool::SetAlbedoImageView(VkImageView imageView) {
 
 void DescriptorPool::SetNormalImageView(VkImageView imageView) {
     m_NormalImageView = imageView;
+}
+
+void DescriptorPool::SetGlossImageView(VkImageView imageView) {
+    m_GlossImageView = imageView;
+}
+
+void DescriptorPool::SetSpecularImageView(VkImageView imageView) {
+    m_SpecularImageView = imageView;
 }
 
