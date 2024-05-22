@@ -43,6 +43,8 @@ set(SOURCES
         Texture.h
         Transform.cpp
         Transform.h
+        TextureManager.cpp
+        TextureManager.h
 )
 #
 # Create the executable

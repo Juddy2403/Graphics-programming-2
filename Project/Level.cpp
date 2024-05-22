@@ -1,5 +1,4 @@
 #include "Level.h"
-#include "GraphicsPipeline.h"
 #include "vulkanbase/VulkanBase.h"
 #include <vulkanbase/VulkanUtil.h>
 
@@ -23,7 +22,7 @@ void Level::Update(uint32_t currentFrame, const glm::mat4 &viewMatrix) {
 
 void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &projMatrix) {
     Texture::CreateTextureSampler();
-    Mesh3D::LoadDefaultTexture(commandPool, "resources/textures/default.jpg");
+    TextureManager::LoadDefaultTexture(commandPool, "resources/textures/default.jpg");
     m_3DUBOMatrixes.proj = projMatrix;
 
     m_2DUBOMatrixes.model = glm::mat4(1.f);
@@ -48,10 +47,10 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     m_3DMeshes.back()->LoadModel("resources/vehicle.obj", true);
-    m_3DMeshes.back()->UploadAlbedoTexture(commandPool, "resources/textures/vehicle_diffuse.png");
-    m_3DMeshes.back()->UploadNormalTexture(commandPool, "resources/textures/vehicle_normal.png");
-    m_3DMeshes.back()->UploadGlossTexture(commandPool, "resources/textures/vehicle_gloss.png");
-    m_3DMeshes.back()->UploadSpecularTexture(commandPool, "resources/textures/vehicle_specular.png");
+    m_3DMeshes.back()->GetTextureManager().UploadAlbedoTexture(commandPool, "resources/textures/vehicle_diffuse.png");
+    m_3DMeshes.back()->GetTextureManager().UploadNormalTexture(commandPool, "resources/textures/vehicle_normal.png");
+    m_3DMeshes.back()->GetTextureManager().UploadGlossTexture(commandPool, "resources/textures/vehicle_gloss.png");
+    m_3DMeshes.back()->GetTextureManager().UploadSpecularTexture(commandPool, "resources/textures/vehicle_specular.png");
     m_3DMeshes.back()->GetTransform().Translate({0.f, -10.f, 50.f});
     m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
 
@@ -75,7 +74,7 @@ void Level::destroyLevel() {
         mesh->Destroy();
     }
     m_2DDescriptorPool.DestroyUniformBuffers();
-    Mesh3D::UnloadDefaultTexture();
+    TextureManager::UnloadDefaultTexture();
     Texture::DestroyTextureSampler();
 }
 

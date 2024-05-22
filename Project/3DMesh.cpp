@@ -15,20 +15,13 @@ glm::vec3 Reject(const glm::vec3 &a, const glm::vec3 &b) {
     return a - proj;
 }
 
-Texture Mesh3D::m_DefaultTexture;
-
 Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices) : Mesh3D() {
     m_Vertices = std::move(vertices);
     m_Indices = std::move(indices);
 }
 
-Mesh3D::Mesh3D() {
-    m_DescriptorPool.SetAlbedoImageView(m_DefaultTexture.GetTextureImageView());
-    m_DescriptorPool.SetNormalImageView(m_DefaultTexture.GetTextureImageView());
-    m_DescriptorPool.SetGlossImageView(m_DefaultTexture.GetTextureImageView());
-    m_DescriptorPool.SetSpecularImageView(m_DefaultTexture.GetTextureImageView());
+Mesh3D::Mesh3D(): m_TextureManager(m_DescriptorPool) {
     m_DescriptorPool.Initialize();
-
     m_VertexBuffer = std::make_unique<DataBuffer>(VK_BUFFER_USAGE_VERTEX_BUFFER_BIT,
                                                   VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT |
                                                   VK_MEMORY_PROPERTY_HOST_COHERENT_BIT);
@@ -45,14 +38,6 @@ void Mesh3D::Update(uint32_t currentFrame, UniformBufferObject ubo) {
 void Mesh3D::UploadMesh(const VkCommandPool &commandPool, const VkQueue &graphicsQueue) {
     m_VertexBuffer->Upload(commandPool, graphicsQueue);
     m_IndexBuffer->Upload(commandPool, graphicsQueue);
-}
-
-void Mesh3D::UploadAlbedoTexture(const VkCommandPool &commandPool, const std::string &path) {
-    m_AlbedoTexture.CreateTextureImage(commandPool, path);
-    m_DescriptorPool.DestroyUniformBuffers();
-    m_DescriptorPool.SetAlbedoImageView(m_AlbedoTexture.GetTextureImageView());
-    m_DescriptorPool.Initialize();
-
 }
 
 void Mesh3D::AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &topRight, Vertex3D &bottomRight,
@@ -144,7 +129,7 @@ void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) c
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
     if(Level::m_AreNormalsEnabled == 1)
         vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
-                           sizeof(glm::vec3), sizeof(int), &m_HasNormalMap);
+                           sizeof(glm::vec3), sizeof(int), &m_TextureManager.m_HasNormalMap);
     else
         vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
                            sizeof(glm::vec3), sizeof(int), &Level::m_AreNormalsEnabled);
@@ -169,10 +154,7 @@ void Mesh3D::ResetIndices(std::vector<uint32_t> &&indices) {
 void Mesh3D::Destroy() {
     DestroyBuffers();
     m_DescriptorPool.DestroyUniformBuffers();
-    m_AlbedoTexture.DestroyTexture();
-    m_NormalTexture.DestroyTexture();
-    m_GlossTexture.DestroyTexture();
-    m_SpecularTexture.DestroyTexture();
+    m_TextureManager.DestroyTextures();
 }
 
 void Mesh3D::DestroyBuffers() {
@@ -254,14 +236,6 @@ Vertex3D Mesh3D::GetVertexByIndex(const tinyobj::attrib_t &attrib, const tinyobj
     return vertex;
 }
 
-void Mesh3D::LoadDefaultTexture(VkCommandPool const &commandPool, const std::string &path) {
-    m_DefaultTexture.CreateTextureImage(commandPool, path);
-}
-
-void Mesh3D::UnloadDefaultTexture() {
-    m_DefaultTexture.DestroyTexture();
-}
-
 void Mesh3D::InitializeSphere(const glm::vec3 &center, float radius) {
     m_Vertices.clear();
     m_Indices.clear();
@@ -306,27 +280,7 @@ void Mesh3D::InitializeSphere(const glm::vec3 &center, float radius) {
 
 }
 
-void Mesh3D::UploadNormalTexture(VkCommandPool const &commandPool, const std::string &path) {
-    m_NormalTexture.CreateTextureImage(commandPool, path);
-    m_DescriptorPool.DestroyUniformBuffers();
-    m_DescriptorPool.SetNormalImageView(m_NormalTexture.GetTextureImageView());
-    m_DescriptorPool.Initialize();
-    m_HasNormalMap = 1;
-}
 
-void Mesh3D::UploadGlossTexture(VkCommandPool const &commandPool, const std::string &path) {
-    m_GlossTexture.CreateTextureImage(commandPool, path);
-    m_DescriptorPool.DestroyUniformBuffers();
-    m_DescriptorPool.SetGlossImageView(m_GlossTexture.GetTextureImageView());
-    m_DescriptorPool.Initialize();
-}
-
-void Mesh3D::UploadSpecularTexture(VkCommandPool const &commandPool, const std::string &path) {
-    m_SpecularTexture.CreateTextureImage(commandPool, path);
-    m_DescriptorPool.DestroyUniformBuffers();
-    m_DescriptorPool.SetSpecularImageView(m_SpecularTexture.GetTextureImageView());
-    m_DescriptorPool.Initialize();
-}
 
 
 

@@ -14,26 +14,21 @@
 
 #include "tiny_obj_loader.h"
 #include "Transform.h"
+#include "TextureManager.h"
 
 class DataBuffer;
 class Mesh3D
 {
 private:
-    static Texture m_DefaultTexture;
-
 	std::unique_ptr<DataBuffer> m_VertexBuffer{};
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
     std::unordered_map<Vertex3D, uint32_t> m_UniqueVertices{};
     std::vector<Vertex3D> m_Vertices = {};
     std::vector<uint32_t> m_Indices = {};
     Transform m_Transform;
+    TextureManager m_TextureManager;
 
     DescriptorPool m_DescriptorPool;
-    Texture m_AlbedoTexture{};
-    Texture m_NormalTexture{};
-    Texture m_GlossTexture{};
-    Texture m_SpecularTexture{};
-    int m_HasNormalMap = 0;
     void DestroyBuffers();
 
     void AddVertex(const Vertex3D &vertex);
@@ -42,8 +37,6 @@ private:
     [[nodiscard]] static Vertex3D GetVertexByIndex(const tinyobj::attrib_t &attrib,const tinyobj::index_t& index) ;
 
 public:
-    static void LoadDefaultTexture(VkCommandPool const &commandPool, const std::string &path);
-    static void UnloadDefaultTexture();
 
     Mesh3D();
     explicit Mesh3D(std::vector<Vertex3D>&& vertices, std::vector<uint32_t>&& indices);
@@ -55,6 +48,7 @@ public:
     ~Mesh3D() = default;
 
     Transform& GetTransform() { return m_Transform; }
+    TextureManager& GetTextureManager() { return m_TextureManager; }
 
 	void Update(uint32_t currentFrame, UniformBufferObject ubo);
     void ResetVertices(std::vector<Vertex3D>&& vertices);
@@ -67,10 +61,5 @@ public:
 
     void Destroy();
 	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
-
-    void UploadAlbedoTexture(VkCommandPool const &commandPool, const std::string &path);
-    void UploadNormalTexture(VkCommandPool const &commandPool, const std::string &path);
-    void UploadGlossTexture(VkCommandPool const &commandPool, const std::string &path);
-    void UploadSpecularTexture(VkCommandPool const &commandPool, const std::string &path);
 
 };
