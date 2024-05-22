@@ -6,9 +6,10 @@ layout(location = 2) in vec2 fragTexCoord;
 layout(location = 3) in vec3 fragTangent;
 layout(location = 4) in vec3 fragPosition;
 
-layout(push_constant) uniform cameraPos {
+layout(push_constant) uniform pushConstants{
     vec3 cameraPos;
-} cameraPosBlock;
+    int usingNormalMap;
+} pushConstantsBlock;
 
 layout(location = 0) out vec4 outColor;
 
@@ -42,30 +43,38 @@ void main() {
     const float gPI = 3.14;
     const float gLightIntensity = 7.0f;
     const float gShininess = 25.0f;
+
+    const bool usingNormalMap = pushConstantsBlock.usingNormalMap == 1;
     vec3 ambient = vec3(0.003f, 0.003f, 0.003f);
 
     // Sampling color from maps
     float glossinesMapSample = texture(glossTexSampler, fragTexCoord).r;
     float specularMapSample = texture(specularTexSampler, fragTexCoord).r;
-    vec3 normalMapSample = texture(normalTexSampler, fragTexCoord).rgb;
     vec3 diffuseMapSample = texture(texSampler, fragTexCoord).rgb;
 
-    // Remapping the value from [0,1] to [-1,1]
-    vec3 normal =  2 * normalMapSample - vec3(1, 1, 1);
-    // Transforming it in the correct tangent space
-    vec3 binormal = cross(fragNormal, fragTangent);
-    mat3 tangentSpaceAxis = mat3(fragTangent, binormal, fragNormal);
-    normal = normalize(tangentSpaceAxis * normal);
-
+    vec3 normal;
+    if(usingNormalMap) {
+        vec3 normalMapSample = texture(normalTexSampler, fragTexCoord).rgb;
+        // Remapping the value from [0,1] to [-1,1]
+        normal =  2 * normalMapSample - vec3(1, 1, 1);
+        // Transforming it in the correct tangent space
+        vec3 binormal = cross(fragNormal, fragTangent);
+        mat3 tangentSpaceAxis = mat3(fragTangent, binormal, fragNormal);
+        normal = normalize(tangentSpaceAxis * normal);
+    }
+    else {
+        normal = normalize(fragNormal);
+    }
     float lightDirCos = dot(normal, -(lightDirection));
     if (lightDirCos < 0) {
         outColor = vec4(0.f, 0.f, 0.f, 1.f);
     }
 
-    vec3 viewDir = normalize(cameraPosBlock.cameraPos - fragPosition);
+    vec3 viewDir = normalize(pushConstantsBlock.cameraPos - fragPosition);
     vec3 specular = Phong(specularMapSample, glossinesMapSample * gShininess, viewDir, normal);
     vec3 diffuse = diffuseMapSample * gLightIntensity / gPI;
     vec3 finalColor = lightDirCos * diffuse + specular + ambient;
     finalColor = RemapToUnitRange(finalColor);
     outColor = vec4(finalColor, 1.0);
+
 }

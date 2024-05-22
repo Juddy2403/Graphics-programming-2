@@ -14,6 +14,7 @@ private:
 
     static DescriptorPool m_2DDescriptorPool;
 public:
+    static int m_AreNormalsEnabled;
     static DescriptorPool& Get2DDescriptorPool() { return m_2DDescriptorPool; }
 	void Update(uint32_t currentFrame, const glm::mat4 &viewMatrix);
 	void destroyLevel();

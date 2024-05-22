@@ -36,6 +36,7 @@ private:
     Texture m_NormalTexture{};
     Texture m_GlossTexture{};
     Texture m_SpecularTexture{};
+    int m_HasNormalMap = 0;
     void DestroyBuffers();
 
     void AddVertex(const Vertex3D &vertex);

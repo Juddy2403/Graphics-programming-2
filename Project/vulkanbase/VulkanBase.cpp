@@ -47,12 +47,16 @@ void VulkanBase::keyEvent(int key, int scancode, int action, int mods) {
         // Remove the released key from the set
         m_PressedKeys.erase(key);
     }
+
+    if (key == GLFW_KEY_N && action == GLFW_PRESS) {
+        Level::m_AreNormalsEnabled = Level::m_AreNormalsEnabled == 1 ? 0 : 1;
+    }
 }
 
 void VulkanBase::ProcessInput() {
 
-    if (m_PressedKeys.count(GLFW_KEY_LEFT_SHIFT)) m_Camera.m_MovementSpeed = 8.f;
-    else m_Camera.m_MovementSpeed = 4.f;
+    if (m_PressedKeys.count(GLFW_KEY_LEFT_SHIFT)) m_Camera.m_MovementSpeed = 15.f;
+    else m_Camera.m_MovementSpeed = 10.f;
 
     if (m_PressedKeys.count(GLFW_KEY_W))
         m_Camera.m_Origin += (m_Camera.m_MovementSpeed * TimeManager::GetInstance().GetElapsed()) * m_Camera.m_Forward;
@@ -65,6 +69,7 @@ void VulkanBase::ProcessInput() {
 
     if (m_PressedKeys.count(GLFW_KEY_D))
         m_Camera.m_Origin += (m_Camera.m_MovementSpeed * TimeManager::GetInstance().GetElapsed()) * m_Camera.m_Right;
+
 }
 
 void VulkanBase::mouseMove(GLFWwindow *window, double xpos, double ypos) {
@@ -103,7 +108,7 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
     renderPassInfo.renderArea.extent = swapChainExtent;
 
     std::array<VkClearValue, 2> clearValues{};
-    clearValues[0].color = {{0.0f, 0.0f, 0.0f, 1.0f}};
+    clearValues[0].color = {{0.2f, 0.4f, 0.6f, 1.0f}};
     clearValues[1].depthStencil = {1.0f, 0};
 
     renderPassInfo.clearValueCount = static_cast<uint32_t>(clearValues.size());

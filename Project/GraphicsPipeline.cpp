@@ -84,7 +84,6 @@ void GraphicsPipeline::createGraphicsPipeline(const VkRenderPass &renderPass, Sh
     pipelineInfo.basePipelineHandle = VK_NULL_HANDLE;
     pipelineInfo.pDepthStencilState = &depthStencil;
 
-
     if (vkCreateGraphicsPipelines(VulkanBase::device, VK_NULL_HANDLE, 1, &pipelineInfo, nullptr, &m_GraphicsPipeline) !=
         VK_SUCCESS) {
         throw std::runtime_error("failed to create graphics pipeline!");
@@ -97,7 +96,7 @@ void GraphicsPipeline::CreatePipelineLayout() {
     VkPushConstantRange pushConstantRange{};
     pushConstantRange.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT; // The stage where the push constant will be accessible
     pushConstantRange.offset = 0; // Starting offset
-    pushConstantRange.size = sizeof(glm::vec3); // Size of the push constant
+    pushConstantRange.size = sizeof(glm::vec3)+ sizeof(int); // Size of the push constant
 
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;

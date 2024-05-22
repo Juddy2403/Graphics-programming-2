@@ -57,18 +57,17 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/3DMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/3DMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Camera.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Camera.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/GraphicsPipeline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/GraphicsPipeline.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Vertex.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Level.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/shaders/3Dshader.frag" beforeDir="false" afterPath="$PROJECT_DIR$/Project/shaders/3Dshader.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/shaders/3Dshader.vert" beforeDir="false" afterPath="$PROJECT_DIR$/Project/shaders/3Dshader.vert" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/vulkanbase/VulkanBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/vulkanbase/VulkanBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -393,7 +392,7 @@
       <workItem from="1716131120913" duration="15562000" />
       <workItem from="1716200894494" duration="2388000" />
       <workItem from="1716282609819" duration="18488000" />
-      <workItem from="1716400092754" duration="6941000" />
+      <workItem from="1716400092754" duration="12782000" />
     </task>
     <servers />
   </component>

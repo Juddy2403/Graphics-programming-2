@@ -139,6 +139,13 @@ void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) c
 
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
+    if(Level::m_AreNormalsEnabled == 1)
+        vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
+                           sizeof(glm::vec3), sizeof(int), &m_HasNormalMap);
+    else
+        vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
+                           sizeof(glm::vec3), sizeof(int), &Level::m_AreNormalsEnabled);
+
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                             GraphicsPipeline::m_PipelineLayout, 0, 1,
                             &m_DescriptorPool.GetDescriptorSets()[currentFrame], 0,
@@ -316,6 +323,7 @@ void Mesh3D::UploadNormalTexture(VkCommandPool const &commandPool, const std::st
     m_DescriptorPool.DestroyUniformBuffers();
     m_DescriptorPool.SetNormalImageView(m_NormalTexture.GetTextureImageView());
     m_DescriptorPool.Initialize();
+    m_HasNormalMap = 1;
 }
 
 void Mesh3D::UploadGlossTexture(VkCommandPool const &commandPool, const std::string &path) {

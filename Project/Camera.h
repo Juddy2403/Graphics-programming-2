@@ -33,7 +33,7 @@ struct Camera
 	const float m_Near{ .1f };
 	const float m_Far{ 1000.f };
     float m_RotationSpeed{ 20.f };
-    float m_MovementSpeed{6.f};
+    float m_MovementSpeed{10.f};
 
 	void Initialize(float _fovAngle = 90.f, glm::vec3 _origin = { 0.f,0.f,0.f }, float _aspectRatio = 1.f)
 	{
