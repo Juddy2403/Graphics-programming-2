@@ -12,8 +12,8 @@
 #include "Vertex.h"
 #include "Texture.h"
 
-
 #include "tiny_obj_loader.h"
+#include "Transform.h"
 
 class DataBuffer;
 class Mesh3D
@@ -26,10 +26,7 @@ private:
     std::unordered_map<Vertex3D, uint32_t> m_UniqueVertices{};
     std::vector<Vertex3D> m_Vertices = {};
     std::vector<uint32_t> m_Indices = {};
-    glm::mat4 m_WorldMatrix{glm::mat4(1)};
-    glm::mat4 m_RotationMatrix{glm::mat4(1.f)};
-    glm::mat4 m_TranslationMatrix{glm::mat4(1.f)};
-    glm::mat4 m_ScaleMatrix{glm::mat4(1.f)};
+    Transform m_Transform;
 
     DescriptorPool m_DescriptorPool;
     Texture m_AlbedoTexture{};
@@ -57,12 +54,11 @@ public:
     Mesh3D& operator=(Mesh3D&& other) = delete;
     ~Mesh3D() = default;
 
+    Transform& GetTransform() { return m_Transform; }
+
 	void Update(uint32_t currentFrame, UniformBufferObject ubo);
     void ResetVertices(std::vector<Vertex3D>&& vertices);
     void ResetIndices(std::vector<uint32_t>&& indices);
-    void Translate(const glm::vec3& translation);
-    void Rotate(const glm::vec3& rotation);
-    void Scale(const glm::vec3& scale);
 	void UploadMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
     void MapBuffers();
 

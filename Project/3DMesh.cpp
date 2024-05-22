@@ -37,10 +37,8 @@ Mesh3D::Mesh3D() {
 }
 
 void Mesh3D::Update(uint32_t currentFrame, UniformBufferObject ubo) {
-    float totalTime = TimeManager::GetInstance().GetElapsed();
-    m_RotationMatrix = glm::rotate(m_RotationMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    m_WorldMatrix = m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
-    ubo.model = m_WorldMatrix;
+    m_Transform.Update();
+    ubo.model = m_Transform.GetWorldMatrix();
     m_DescriptorPool.UpdateUniformBuffer(currentFrame, ubo);
 }
 
@@ -91,15 +89,20 @@ void Mesh3D::InitializeCube(const glm::vec3 &bottomLeftBackCorner, float sideLen
     m_Vertices.clear();
     m_Indices.clear();
 
-    const glm::vec3 bottomRightBackCorner = bottomLeftBackCorner + sideLength * Camera::RIGHT;
-    const glm::vec3 topLeftBackCorner = bottomLeftBackCorner + sideLength * Camera::UP;
+    //calculate center and translate the cube to the center
+    glm::vec3 center = bottomLeftBackCorner + sideLength * 0.5f;
+    m_Transform.Translate(center);
+    const glm::vec3 bottomLeftBackCornerCentered = -sideLength * 0.5f * glm::vec3(1,1,1);
+
+    const glm::vec3 bottomRightBackCorner = bottomLeftBackCornerCentered + sideLength * Camera::RIGHT;
+    const glm::vec3 topLeftBackCorner = bottomLeftBackCornerCentered + sideLength * Camera::UP;
     const glm::vec3 topRightBackCorner = bottomRightBackCorner + sideLength * Camera::UP;
-    const glm::vec3 bottomLeftFrontCorner = bottomLeftBackCorner + sideLength * Camera::FORWARD;
+    const glm::vec3 bottomLeftFrontCorner = bottomLeftBackCornerCentered + sideLength * Camera::FORWARD;
     const glm::vec3 bottomRightFrontCorner = bottomRightBackCorner + sideLength * Camera::FORWARD;
     const glm::vec3 topLeftFrontCorner = topLeftBackCorner + sideLength * Camera::FORWARD;
     const glm::vec3 topRightFrontCorner = topRightBackCorner + sideLength * Camera::FORWARD;
 
-    Vertex3D bottomLeftBackCornerVertex{bottomLeftBackCorner};
+    Vertex3D bottomLeftBackCornerVertex{bottomLeftBackCornerCentered};
     Vertex3D topRightFrontCornerVertex{topRightFrontCorner};
     Vertex3D bottomRightBackCornerVertex{bottomRightBackCorner};
     Vertex3D topLeftFrontCornerVertex{topLeftFrontCorner};
@@ -177,10 +180,6 @@ void Mesh3D::DestroyBuffers() {
     m_IndexBuffer->Destroy();
 }
 
-void Mesh3D::Translate(const glm::vec3 &translation) {
-    m_TranslationMatrix = glm::translate(m_TranslationMatrix, translation);
-}
-
 void Mesh3D::LoadModel(const std::string &path, bool triangulate = true) {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
@@ -255,17 +254,6 @@ Vertex3D Mesh3D::GetVertexByIndex(const tinyobj::attrib_t &attrib, const tinyobj
     return vertex;
 }
 
-void Mesh3D::Rotate(const glm::vec3 &rotation) {
-    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.x), Camera::RIGHT);
-    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.y), Camera::UP);
-    m_RotationMatrix = glm::rotate(m_RotationMatrix, glm::radians(rotation.z), Camera::FORWARD);
-
-}
-
-void Mesh3D::Scale(const glm::vec3 &scale) {
-    m_ScaleMatrix = glm::scale(m_ScaleMatrix, scale);
-}
-
 void Mesh3D::LoadDefaultTexture(VkCommandPool const &commandPool, const std::string &path) {
     m_DefaultTexture.CreateTextureImage(commandPool, path);
 }
@@ -274,10 +262,10 @@ void Mesh3D::UnloadDefaultTexture() {
     m_DefaultTexture.DestroyTexture();
 }
 
-
 void Mesh3D::InitializeSphere(const glm::vec3 &center, float radius) {
     m_Vertices.clear();
     m_Indices.clear();
+    m_Transform.Translate(center);
     const int sectorCount = 36;
     const int stackCount = 18;
     const auto PI = glm::pi<float>();
@@ -292,8 +280,8 @@ void Mesh3D::InitializeSphere(const glm::vec3 &center, float radius) {
             float x = xy * cosf(sectorAngle);
             float y = xy * sinf(sectorAngle);
             Vertex3D vertex{};
-            vertex.m_Pos = {x + center.x, y + center.y, z + center.z};
-            vertex.m_Normal = glm::normalize(vertex.m_Pos - center);
+            vertex.m_Pos = {x , y , z };
+            vertex.m_Normal = glm::normalize(vertex.m_Pos);
             vertex.m_Color = {1.0f, 1.0f, 1.0f};
 
             m_Vertices.push_back(vertex);

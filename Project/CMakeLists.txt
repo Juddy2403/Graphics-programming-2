@@ -41,6 +41,8 @@ set(SOURCES
         ImageView.h
         Texture.cpp
         Texture.h
+        Transform.cpp
+        Transform.h
 )
 #
 # Create the executable

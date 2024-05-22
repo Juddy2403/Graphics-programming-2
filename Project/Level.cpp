@@ -44,8 +44,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_2DMeshes.back()->InitializeRoundedRect(0.2f, 0.5f, 0.5f, 0.f, 0.1f, 20);
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    m_3DMeshes.back()->InitializeCube({-0.25f, -0.25f, -0.25f}, 0.5);
-    m_3DMeshes.back()->Translate({-1.f, 0.f, 0.f});
+    m_3DMeshes.back()->InitializeCube({-2.f, -2.f, 4.f}, 1);
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     m_3DMeshes.back()->LoadModel("resources/vehicle.obj", true);
@@ -53,10 +52,11 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_3DMeshes.back()->UploadNormalTexture(commandPool, "resources/textures/vehicle_normal.png");
     m_3DMeshes.back()->UploadGlossTexture(commandPool, "resources/textures/vehicle_gloss.png");
     m_3DMeshes.back()->UploadSpecularTexture(commandPool, "resources/textures/vehicle_specular.png");
-    m_3DMeshes.back()->Translate({0.f, -10.f, 50.f});
+    m_3DMeshes.back()->GetTransform().Translate({0.f, -10.f, 50.f});
+    m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    m_3DMeshes.back()->InitializeSphere({0.f, 0.f, 0.f}, 0.5);
+    m_3DMeshes.back()->InitializeSphere({3.f, 0.f, 5.f}, 1);
 
     for (auto &mesh: m_3DMeshes) {
         mesh->MapBuffers();
