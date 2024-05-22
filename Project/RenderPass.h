@@ -7,10 +7,11 @@ class RenderPass
 {
 private:
 	VkRenderPass m_RenderPass;
-    DepthBuffer m_DepthBuffer;
+    static DepthBuffer m_DepthBuffer;
 	std::vector<VkFramebuffer> m_SwapChainFramebuffers;
 
 public:
+    static DepthBuffer& GetDepthBuffer() { return m_DepthBuffer; }
 	void createFrameBuffers(const std::vector<VkImageView>& swapChainImageViews,
 		const VkExtent2D& swapChainExtent);
 	void createRenderPass(const VkFormat& swapChainImageFormat);

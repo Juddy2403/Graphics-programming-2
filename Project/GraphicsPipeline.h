@@ -12,7 +12,8 @@ public:
     static VkPipelineLayout m_PipelineLayout;
     VkPipeline& getGraphicsPipeline() { return m_GraphicsPipeline; }
     void createGraphicsPipeline(const VkRenderPass &renderPass, Shader &gradientShader,
-                                VkPipelineVertexInputStateCreateInfo pipelineVerInputStateCreateInfo);
+                                VkPipelineVertexInputStateCreateInfo pipelineVerInputStateCreateInfo,
+                                bool enableDepthBuffering = true);
     void destroyGraphicsPipeline();
 
     static void DestroyGraphicsPipelineLayout() ;

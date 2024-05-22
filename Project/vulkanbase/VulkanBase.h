@@ -74,8 +74,10 @@ private:
 		m_RenderPass.createRenderPass(m_SwapChain.GetImageView().m_SwapChainImageFormat);
         Shader::CreateDescriptor();
         GraphicsPipeline::CreatePipelineLayout();
-        m_3DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_3DShader, Vertex3D::CreateVertexInputStateInfo());
-        m_2DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_2DShader, Vertex2D::CreateVertexInputStateInfo());
+        m_3DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_3DShader,
+                                                    Vertex3D::CreateVertexInputStateInfo());
+        m_2DGraphicsPipeline.createGraphicsPipeline(m_RenderPass.getRenderPass(), m_2DShader,
+                                                    Vertex2D::CreateVertexInputStateInfo(), false);
 		m_RenderPass.createFrameBuffers(m_SwapChain.GetImageView().m_SwapChainImageViews,swapChainExtent);
         m_Camera.Initialize(45.f, {0.f,0.f,-2.f}, static_cast<float>(swapChainExtent.width) / static_cast<float>(swapChainExtent.height));
 

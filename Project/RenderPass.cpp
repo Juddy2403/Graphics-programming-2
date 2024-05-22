@@ -2,6 +2,7 @@
 #include <vulkanbase/VulkanUtil.h>
 #include <vulkanbase/VulkanBase.h>
 
+DepthBuffer RenderPass::m_DepthBuffer;
 void RenderPass::createFrameBuffers(const std::vector<VkImageView> &swapChainImageViews,
                                     const VkExtent2D &swapChainExtent) {
     m_DepthBuffer.CreateDepthResources();

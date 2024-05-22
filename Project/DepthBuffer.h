@@ -12,6 +12,7 @@ private:
     static VkFormat FindSupportedFormat(const std::vector<VkFormat>& candidates, VkImageTiling tiling, VkFormatFeatureFlags features);
     bool HasStencilComponent(VkFormat format);
 public:
+    VkImage GetDepthImage() { return depthImage; }
     VkImageView GetDepthImageView() { return depthImageView; }
     static VkFormat FindDepthFormat();
     void CreateDepthResources();
