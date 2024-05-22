@@ -14,7 +14,7 @@ struct Vertex3D {
     alignas(16) glm::vec3 m_Normal{};
     alignas(16) glm::vec3 m_Color{ 1,1,1 };
     alignas(16) glm::vec2 m_TexCoord;
-    alignas(16) glm::vec3 m_Tangent;
+    alignas(16) glm::vec3 m_Tangent{};
 
     static VkPipelineVertexInputStateCreateInfo CreateVertexInputStateInfo()
     {
@@ -44,8 +44,8 @@ struct Vertex3D {
         return bindingDescription;
     }
 
-    static std::array<VkVertexInputAttributeDescription, 4> getAttributeDescriptions() {
-        std::array<VkVertexInputAttributeDescription, 4> attributeDescriptions{};
+    static std::array<VkVertexInputAttributeDescription, 5> getAttributeDescriptions() {
+        std::array<VkVertexInputAttributeDescription, 5> attributeDescriptions{};
 
         attributeDescriptions[0].binding = 0;
         attributeDescriptions[0].location = 0;
@@ -67,10 +67,16 @@ struct Vertex3D {
         attributeDescriptions[3].format = VK_FORMAT_R32G32_SFLOAT;
         attributeDescriptions[3].offset = offsetof(Vertex3D, m_TexCoord);
 
+        attributeDescriptions[4].binding = 0;
+        attributeDescriptions[4].location = 8;
+        attributeDescriptions[4].format = VK_FORMAT_R32G32B32_SFLOAT;
+        attributeDescriptions[4].offset = offsetof(Vertex3D, m_Tangent);
+
         return attributeDescriptions;
     }
     bool operator==(const Vertex3D& other) const {
-        return m_Pos == other.m_Pos && m_Normal == other.m_Normal && m_Color == other.m_Color && m_TexCoord == other.m_TexCoord;
+        return m_Pos == other.m_Pos && m_Normal == other.m_Normal && m_Color == other.m_Color && m_TexCoord == other.m_TexCoord
+            && m_Tangent == other.m_Tangent;
     }
 };
 
@@ -80,7 +86,8 @@ namespace std {
             return ((hash<glm::vec3>()(vertex.m_Pos) ^
                      (hash<glm::vec3>()(vertex.m_Normal) << 1)) >> 1) ^
                    (hash<glm::vec3>()(vertex.m_Color) << 1) ^
-                   (hash<glm::vec2>()(vertex.m_TexCoord) << 1);
+                   (hash<glm::vec2>()(vertex.m_TexCoord) << 1)
+                   ^ (hash<glm::vec3>()(vertex.m_Tangent) << 1);
         }
     };
 }

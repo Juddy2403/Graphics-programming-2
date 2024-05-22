@@ -58,7 +58,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_3DMeshes[1]->UploadNormalTexture(commandPool, "resources/textures/vehicle_normal.png");
     m_3DMeshes[1]->UploadGlossTexture(commandPool, "resources/textures/vehicle_gloss.png");
     m_3DMeshes[1]->UploadSpecularTexture(commandPool, "resources/textures/vehicle_specular.png");
-    m_3DMeshes[1]->Translate({10.f, -5.f, 30.5f});
+    m_3DMeshes[1]->Translate({0.f, -5.f, 50.f});
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     m_3DMeshes[2]->InitializeSphere({0.f, 0.f, 0.f}, 0.5);

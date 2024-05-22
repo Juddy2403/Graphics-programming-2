@@ -12,6 +12,9 @@
 #include "Vertex.h"
 #include "Texture.h"
 
+
+#include "tiny_obj_loader.h"
+
 class DataBuffer;
 class Mesh3D
 {
@@ -38,6 +41,7 @@ private:
     void AddVertex(const Vertex3D &vertex);
     void AddRectPlane(Vertex3D &bottomLeft, Vertex3D &topLeft, Vertex3D &topRight, Vertex3D &bottomRight,
                       bool isClockWise, bool keepNormals);
+    [[nodiscard]] static Vertex3D GetVertexByIndex(const tinyobj::attrib_t &attrib,const tinyobj::index_t& index) ;
 
 public:
     static void LoadDefaultTexture(VkCommandPool const &commandPool, const std::string &path);
@@ -71,4 +75,5 @@ public:
     void UploadNormalTexture(VkCommandPool const &commandPool, const std::string &path);
     void UploadGlossTexture(VkCommandPool const &commandPool, const std::string &path);
     void UploadSpecularTexture(VkCommandPool const &commandPool, const std::string &path);
+
 };

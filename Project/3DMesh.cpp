@@ -4,10 +4,16 @@
 
 #define TINYOBJLOADER_IMPLEMENTATION
 
-#include "tiny_obj_loader.h"
+#include <tiny_obj_loader.h>
 
 #define GLM_FORCE_RADIANS
 #define GLM_FORCE_DEPTH_ZERO_TO_ONE
+
+//TODO: move this outta here
+glm::vec3 Reject(const glm::vec3 &a, const glm::vec3 &b) {
+    const glm::vec3 proj = glm::dot(a, b) / glm::dot(b, b) * b;
+    return a - proj;
+}
 
 Texture Mesh3D::m_DefaultTexture;
 
@@ -32,7 +38,7 @@ Mesh3D::Mesh3D() {
 
 void Mesh3D::Update(uint32_t currentFrame, UniformBufferObject ubo) {
     float totalTime = TimeManager::GetInstance().GetElapsed();
-    //m_RotationMatrix = glm::rotate(m_RotationMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+    m_RotationMatrix = glm::rotate(m_RotationMatrix, totalTime * glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
     m_WorldMatrix = m_TranslationMatrix * m_RotationMatrix * m_ScaleMatrix;
     ubo.model = m_WorldMatrix;
     m_DescriptorPool.UpdateUniformBuffer(currentFrame, ubo);
@@ -173,47 +179,73 @@ void Mesh3D::LoadModel(const std::string &path, bool triangulate = true) {
     std::vector<tinyobj::shape_t> shapes;
     std::vector<tinyobj::material_t> materials;
     std::string err;
-
     if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path.c_str(), 0, triangulate)) {
         throw std::runtime_error(err);
     }
 
     for (const auto &shape: shapes) {
-        for (const auto &index: shape.mesh.indices) {
-            Vertex3D vertex{};
+        for (int i = 0; i < shape.mesh.indices.size() - 2; i += 3) {
+            Vertex3D vertex0 = GetVertexByIndex(attrib, shape.mesh.indices[i]);
+            Vertex3D vertex1 = GetVertexByIndex(attrib, shape.mesh.indices[i + 1]);
+            Vertex3D vertex2 = GetVertexByIndex(attrib, shape.mesh.indices[i + 2]);
 
-            vertex.m_Pos = {
-                    attrib.vertices[3 * index.vertex_index + 0],
-                    attrib.vertices[3 * index.vertex_index + 1],
-                    -attrib.vertices[3 * index.vertex_index + 2]  // flip the z axis cause im using a left handed system
-            };
+            glm::vec3 edge1 = vertex1.m_Pos - vertex0.m_Pos;
+            glm::vec3 edge2 = vertex2.m_Pos - vertex0.m_Pos;
 
-            if (3 * index.normal_index + 2 < attrib.normals.size()) {
-                vertex.m_Normal = {
-                        attrib.normals[3 * index.normal_index + 0],
-                        attrib.normals[3 * index.normal_index + 1],
-                        -attrib.normals[3 * index.normal_index + 2]
-                };
-            } else {
-                // Handle the case where normal data is missing or out of bounds
-                vertex.m_Normal = {0.0f, 0.0f, 0.0f};
-            }
+            glm::vec2 diffX = glm::vec2(vertex1.m_TexCoord.x - vertex0.m_TexCoord.x,
+                                        vertex2.m_TexCoord.x - vertex0.m_TexCoord.x);
+            glm::vec2 diffY = glm::vec2(vertex1.m_TexCoord.y - vertex0.m_TexCoord.y,
+                                        vertex2.m_TexCoord.y - vertex0.m_TexCoord.y);
 
-            vertex.m_Color = {1.0f, 1.0f, 1.0f};
+            float f = 1.0f / (diffX.x * diffY.y - diffY.x * diffX.y);
 
-            if (2 * index.texcoord_index + 1 < attrib.texcoords.size()) {
-                vertex.m_TexCoord = {
-                        attrib.texcoords[2 * index.texcoord_index + 0],
-                        1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
-                };
-            } else {
-                // Handle the case where texture coordinate data is missing or out of bounds
-                vertex.m_TexCoord = {0.0f, 0.0f};
-            }
+            glm::vec3 tangent = (edge1 * diffY.y - edge2 * diffY.x) * f;
+            //tangent = glm::normalize(tangent);
 
-            AddVertex(vertex);
+            vertex0.m_Tangent += glm::normalize(Reject(tangent, vertex0.m_Normal));
+            vertex1.m_Tangent += glm::normalize(Reject(tangent, vertex1.m_Normal));
+            vertex2.m_Tangent += glm::normalize(Reject(tangent, vertex2.m_Normal));
+
+            //converting from right-handed to left-handed system
+            vertex0.m_Pos.z *= -1;
+            vertex0.m_Normal.z *= -1;
+            vertex0.m_Tangent.z *= -1;
+            vertex1.m_Pos.z *= -1;
+            vertex1.m_Normal.z *= -1;
+            vertex1.m_Tangent.z *= -1;
+            vertex2.m_Pos.z *= -1;
+            vertex2.m_Normal.z *= -1;
+            vertex2.m_Tangent.z *= -1;
+
+            AddVertex(vertex0);
+            AddVertex(vertex1);
+            AddVertex(vertex2);
         }
     }
+}
+
+Vertex3D Mesh3D::GetVertexByIndex(const tinyobj::attrib_t &attrib, const tinyobj::index_t &index) {
+    Vertex3D vertex{};
+
+    vertex.m_Pos = {
+            attrib.vertices[3 * index.vertex_index + 0],
+            attrib.vertices[3 * index.vertex_index + 1],
+            attrib.vertices[3 * index.vertex_index + 2]
+    };
+
+    vertex.m_Normal = {
+            attrib.normals[3 * index.normal_index + 0],
+            attrib.normals[3 * index.normal_index + 1],
+            attrib.normals[3 * index.normal_index + 2]
+    };
+
+    vertex.m_Color = {1.0f, 1.0f, 1.0f};
+
+    vertex.m_TexCoord = {
+            attrib.texcoords[2 * index.texcoord_index + 0],
+            1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
+    };
+    return vertex;
 }
 
 void Mesh3D::Rotate(const glm::vec3 &rotation) {
@@ -235,6 +267,7 @@ void Mesh3D::UnloadDefaultTexture() {
     m_DefaultTexture.DestroyTexture();
 }
 
+
 void Mesh3D::InitializeSphere(const glm::vec3 &center, float radius) {
     m_Vertices.clear();
     m_Indices.clear();
@@ -255,7 +288,7 @@ void Mesh3D::InitializeSphere(const glm::vec3 &center, float radius) {
             vertex.m_Pos = {x + center.x, y + center.y, z + center.z};
             vertex.m_Normal = glm::normalize(vertex.m_Pos - center);
             vertex.m_Color = {1.0f, 1.0f, 1.0f};
-            vertex.m_TexCoord = {static_cast<float>(j) / sectorCount, 1.0f - static_cast<float>(i) / stackCount};
+
             m_Vertices.push_back(vertex);
         }
     }
