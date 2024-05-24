@@ -39,7 +39,7 @@ void Mesh3D::MapBuffers() {
     m_IndexBuffer->Map(m_Indices.size() * sizeof(m_Indices[0]), m_Indices.data());
 }
 
-void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
+void Mesh3D::Draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
 
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
@@ -49,6 +49,8 @@ void Mesh3D::draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) c
     else
         vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
                            sizeof(glm::vec3), sizeof(int), &Level::m_AreNormalsEnabled);
+    vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
+                       sizeof(glm::vec3)+ sizeof(int)*2, sizeof(int), &m_DoesHavePBRMaterial);
 
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
                             GraphicsPipeline::m_PipelineLayout, 0, 1,

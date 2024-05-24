@@ -51,6 +51,16 @@ void VulkanBase::keyEvent(int key, int scancode, int action, int mods) {
     if (key == GLFW_KEY_N && action == GLFW_PRESS) {
         Level::m_AreNormalsEnabled = Level::m_AreNormalsEnabled == 1 ? 0 : 1;
     }
+
+    if (key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+        m_ShadingMode = static_cast<ShadingMode>((static_cast<int>(m_ShadingMode) + 1) % 4);
+    }
+
+    if (key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+        m_ShadingMode = static_cast<ShadingMode>((static_cast<int>(m_ShadingMode) - 1));
+        if(static_cast<int>(m_ShadingMode) < 0)
+            m_ShadingMode = static_cast<ShadingMode>(3);
+    }
 }
 
 void VulkanBase::ProcessInput() {
@@ -318,9 +328,10 @@ void VulkanBase::drawFrame() {
     m_CommandBuffer.BeginRecording();
     vkCmdPushConstants(m_CommandBuffer.GetVkCommandBuffer(), GraphicsPipeline::m_PipelineLayout,
                        VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(glm::vec3), &m_Camera.m_Origin);
+    vkCmdPushConstants(m_CommandBuffer.GetVkCommandBuffer(), GraphicsPipeline::m_PipelineLayout,
+                       VK_SHADER_STAGE_FRAGMENT_BIT,
+                       sizeof(glm::vec3) + sizeof(int), sizeof(int), &m_ShadingMode);
     m_Level.Update(imageIndex, m_Camera.m_ViewMatrix);
-    //record cmd buffer has been split in begin recording and end recording
-    //recordCommandBuffer(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
 
     drawFrame(imageIndex);
     m_CommandBuffer.EndRecording();

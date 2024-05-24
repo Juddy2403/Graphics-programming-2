@@ -106,7 +106,7 @@ void GraphicsPipeline::CreatePipelineLayout() {
     VkPushConstantRange pushConstantRange{};
     pushConstantRange.stageFlags = VK_SHADER_STAGE_FRAGMENT_BIT; // The stage where the push constant will be accessible
     pushConstantRange.offset = 0; // Starting offset
-    pushConstantRange.size = sizeof(glm::vec3)+ sizeof(int); // Size of the push constant
+    pushConstantRange.size = sizeof(glm::vec3)+ sizeof(int)*3; // Size of the push constant
 
     VkPipelineLayoutCreateInfo pipelineLayoutInfo{};
     pipelineLayoutInfo.sType = VK_STRUCTURE_TYPE_PIPELINE_LAYOUT_CREATE_INFO;

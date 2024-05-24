@@ -42,7 +42,7 @@ void Mesh2D::Destroy() {
     DestroyBuffers();
 }
 
-void Mesh2D::draw(VkCommandBuffer const &commandBuffer, uint32_t currentFrame) const {
+void Mesh2D::Draw(VkCommandBuffer const &commandBuffer, uint32_t currentFrame) const {
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,

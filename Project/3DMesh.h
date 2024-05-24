@@ -18,6 +18,7 @@ class DataBuffer;
 class Mesh3D
 {
 private:
+    int m_DoesHavePBRMaterial = 0;
 	std::unique_ptr<DataBuffer> m_VertexBuffer{};
     std::unique_ptr<DataBuffer> m_IndexBuffer{};
     std::unordered_map<Vertex3D, uint32_t> m_UniqueVertices{};
@@ -39,6 +40,7 @@ public:
 
     Transform& GetTransform() { return m_Transform; }
     TextureManager& GetTextureManager() { return m_TextureManager; }
+    void SetPBRMaterial() { m_DoesHavePBRMaterial = 1; }
     void AddVertex(const Vertex3D &vertex);
 	void Update(uint32_t currentFrame, UniformBufferObject ubo);
     void ClearVertices();
@@ -47,6 +49,6 @@ public:
     void MapBuffers();
 
     void Destroy();
-	void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
+	void Draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
 
 };

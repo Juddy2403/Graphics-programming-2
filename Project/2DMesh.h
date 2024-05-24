@@ -38,7 +38,7 @@ public:
     void AddVertex(const Vertex2D &vertex);
 
     void Destroy();
-    void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
+    void Draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
 };
 
 

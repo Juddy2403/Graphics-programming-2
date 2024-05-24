@@ -40,7 +40,6 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     MeshLoader::InitializeRoundedRect(*m_2DMeshes.back(),0.2f, 0.5f, 0.5f, 0.f, 0.1f, 20);
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-   // m_3DMeshes.back()->InitializeCube({-2.f, -2.f, 4.f}, 1);
     MeshLoader::InitializeCube(*m_3DMeshes.back(), {-2.f, -2.f, 4.f}, 1);
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
@@ -51,6 +50,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_3DMeshes.back()->GetTextureManager().UploadSpecularTexture(commandPool, "resources/textures/vehicle_specular.png");
     m_3DMeshes.back()->GetTransform().Translate({0.f, -10.f, 50.f});
     m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
+    m_3DMeshes.back()->SetPBRMaterial();
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     MeshLoader::InitializeSphere(*m_3DMeshes.back(),{3.f, 0.f, 5.f}, 1);
@@ -78,14 +78,14 @@ void Level::destroyLevel() {
 
 void Level::Draw3DMeshes(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
     for (const auto &mesh: m_3DMeshes) {
-        mesh->draw(commandBuffer, currentFrame);
+        mesh->Draw(commandBuffer, currentFrame);
     }
 }
 
 void Level::Draw2DMeshes(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const {
     m_2DDescriptorPool.UpdateUniformBuffer(currentFrame, m_2DUBOMatrixes);
     for (const auto &mesh: m_2DMeshes) {
-        mesh->draw(commandBuffer, currentFrame);
+        mesh->Draw(commandBuffer, currentFrame);
     }
 }
 
