@@ -31,13 +31,13 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_2DDescriptorPool.Initialize();
 
     m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    m_2DMeshes.back()->InitializeRect({-0.5f, -0.5f}, 0.5f);
+    MeshLoader::InitializeRect(*m_2DMeshes.back(),{-0.5f, -0.5f}, 0.5f);
 
     m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    m_2DMeshes.back()->InitializeCircle({-0.5f, 0.5f}, 0.3f,20);
+    MeshLoader::InitializeCircle(*m_2DMeshes.back(),{-0.5f, 0.5f}, 0.3f,20);
 
     m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    m_2DMeshes.back()->InitializeRoundedRect(0.2f, 0.5f, 0.5f, 0.f, 0.1f, 20);
+    MeshLoader::InitializeRoundedRect(*m_2DMeshes.back(),0.2f, 0.5f, 0.5f, 0.f, 0.1f, 20);
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
    // m_3DMeshes.back()->InitializeCube({-2.f, -2.f, 4.f}, 1);

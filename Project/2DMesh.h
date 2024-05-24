@@ -19,10 +19,6 @@ private:
     std::vector<uint32_t> m_Indices = {};
     void DestroyBuffers();
 
-    void AddRect(float top, float left, float bottom, float right);
-    void AddVertex(const glm::vec2 &pos, const glm::vec3& color = {1, 1, 1});
-    void AddVertex(const Vertex2D &vertex);
-
 public:
     Mesh2D();
     explicit Mesh2D(std::vector<Vertex2D>&& vertices, std::vector<uint32_t>&& indices);
@@ -33,14 +29,13 @@ public:
     ~Mesh2D() = default;
 
     void Update(uint32_t currentFrame);
-    void ResetVertices(std::vector<Vertex2D>&& vertices);
-    void ResetIndices(std::vector<uint32_t>&& indices);
+    void ClearVertices();
+    void ClearIndices();
     void UploadMesh(const VkCommandPool& commandPool, const VkQueue& graphicsQueue);
     void MapBuffers();
 
-    void InitializeCircle(const glm::vec2 &center, float radius, int nrOfSegments);
-    void InitializeRect(const glm::vec2 &bottomLeft, float sideLen);
-    void InitializeRoundedRect(float left, float bottom, float right, float top, float radius, int nrOfSegments);
+    void AddVertex(const glm::vec2 &pos, const glm::vec3& color = {1, 1, 1});
+    void AddVertex(const Vertex2D &vertex);
 
     void Destroy();
     void draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;

@@ -93,14 +93,8 @@ namespace std {
 }
 
 struct Vertex2D {
-    //should be a vec3
     alignas(16) glm::vec2 m_Pos{};
-    //glm::vec2 m_TexCoord;
-    //alignas(16) glm::vec3 m_Normal;
-    //glm::vec3 m_Tangent;
     alignas(16) glm::vec3 m_Color{ 1.f,1.f,1.f };
-
-    //explicit Vertex2D(const glm::vec2 &pos, const glm::vec3 &color = {1, 1, 1}) : m_Pos(pos), m_Color(color) {}
 
     static VkPipelineVertexInputStateCreateInfo CreateVertexInputStateInfo()
     {

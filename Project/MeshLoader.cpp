@@ -1,5 +1,6 @@
 #include "MeshLoader.h"
 #include "3DMesh.h"
+#include "2DMesh.h"
 #include "Camera.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
@@ -194,4 +195,82 @@ void MeshLoader::AddRectPlane(Mesh3D &mesh, Vertex3D &bottomLeft, Vertex3D &topL
         mesh.AddVertex(bottomRight);
         mesh.AddVertex(topRight);
     }
+}
+
+void MeshLoader::InitializeRect(Mesh2D &mesh, const glm::vec2 &bottomLeft, float sideLen) {
+    mesh.ClearIndices();
+    mesh.ClearVertices();
+    AddRect(mesh,bottomLeft.y + sideLen, bottomLeft.x, bottomLeft.y, bottomLeft.x + sideLen);
+}
+
+void MeshLoader::InitializeCircle(Mesh2D &mesh, const glm::vec2 &center, float radius, int nrOfSegments) {
+    mesh.ClearIndices();
+    mesh.ClearVertices();
+    const float angleIncrement = 2.0f * glm::pi<float>() / nrOfSegments;
+
+    glm::vec2 pos1 = {radius + center.x, center.y};
+
+    for (int i = 1; i <= nrOfSegments; ++i) {
+        const float angle = angleIncrement * i;
+        glm::vec2 pos2 = {radius * cos(angle) + center.x, radius * sin(angle) + center.y};
+
+        // Add vertex positions to the vertex buffer
+        mesh.AddVertex(pos2, {1.0f, 1.0f, 1.0f});
+        mesh.AddVertex(pos1,{1.0f, 1.0f, 1.0f});
+        mesh.AddVertex(center,{1.0f, 0.0f, 0.0f});
+
+        pos1 = pos2;
+    }
+}
+
+void MeshLoader::InitializeRoundedRect(Mesh2D &mesh, float left, float bottom, float right, float top, float radius,
+                                       int nrOfSegments) {
+    mesh.ClearIndices();
+    mesh.ClearVertices();
+    // Calculate the corner vertices
+    const std::vector<glm::vec2> corners = {
+            {right, bottom},     // Top-right     0
+            {left,  bottom},      // Top-left      1
+            {left,  top},  // Bottom-left   2
+            {right, top}     // Bottom-right  3
+    };
+
+    std::vector<glm::vec2> pos1;
+    std::vector<glm::vec2> pos2;
+
+    constexpr float rightAngle = glm::pi<float>() / 2.f;
+    const float angleIncrement = rightAngle / nrOfSegments;
+
+    for (size_t i = 0; i < 4; i++) {
+        pos1.emplace_back(corners[i].x + radius * cos((angleIncrement * 0 + rightAngle * i)),
+                          corners[i].y + radius * sin((angleIncrement * 0 + rightAngle * i)));
+    }
+    AddRect(mesh,pos1[1].y, pos1[1].x, pos1[3].y, pos1[3].x);
+    AddRect(mesh,pos1[0].y, pos1[2].x, pos1[2].y, pos1[0].x);
+
+    for (int j = 1; j <= nrOfSegments; ++j) {
+        pos2.clear();
+
+        for (size_t i = 0; i < 4; i++) {
+            pos2.emplace_back(corners[i].x + radius * cos((angleIncrement * j + rightAngle * i)),
+                              corners[i].y + radius * sin((angleIncrement * j + rightAngle * i)));
+
+            mesh.AddVertex(pos1[i],{1.0f, 0.0f, 0.0f});
+            mesh.AddVertex(corners[i],{1.0f, 0.0f, 0.0f});
+            mesh.AddVertex(pos2[i],{1.0f, 0.0f, 0.0f});
+
+        }
+        pos1.clear();
+        pos1.insert(pos1.begin(), pos2.begin(), pos2.end());
+    }
+}
+
+void MeshLoader::AddRect(Mesh2D &mesh, float top, float left, float bottom, float right) {
+    mesh.AddVertex(glm::vec2(left, bottom),{1.0f, 0.0f, 0.0f});
+    mesh.AddVertex(glm::vec2(left, top),{0.0f, 0.0f, 1.0f});
+    mesh.AddVertex(glm::vec2(right, top),{0.0f, 1.0f, 0.0f});
+
+    mesh.AddVertex(glm::vec2(left, bottom),{1.0f, 0.0f, 0.0f});
+    mesh.AddVertex(glm::vec2(right, top),{1.0f, 1.0f, 1.0f});
+    mesh.AddVertex(glm::vec2(right, bottom),{0.0f, 1.0f, 0.0f});
 }

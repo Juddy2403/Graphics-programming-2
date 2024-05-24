@@ -54,24 +54,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="968bb24f-2a49-406d-91e5-1a4b522e6289" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Project/MeshLoader.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/MeshLoader.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/3DMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/3DMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/3DMesh.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/CMakeLists.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/2DMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/2DMesh.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/2DMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/2DMesh.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Level.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Transform.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Transform.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Transform.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Transform.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/MeshLoader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/MeshLoader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/MeshLoader.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/MeshLoader.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/Vertex.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Vertex.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-subbuild/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/build.ninja" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/build.ninja" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -397,7 +390,7 @@
       <workItem from="1716200894494" duration="2388000" />
       <workItem from="1716282609819" duration="18488000" />
       <workItem from="1716400092754" duration="17797000" />
-      <workItem from="1716562133260" duration="2502000" />
+      <workItem from="1716562133260" duration="3786000" />
     </task>
     <servers />
   </component>
