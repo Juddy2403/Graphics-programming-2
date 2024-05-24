@@ -3,7 +3,7 @@
 #include <vector>
 #include "GLFW/glfw3.h"
 #include "CommandPool.h"
-#include "ImageView.h"
+#include "texture/ImageView.h"
 
 struct SwapChainSupportDetails {
     VkSurfaceCapabilitiesKHR capabilities;

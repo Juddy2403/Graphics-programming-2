@@ -1,10 +1,10 @@
 #include "MeshLoader.h"
-#include "3DMesh.h"
-#include "2DMesh.h"
+#include "meshes/3DMesh.h"
+#include "meshes/2DMesh.h"
 #include "Camera.h"
 
 #define TINYOBJLOADER_IMPLEMENTATION
-#include <tiny_obj_loader.h>
+#include "lib/tiny_obj_loader.h"
 
 glm::vec3 MeshLoader::Reject(const glm::vec3 &a, const glm::vec3 &b) {
     const glm::vec3 proj = glm::dot(a, b) / glm::dot(b, b) * b;

@@ -3,7 +3,7 @@
 #include <vulkanbase/VulkanBase.h>
 
 DepthBuffer RenderPass::m_DepthBuffer;
-void RenderPass::createFrameBuffers(const std::vector<VkImageView> &swapChainImageViews,
+void RenderPass::CreateFrameBuffers(const std::vector<VkImageView> &swapChainImageViews,
                                     const VkExtent2D &swapChainExtent) {
     m_DepthBuffer.CreateDepthResources();
     m_SwapChainFramebuffers.resize(swapChainImageViews.size());
@@ -30,7 +30,7 @@ void RenderPass::createFrameBuffers(const std::vector<VkImageView> &swapChainIma
 
 }
 
-void RenderPass::createRenderPass(const VkFormat &swapChainImageFormat) {
+void RenderPass::CreateRenderPass(const VkFormat &swapChainImageFormat) {
     VkAttachmentDescription colorAttachment{};
     colorAttachment.format = swapChainImageFormat;
     colorAttachment.samples = VK_SAMPLE_COUNT_1_BIT;
@@ -90,7 +90,7 @@ void RenderPass::createRenderPass(const VkFormat &swapChainImageFormat) {
     }
 }
 
-void RenderPass::destroyRenderPass() {
+void RenderPass::DestroyRenderPass() {
     for (auto framebuffer: m_SwapChainFramebuffers) {
         vkDestroyFramebuffer(VulkanBase::device, framebuffer, nullptr);
     }

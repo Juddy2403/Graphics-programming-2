@@ -1,11 +1,11 @@
 #include "GraphicsPipeline.h"
-#include <3DMesh.h>
+#include "meshes/3DMesh.h"
 #include <Shader.h>
 #include <vulkanbase/VulkanBase.h>
 
 VkPipelineLayout GraphicsPipeline::m_PipelineLayout;
 
-void GraphicsPipeline::createGraphicsPipeline(const VkRenderPass &renderPass, Shader &gradientShader,
+void GraphicsPipeline::CreateGraphicsPipeline(const VkRenderPass &renderPass, Shader &gradientShader,
                                               VkPipelineVertexInputStateCreateInfo pipelineVerInputStateCreateInfo,
                                               bool enableDepthBuffering) {
     VkPipelineViewportStateCreateInfo viewportState{};
@@ -120,7 +120,7 @@ void GraphicsPipeline::CreatePipelineLayout() {
     }
 }
 
-void GraphicsPipeline::destroyGraphicsPipeline() {
+void GraphicsPipeline::DestroyGraphicsPipeline() {
     vkDestroyPipeline(VulkanBase::device, m_GraphicsPipeline, nullptr);
 
 }

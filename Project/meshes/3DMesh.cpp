@@ -1,5 +1,5 @@
 #include "3DMesh.h"
-#include <vulkanbase/VulkanBase.h>
+#include "vulkanbase/VulkanBase.h"
 
 Mesh3D::Mesh3D(std::vector<Vertex3D> &&vertices, std::vector<uint32_t> &&indices) : Mesh3D() {
     m_Vertices = std::move(vertices);
@@ -44,16 +44,16 @@ void Mesh3D::Draw(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) c
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
     if(Level::m_AreNormalsEnabled == 1)
-        vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
+        vkCmdPushConstants(commandBuffer, GraphicsPipeline::GetPipelineLayout(), VK_SHADER_STAGE_FRAGMENT_BIT,
                            sizeof(glm::vec3), sizeof(int), &m_TextureManager.m_HasNormalMap);
     else
-        vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
+        vkCmdPushConstants(commandBuffer, GraphicsPipeline::GetPipelineLayout(), VK_SHADER_STAGE_FRAGMENT_BIT,
                            sizeof(glm::vec3), sizeof(int), &Level::m_AreNormalsEnabled);
-    vkCmdPushConstants(commandBuffer, GraphicsPipeline::m_PipelineLayout, VK_SHADER_STAGE_FRAGMENT_BIT,
+    vkCmdPushConstants(commandBuffer, GraphicsPipeline::GetPipelineLayout(), VK_SHADER_STAGE_FRAGMENT_BIT,
                        sizeof(glm::vec3)+ sizeof(int)*2, sizeof(int), &m_DoesHavePBRMaterial);
 
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                            GraphicsPipeline::m_PipelineLayout, 0, 1,
+                            GraphicsPipeline::GetPipelineLayout(), 0, 1,
                             &m_DescriptorPool.GetDescriptorSets()[currentFrame], 0,
                             nullptr);
     vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t >(m_Indices.size()), 1, 0, 0, 0);

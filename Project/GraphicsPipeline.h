@@ -7,14 +7,15 @@ class GraphicsPipeline
 {
 private:
     VkPipeline m_GraphicsPipeline;
-public:
-    //TODO: yeah dont do that
     static VkPipelineLayout m_PipelineLayout;
-    VkPipeline& getGraphicsPipeline() { return m_GraphicsPipeline; }
-    void createGraphicsPipeline(const VkRenderPass &renderPass, Shader &gradientShader,
+public:
+    static VkPipelineLayout GetPipelineLayout() { return m_PipelineLayout; }
+
+    VkPipeline& GetGraphicsPipeline() { return m_GraphicsPipeline; }
+    void CreateGraphicsPipeline(const VkRenderPass &renderPass, Shader &gradientShader,
                                 VkPipelineVertexInputStateCreateInfo pipelineVerInputStateCreateInfo,
                                 bool enableDepthBuffering = true);
-    void destroyGraphicsPipeline();
+    void DestroyGraphicsPipeline();
 
     static void DestroyGraphicsPipelineLayout() ;
 

@@ -14,7 +14,7 @@ void VulkanBase::WindowResized(GLFWwindow *window, int width, int height) {
     m_HasWindowResized = true;
 }
 
-void VulkanBase::initWindow() {
+void VulkanBase::InitWindow() {
     glfwInit();
     glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE);
@@ -23,23 +23,23 @@ void VulkanBase::initWindow() {
     glfwSetKeyCallback(window, [](GLFWwindow *glfWwindow, int key, int scancode, int action, int mods) {
         void *pUser = glfwGetWindowUserPointer(glfWwindow);
         VulkanBase *vBase = static_cast<VulkanBase *>(pUser);
-        vBase->keyEvent(key, scancode, action, mods);
+        vBase->KeyEvent(key, scancode, action, mods);
     });
     glfwSetCursorPosCallback(window, [](GLFWwindow *glfWwindow, double xpos, double ypos) {
         void *pUser = glfwGetWindowUserPointer(glfWwindow);
         VulkanBase *vBase = static_cast<VulkanBase *>(pUser);
-        vBase->mouseMove(glfWwindow, xpos, ypos);
+        vBase->MouseMove(glfWwindow, xpos, ypos);
     });
     glfwSetMouseButtonCallback(window, [](GLFWwindow *glfWwindow, int button, int action, int mods) {
         void *pUser = glfwGetWindowUserPointer(glfWwindow);
         VulkanBase *vBase = static_cast<VulkanBase *>(pUser);
-        vBase->mouseEvent(glfWwindow, button, action, mods);
+        vBase->MouseEvent(glfWwindow, button, action, mods);
     });
 
     glfwSetFramebufferSizeCallback(window, VulkanBase::WindowResized);
 }
 
-void VulkanBase::keyEvent(int key, int scancode, int action, int mods) {
+void VulkanBase::KeyEvent(int key, int scancode, int action, int mods) {
     if (action == GLFW_PRESS) {
         // Add the pressed key to the set
         m_PressedKeys.insert(key);
@@ -82,7 +82,7 @@ void VulkanBase::ProcessInput() {
 
 }
 
-void VulkanBase::mouseMove(GLFWwindow *window, double xpos, double ypos) {
+void VulkanBase::MouseMove(GLFWwindow *window, double xpos, double ypos) {
     int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT);
     if (state == GLFW_PRESS) {
         float dx = m_LastMousePos.x - static_cast<float>(xpos);
@@ -101,19 +101,19 @@ void VulkanBase::mouseMove(GLFWwindow *window, double xpos, double ypos) {
     m_LastMousePos = {xpos, ypos};
 }
 
-void VulkanBase::mouseEvent(GLFWwindow *window, int button, int action, int mods) {
-    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
-//        double xpos, ypos;
-//        glfwGetCursorPos(window, &xpos, &ypos);
-
-    }
+void VulkanBase::MouseEvent(GLFWwindow *window, int button, int action, int mods) {
+//    if (button == GLFW_MOUSE_BUTTON_RIGHT && action == GLFW_PRESS) {
+////        double xpos, ypos;
+////        glfwGetCursorPos(window, &xpos, &ypos);
+//
+//    }
 }
 
-void VulkanBase::drawFrame(uint32_t imageIndex) {
+void VulkanBase::DrawFrame(uint32_t imageIndex) {
     VkRenderPassBeginInfo renderPassInfo{};
     renderPassInfo.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
-    renderPassInfo.renderPass = m_RenderPass.getRenderPass();
-    renderPassInfo.framebuffer = m_RenderPass.getSwapChainFramebuffers()[imageIndex];
+    renderPassInfo.renderPass = m_RenderPass.GetRenderPass();
+    renderPassInfo.framebuffer = m_RenderPass.GetSwapChainFramebuffers()[imageIndex];
     renderPassInfo.renderArea.offset = {0, 0};
     renderPassInfo.renderArea.extent = swapChainExtent;
 
@@ -141,19 +141,19 @@ void VulkanBase::drawFrame(uint32_t imageIndex) {
     vkCmdSetScissor(m_CommandBuffer.GetVkCommandBuffer(), 0, 1, &scissor);
 
     vkCmdBindPipeline(m_CommandBuffer.GetVkCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS,
-                      m_2DGraphicsPipeline.getGraphicsPipeline());
+                      m_2DGraphicsPipeline.GetGraphicsPipeline());
 
     m_Level.Draw2DMeshes(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
 
     vkCmdBindPipeline(m_CommandBuffer.GetVkCommandBuffer(), VK_PIPELINE_BIND_POINT_GRAPHICS,
-                      m_3DGraphicsPipeline.getGraphicsPipeline());
+                      m_3DGraphicsPipeline.GetGraphicsPipeline());
 
     m_Level.Draw3DMeshes(m_CommandBuffer.GetVkCommandBuffer(), imageIndex);
 
     vkCmdEndRenderPass(m_CommandBuffer.GetVkCommandBuffer());
 }
 
-QueueFamilyIndices VulkanBase::findQueueFamilies(VkPhysicalDevice vkDevice) {
+QueueFamilyIndices VulkanBase::FindQueueFamilies(VkPhysicalDevice vkDevice) {
     QueueFamilyIndices indices;
 
     uint32_t queueFamilyCount = 0;
@@ -175,7 +175,7 @@ QueueFamilyIndices VulkanBase::findQueueFamilies(VkPhysicalDevice vkDevice) {
             indices.presentFamily = i;
         }
 
-        if (indices.isComplete()) {
+        if (indices.IsComplete()) {
             break;
         }
 
@@ -185,9 +185,7 @@ QueueFamilyIndices VulkanBase::findQueueFamilies(VkPhysicalDevice vkDevice) {
     return indices;
 }
 
-//week 05
-
-void VulkanBase::pickPhysicalDevice() {
+void VulkanBase::PickPhysicalDevice() {
     uint32_t deviceCount = 0;
     vkEnumeratePhysicalDevices(instance, &deviceCount, nullptr);
 
@@ -203,7 +201,7 @@ void VulkanBase::pickPhysicalDevice() {
     }
 
     for (const auto &device: devices) {
-        if (isDeviceSuitable(device)) {
+        if (IsDeviceSuitable(device)) {
             physicalDevice = device;
             break;
         }
@@ -214,18 +212,18 @@ void VulkanBase::pickPhysicalDevice() {
     }
 }
 
-bool VulkanBase::isDeviceSuitable(VkPhysicalDevice device) {
-    QueueFamilyIndices indices = findQueueFamilies(device);
-    bool extensionsSupported = checkDeviceExtensionSupport(device);
+bool VulkanBase::IsDeviceSuitable(VkPhysicalDevice device) {
+    QueueFamilyIndices indices = FindQueueFamilies(device);
+    bool extensionsSupported = CheckDeviceExtensionSupport(device);
 
     VkPhysicalDeviceFeatures supportedFeatures;
     vkGetPhysicalDeviceFeatures(device, &supportedFeatures);
 
-    return indices.isComplete() && extensionsSupported && supportedFeatures.samplerAnisotropy;
+    return indices.IsComplete() && extensionsSupported && supportedFeatures.samplerAnisotropy;
 }
 
-void VulkanBase::createLogicalDevice() {
-    QueueFamilyIndices indices = findQueueFamilies(physicalDevice);
+void VulkanBase::CreateLogicalDevice() {
+    QueueFamilyIndices indices = FindQueueFamilies(physicalDevice);
 
     std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
     std::set<uint32_t> uniqueQueueFamilies = {indices.graphicsFamily.value(), indices.presentFamily.value()};
@@ -274,9 +272,7 @@ void VulkanBase::createLogicalDevice() {
     vkGetDeviceQueue(device, indices.presentFamily.value(), 0, &presentQueue);
 }
 
-//week 06
-
-void VulkanBase::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
+void VulkanBase::PopulateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInfoEXT &createInfo) {
     createInfo = {};
     createInfo.sType = VK_STRUCTURE_TYPE_DEBUG_UTILS_MESSENGER_CREATE_INFO_EXT;
     createInfo.messageSeverity =
@@ -288,19 +284,18 @@ void VulkanBase::populateDebugMessengerCreateInfo(VkDebugUtilsMessengerCreateInf
     createInfo.pfnUserCallback = debugCallback;
 }
 
-
-void VulkanBase::setupDebugMessenger() {
+void VulkanBase::SetupDebugMessenger() {
     if (!enableValidationLayers) return;
 
     VkDebugUtilsMessengerCreateInfoEXT createInfo;
-    populateDebugMessengerCreateInfo(createInfo);
+    PopulateDebugMessengerCreateInfo(createInfo);
 
     if (CreateDebugUtilsMessengerEXT(instance, &createInfo, nullptr, &debugMessenger) != VK_SUCCESS) {
         throw std::runtime_error("failed to set up debug messenger!");
     }
 }
 
-void VulkanBase::createSyncObjects() {
+void VulkanBase::CreateSyncObjects() {
     VkSemaphoreCreateInfo semaphoreInfo{};
     semaphoreInfo.sType = VK_STRUCTURE_TYPE_SEMAPHORE_CREATE_INFO;
 
@@ -316,7 +311,7 @@ void VulkanBase::createSyncObjects() {
 
 }
 
-void VulkanBase::drawFrame() {
+void VulkanBase::DrawFrame() {
     vkWaitForFences(device, 1, &inFlightFence, VK_TRUE, UINT64_MAX);
     vkResetFences(device, 1, &inFlightFence);
 
@@ -326,14 +321,14 @@ void VulkanBase::drawFrame() {
 
     m_CommandBuffer.Reset();
     m_CommandBuffer.BeginRecording();
-    vkCmdPushConstants(m_CommandBuffer.GetVkCommandBuffer(), GraphicsPipeline::m_PipelineLayout,
+    vkCmdPushConstants(m_CommandBuffer.GetVkCommandBuffer(), GraphicsPipeline::GetPipelineLayout(),
                        VK_SHADER_STAGE_FRAGMENT_BIT, 0, sizeof(glm::vec3), &m_Camera.m_Origin);
-    vkCmdPushConstants(m_CommandBuffer.GetVkCommandBuffer(), GraphicsPipeline::m_PipelineLayout,
+    vkCmdPushConstants(m_CommandBuffer.GetVkCommandBuffer(), GraphicsPipeline::GetPipelineLayout(),
                        VK_SHADER_STAGE_FRAGMENT_BIT,
                        sizeof(glm::vec3) + sizeof(int), sizeof(int), &m_ShadingMode);
     m_Level.Update(imageIndex, m_Camera.m_ViewMatrix);
 
-    drawFrame(imageIndex);
+    DrawFrame(imageIndex);
     m_CommandBuffer.EndRecording();
 
     VkSubmitInfo submitInfo{};
@@ -364,7 +359,7 @@ void VulkanBase::drawFrame() {
     vkQueuePresentKHR(presentQueue, &presentInfo);
 }
 
-bool checkValidationLayerSupport() {
+bool CheckValidationLayerSupport() {
     uint32_t layerCount;
     vkEnumerateInstanceLayerProperties(&layerCount, nullptr);
 
@@ -389,7 +384,7 @@ bool checkValidationLayerSupport() {
     return true;
 }
 
-std::vector<const char *> VulkanBase::getRequiredExtensions() {
+std::vector<const char *> VulkanBase::GetRequiredExtensions() {
     uint32_t glfwExtensionCount = 0;
     const char **glfwExtensions;
     glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
@@ -403,7 +398,7 @@ std::vector<const char *> VulkanBase::getRequiredExtensions() {
     return extensions;
 }
 
-bool VulkanBase::checkDeviceExtensionSupport(VkPhysicalDevice device) {
+bool VulkanBase::CheckDeviceExtensionSupport(VkPhysicalDevice device) {
     uint32_t extensionCount;
     vkEnumerateDeviceExtensionProperties(device, nullptr, &extensionCount, nullptr);
 
@@ -419,8 +414,8 @@ bool VulkanBase::checkDeviceExtensionSupport(VkPhysicalDevice device) {
     return requiredExtensions.empty();
 }
 
-void VulkanBase::createInstance() {
-    if (enableValidationLayers && !checkValidationLayerSupport()) {
+void VulkanBase::CreateInstance() {
+    if (enableValidationLayers && !CheckValidationLayerSupport()) {
         throw std::runtime_error("validation layers requested, but not available!");
     }
 
@@ -436,7 +431,7 @@ void VulkanBase::createInstance() {
     createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
     createInfo.pApplicationInfo = &appInfo;
 
-    auto extensions = getRequiredExtensions();
+    auto extensions = GetRequiredExtensions();
     createInfo.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
     createInfo.ppEnabledExtensionNames = extensions.data();
 
@@ -445,7 +440,7 @@ void VulkanBase::createInstance() {
         createInfo.enabledLayerCount = static_cast<uint32_t>(validationLayers.size());
         createInfo.ppEnabledLayerNames = validationLayers.data();
 
-        populateDebugMessengerCreateInfo(debugCreateInfo);
+        PopulateDebugMessengerCreateInfo(debugCreateInfo);
         createInfo.pNext = (VkDebugUtilsMessengerCreateInfoEXT *) &debugCreateInfo;
     } else {
         createInfo.enabledLayerCount = 0;

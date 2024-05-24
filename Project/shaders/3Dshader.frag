@@ -78,32 +78,35 @@ void main() {
         outColor = vec4(0.f, 0.f, 0.f, 1.f);
         return;
     }
-    if (pushConstantsBlock.isPBREnabled == 0) {
-        outColor = vec4(RemapToUnitRange(lightDirCos * diffuseMapSample), 1.0);
-        return;
-    }
 
-    switch (pushConstantsBlock.shadingMode) {
-        case LAMBER_MODE:
+    switch (pushConstantsBlock.shadingMode)
+    {
+    case LAMBER_MODE:
         outColor = vec4(RemapToUnitRange(lightDirCos * diffuseMapSample), 1.0);
         break;
-        case NORMAL_MODE:
+    case NORMAL_MODE:
         outColor = vec4(normal, 1.0);
         return;
-        case SPECULAR_MODE:
-        { vec3 viewDir = normalize(pushConstantsBlock.cameraPos - fragPosition);
+    case SPECULAR_MODE:
+        {
+            vec3 viewDir = normalize(pushConstantsBlock.cameraPos - fragPosition);
             vec3 specular = Phong(specularMapSample, glossinesMapSample * gShininess, viewDir, normal);
             outColor = vec4(RemapToUnitRange(specular), 1.0);
-            return; }
-        case COMBINED_MODE:
-        { vec3 viewDir = normalize(pushConstantsBlock.cameraPos - fragPosition);
+            return;
+        }
+    case COMBINED_MODE:
+        {
+            if (pushConstantsBlock.isPBREnabled == 0) {
+                outColor = vec4(RemapToUnitRange(lightDirCos * diffuseMapSample), 1.0);
+                return;
+            }
+            vec3 viewDir = normalize(pushConstantsBlock.cameraPos - fragPosition);
             vec3 specular = Phong(specularMapSample, glossinesMapSample * gShininess, viewDir, normal);
             vec3 diffuse = diffuseMapSample * gLightIntensity / gPI;
             vec3 finalColor = lightDirCos * diffuse + specular + ambient;
             finalColor = RemapToUnitRange(finalColor);
             outColor = vec4(finalColor, 1.0);
-            return; }
+            return;
+        }
     }
-
-
 }

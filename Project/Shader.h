@@ -5,7 +5,7 @@
 #include <vector>
 #include <string>
 #include "DataBuffer.h"
-#include "Vertex.h"
+#include "meshes/Vertex.h"
 #include <memory>
 #include "DescriptorPool.h"
 

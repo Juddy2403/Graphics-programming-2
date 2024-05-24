@@ -1,5 +1,5 @@
 #include "2DMesh.h"
-#include <vulkanbase/VulkanBase.h>
+#include "vulkanbase/VulkanBase.h"
 
 Mesh2D::Mesh2D() {
     //m_UBOMatrixes.proj[1][1] *= -1;
@@ -46,7 +46,7 @@ void Mesh2D::Draw(VkCommandBuffer const &commandBuffer, uint32_t currentFrame) c
     m_VertexBuffer->BindAsVertexBuffer(commandBuffer);
     m_IndexBuffer->BindAsIndexBuffer(commandBuffer);
     vkCmdBindDescriptorSets(commandBuffer, VK_PIPELINE_BIND_POINT_GRAPHICS,
-                            GraphicsPipeline::m_PipelineLayout, 0, 1,
+                            GraphicsPipeline::GetPipelineLayout(), 0, 1,
                             &Level::Get2DDescriptorPool().GetDescriptorSets()[currentFrame], 0,
                             nullptr);
     vkCmdDrawIndexed(commandBuffer, static_cast<uint32_t>(m_Indices.size()), 1, 0, 0, 0);

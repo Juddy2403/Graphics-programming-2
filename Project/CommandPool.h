@@ -6,7 +6,7 @@ struct QueueFamilyIndices {
 	std::optional<uint32_t> graphicsFamily;
 	std::optional<uint32_t> presentFamily;
 
-	bool isComplete() {
+	[[nodiscard]] bool IsComplete() const {
 		return graphicsFamily.has_value() && presentFamily.has_value();
 	}
 };
@@ -18,7 +18,7 @@ public:
 	explicit CommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices);
 	const VkCommandPool& GetCommandPool();
 private:
-	VkCommandPool createCommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices, VkCommandPoolCreateFlags flags);
+	VkCommandPool CreateCommandPool(const VkSurfaceKHR& surface, const QueueFamilyIndices& queueFamilyIndices, VkCommandPoolCreateFlags flags);
 	VkCommandPool m_CommandPool{};
 
 };

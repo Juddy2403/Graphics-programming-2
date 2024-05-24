@@ -12,10 +12,10 @@ private:
 
 public:
     static DepthBuffer& GetDepthBuffer() { return m_DepthBuffer; }
-	void createFrameBuffers(const std::vector<VkImageView>& swapChainImageViews,
-		const VkExtent2D& swapChainExtent);
-	void createRenderPass(const VkFormat& swapChainImageFormat);
-	void destroyRenderPass();
-	VkRenderPass& getRenderPass() { return m_RenderPass; }
-	std::vector<VkFramebuffer>& getSwapChainFramebuffers() { return m_SwapChainFramebuffers; }
+	void CreateFrameBuffers(const std::vector<VkImageView>& swapChainImageViews,
+                            const VkExtent2D& swapChainExtent);
+	void CreateRenderPass(const VkFormat& swapChainImageFormat);
+	void DestroyRenderPass();
+	VkRenderPass& GetRenderPass() { return m_RenderPass; }
+	std::vector<VkFramebuffer>& GetSwapChainFramebuffers() { return m_SwapChainFramebuffers; }
 };

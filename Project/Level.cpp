@@ -1,6 +1,6 @@
 #include "Level.h"
 #include "vulkanbase/VulkanBase.h"
-#include "MeshLoader.h"
+#include "meshes/MeshLoader.h"
 #include <vulkanbase/VulkanUtil.h>
 
 DescriptorPool Level::m_2DDescriptorPool;
@@ -41,6 +41,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     MeshLoader::InitializeCube(*m_3DMeshes.back(), {-2.f, -2.f, 4.f}, 1);
+    m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     MeshLoader::LoadModel(*m_3DMeshes.back(), "resources/vehicle.obj", true);
@@ -54,6 +55,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
     MeshLoader::InitializeSphere(*m_3DMeshes.back(),{3.f, 0.f, 5.f}, 1);
+    m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
 
     for (auto &mesh: m_3DMeshes) {
         mesh->MapBuffers();

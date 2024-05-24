@@ -31,22 +31,22 @@ set(SOURCES
         # Add other source files here
         "vulkanbase/VulkanBase.cpp"
 
-        "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "3DMesh.h" "3DMesh.cpp"
+        "Shader.h" "Shader.cpp" "CommandPool.h" "CommandPool.cpp" "CommandBuffer.h" "CommandBuffer.cpp" "meshes/3DMesh.h" "meshes/3DMesh.cpp"
         "Level.h" "Level.cpp" "RenderPass.h" "RenderPass.cpp"
         "GraphicsPipeline.h" "GraphicsPipeline.cpp" "Camera.h" "TimeManager.h" "Singleton.h" "DescriptorPool.h" "DescriptorPool.cpp"
-        "DepthBuffer.h" "DepthBuffer.cpp" "DataBuffer.cpp" "DataBuffer.h" "Vertex.h" "2DMesh.cpp" "2DMesh.h"
+        "DepthBuffer.h" "DepthBuffer.cpp" "DataBuffer.cpp" "DataBuffer.h" "meshes/Vertex.h" "meshes/2DMesh.cpp" "meshes/2DMesh.h"
         SwapChain.cpp
         SwapChain.h
-        ImageView.cpp
-        ImageView.h
-        Texture.cpp
-        Texture.h
-        Transform.cpp
-        Transform.h
-        TextureManager.cpp
-        TextureManager.h
-        MeshLoader.cpp
-        MeshLoader.h
+        texture/ImageView.cpp
+        texture/ImageView.h
+        texture/Texture.cpp
+        texture/Texture.h
+        meshes/Transform.cpp
+        meshes/Transform.h
+        texture/TextureManager.cpp
+        texture/TextureManager.h
+        meshes/MeshLoader.cpp
+        meshes/MeshLoader.h
 )
 #
 # Create the executable

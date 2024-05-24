@@ -9,10 +9,10 @@
 #include "DescriptorPool.h"
 #include "DataBuffer.h"
 #include "Vertex.h"
-#include "Texture.h"
+#include "texture/Texture.h"
 
 #include "Transform.h"
-#include "TextureManager.h"
+#include "texture/TextureManager.h"
 
 class DataBuffer;
 class Mesh3D

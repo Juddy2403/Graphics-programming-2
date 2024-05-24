@@ -1,6 +1,6 @@
 #pragma once
-#include "3DMesh.h"
-#include "2DMesh.h"
+#include "meshes/3DMesh.h"
+#include "meshes/2DMesh.h"
 #include <memory>
 #include <glm/gtc/matrix_transform.hpp>
 
