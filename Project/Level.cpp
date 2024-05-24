@@ -1,10 +1,7 @@
 #include "Level.h"
 #include "vulkanbase/VulkanBase.h"
+#include "MeshLoader.h"
 #include <vulkanbase/VulkanUtil.h>
-
-#define GLM_FORCE_RADIANS
-
-#include <glm/gtc/matrix_transform.hpp>
 
 DescriptorPool Level::m_2DDescriptorPool;
 int Level::m_AreNormalsEnabled = 1;
@@ -43,10 +40,11 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_2DMeshes.back()->InitializeRoundedRect(0.2f, 0.5f, 0.5f, 0.f, 0.1f, 20);
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    m_3DMeshes.back()->InitializeCube({-2.f, -2.f, 4.f}, 1);
+   // m_3DMeshes.back()->InitializeCube({-2.f, -2.f, 4.f}, 1);
+    MeshLoader::InitializeCube(*m_3DMeshes.back(), {-2.f, -2.f, 4.f}, 1);
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    m_3DMeshes.back()->LoadModel("resources/vehicle.obj", true);
+    MeshLoader::LoadModel(*m_3DMeshes.back(), "resources/vehicle.obj", true);
     m_3DMeshes.back()->GetTextureManager().UploadAlbedoTexture(commandPool, "resources/textures/vehicle_diffuse.png");
     m_3DMeshes.back()->GetTextureManager().UploadNormalTexture(commandPool, "resources/textures/vehicle_normal.png");
     m_3DMeshes.back()->GetTextureManager().UploadGlossTexture(commandPool, "resources/textures/vehicle_gloss.png");
@@ -55,7 +53,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
 
     m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    m_3DMeshes.back()->InitializeSphere({3.f, 0.f, 5.f}, 1);
+    MeshLoader::InitializeSphere(*m_3DMeshes.back(),{3.f, 0.f, 5.f}, 1);
 
     for (auto &mesh: m_3DMeshes) {
         mesh->MapBuffers();

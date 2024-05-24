@@ -45,6 +45,8 @@ set(SOURCES
         Transform.h
         TextureManager.cpp
         TextureManager.h
+        MeshLoader.cpp
+        MeshLoader.h
 )
 #
 # Create the executable

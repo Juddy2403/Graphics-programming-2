@@ -1,6 +1,8 @@
 #include <glm/ext/matrix_transform.hpp>
 #include "Transform.h"
 #include "Camera.h"
+#define GLM_FORCE_RADIANS
+#define GLM_FORCE_DEPTH_ZERO_TO_ONE
 
 void Transform::Translate(const glm::vec3 &translation) {
     m_TranslationMatrix = glm::translate(m_TranslationMatrix, translation);
