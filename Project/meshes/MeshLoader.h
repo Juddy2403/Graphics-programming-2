@@ -1,3 +1,4 @@
+#pragma once
 #include <string>
 #include <glm/detail/type_vec3.hpp>
 #include <glm/vec3.hpp>
@@ -24,6 +25,8 @@ public:
     static void InitializeCircle(Mesh2D &mesh,const glm::vec2 &center, float radius, int nrOfSegments);
     static void InitializeRect(Mesh2D &mesh,const glm::vec2 &bottomLeft, float sideLen);
     static void InitializeRoundedRect(Mesh2D &mesh,float left, float bottom, float right, float top, float radius, int nrOfSegments);
+
+    static void LoadModelNoTan(Mesh3D &mesh, const std::string &path, bool triangulate);
 };
 
 

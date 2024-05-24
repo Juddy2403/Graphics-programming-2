@@ -11,6 +11,44 @@ glm::vec3 MeshLoader::Reject(const glm::vec3 &a, const glm::vec3 &b) {
     return a - proj;
 }
 
+void MeshLoader::LoadModelNoTan(Mesh3D &mesh, const std::string &path, bool triangulate = true) {
+    tinyobj::attrib_t attrib;
+    std::vector<tinyobj::shape_t> shapes;
+    std::vector<tinyobj::material_t> materials;
+    std::string err;
+
+    if (!tinyobj::LoadObj(&attrib, &shapes, &materials, &err, path.c_str(),0,triangulate)) {
+        throw std::runtime_error(err);
+    }
+
+    for (const auto &shape: shapes) {
+        for (const auto &index: shape.mesh.indices) {
+            Vertex3D vertex{};
+
+            vertex.m_Pos = {
+                    attrib.vertices[3 * index.vertex_index + 0],
+                    attrib.vertices[3 * index.vertex_index + 1],
+                    attrib.vertices[3 * index.vertex_index + 2]
+            };
+
+            if (3 * index.normal_index + 2 < attrib.normals.size()) {
+                vertex.m_Normal = {
+                        attrib.normals[3 * index.normal_index + 0],
+                        attrib.normals[3 * index.normal_index + 1],
+                        attrib.normals[3 * index.normal_index + 2]
+                };
+            } else {
+                // Handle the case where normal data is missing or out of bounds
+                vertex.m_Normal = {0.0f, 0.0f, 0.0f};
+            }
+
+            vertex.m_Color = {1.0f, 1.0f, 1.0f};
+
+            mesh.AddVertex(vertex);
+        }
+    }
+}
+
 void MeshLoader::LoadModel(Mesh3D &mesh, const std::string &path, bool triangulate) {
     tinyobj::attrib_t attrib;
     std::vector<tinyobj::shape_t> shapes;
@@ -34,9 +72,11 @@ void MeshLoader::LoadModel(Mesh3D &mesh, const std::string &path, bool triangula
             glm::vec2 diffY = glm::vec2(vertex1.m_TexCoord.y - vertex0.m_TexCoord.y,
                                         vertex2.m_TexCoord.y - vertex0.m_TexCoord.y);
 
-            float f = 1.0f / (diffX.x * diffY.y - diffY.x * diffX.y);
-
-            glm::vec3 tangent = (edge1 * diffY.y - edge2 * diffY.x) * f;
+            glm::vec3 tangent{1,1,1};
+            if(diffX.x * diffY.y - diffY.x * diffX.y != 0.0f) {
+                float f = 1.0f / (diffX.x * diffY.y - diffY.x * diffX.y);
+                tangent = (edge1 * diffY.y - edge2 * diffY.x) * f;
+            }
             //tangent = glm::normalize(tangent);
 
             vertex0.m_Tangent += glm::normalize(Reject(tangent, vertex0.m_Normal));
@@ -69,19 +109,26 @@ Vertex3D MeshLoader::GetVertexByIndex(const tinyobj::attrib_t &attrib, const tin
             attrib.vertices[3 * index.vertex_index + 1],
             attrib.vertices[3 * index.vertex_index + 2]
     };
-
-    vertex.m_Normal = {
-            attrib.normals[3 * index.normal_index + 0],
-            attrib.normals[3 * index.normal_index + 1],
-            attrib.normals[3 * index.normal_index + 2]
-    };
+    if(index.normal_index != -1) {
+        vertex.m_Normal = {
+                attrib.normals[3 * index.normal_index + 0],
+                attrib.normals[3 * index.normal_index + 1],
+                attrib.normals[3 * index.normal_index + 2]
+        };
+    } else {
+        vertex.m_Normal = {0.0f, 0.0f, -1.0f};
+    }
 
     vertex.m_Color = {1.0f, 1.0f, 1.0f};
 
-    vertex.m_TexCoord = {
-            attrib.texcoords[2 * index.texcoord_index + 0],
-            1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
-    };
+    if(index.texcoord_index != -1) {
+        vertex.m_TexCoord = {
+                attrib.texcoords[2 * index.texcoord_index + 0],
+                1.0f - attrib.texcoords[2 * index.texcoord_index + 1]
+        };
+    } else {
+        vertex.m_TexCoord = {0.0f, 0.0f};
+    }
     return vertex;
 }
 

@@ -18,10 +18,10 @@ public:
     static int m_AreNormalsEnabled;
     static DescriptorPool& Get2DDescriptorPool() { return m_2DDescriptorPool; }
 	void Update(uint32_t currentFrame, const glm::mat4 &viewMatrix);
-	void destroyLevel();
+	void DestroyLevel();
 	void Draw3DMeshes(const VkCommandBuffer &commandBuffer, uint32_t currentFrame) const;
 
     void Draw2DMeshes(VkCommandBuffer const &commandBuffer, uint32_t currentFrame) const;
     void WindowHasBeenResized(const glm::mat4& projMatrix);
-    void initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &projMatrix);
+    void InitializeLevel(const VkCommandPool &commandPool, const glm::mat4 &projMatrix);
 };

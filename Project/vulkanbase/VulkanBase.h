@@ -91,7 +91,7 @@ private:
 
         m_CommandPool = CommandPool{surface, FindQueueFamilies(physicalDevice)};
         m_CommandBuffer = CommandBuffer{m_CommandPool.GetCommandPool()};
-        m_Level.initializeLevel(m_CommandPool.GetCommandPool(), m_Camera.m_ProjectionMatrix);
+        m_Level.InitializeLevel(m_CommandPool.GetCommandPool(), m_Camera.m_ProjectionMatrix);
 
         // week 06
         CreateSyncObjects();
@@ -139,7 +139,7 @@ private:
         }
         m_SwapChain.DestroySwapChain();
 
-        m_Level.destroyLevel();
+        m_Level.DestroyLevel();
         vkDestroyDevice(device, nullptr);
 
         vkDestroySurfaceKHR(instance, surface, nullptr);

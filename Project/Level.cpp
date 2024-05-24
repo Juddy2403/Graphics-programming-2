@@ -1,7 +1,7 @@
 #include "Level.h"
 #include "vulkanbase/VulkanBase.h"
 #include "meshes/MeshLoader.h"
-#include <vulkanbase/VulkanUtil.h>
+#include "LevelParser.h"
 
 DescriptorPool Level::m_2DDescriptorPool;
 int Level::m_AreNormalsEnabled = 1;
@@ -17,7 +17,7 @@ void Level::Update(uint32_t currentFrame, const glm::mat4 &viewMatrix) {
     }
 }
 
-void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &projMatrix) {
+void Level::InitializeLevel(const VkCommandPool &commandPool, const glm::mat4 &projMatrix) {
     Texture::CreateTextureSampler();
     TextureManager::LoadDefaultTexture(commandPool, "resources/textures/default.jpg");
     m_3DUBOMatrixes.proj = projMatrix;
@@ -30,32 +30,9 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     m_2DUBOMatrixes.proj = glm::mat4(1.f);
     m_2DDescriptorPool.Initialize();
 
-    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    MeshLoader::InitializeRect(*m_2DMeshes.back(),{-0.5f, -0.5f}, 0.5f);
-
-    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    MeshLoader::InitializeCircle(*m_2DMeshes.back(),{-0.5f, 0.5f}, 0.3f,20);
-
-    m_2DMeshes.emplace_back(std::make_unique<Mesh2D>());
-    MeshLoader::InitializeRoundedRect(*m_2DMeshes.back(),0.2f, 0.5f, 0.5f, 0.f, 0.1f, 20);
-
-    m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    MeshLoader::InitializeCube(*m_3DMeshes.back(), {-2.f, -2.f, 4.f}, 1);
-    m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
-
-    m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    MeshLoader::LoadModel(*m_3DMeshes.back(), "resources/vehicle.obj", true);
-    m_3DMeshes.back()->GetTextureManager().UploadAlbedoTexture(commandPool, "resources/textures/vehicle_diffuse.png");
-    m_3DMeshes.back()->GetTextureManager().UploadNormalTexture(commandPool, "resources/textures/vehicle_normal.png");
-    m_3DMeshes.back()->GetTextureManager().UploadGlossTexture(commandPool, "resources/textures/vehicle_gloss.png");
-    m_3DMeshes.back()->GetTextureManager().UploadSpecularTexture(commandPool, "resources/textures/vehicle_specular.png");
-    m_3DMeshes.back()->GetTransform().Translate({0.f, -10.f, 50.f});
-    m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
-    m_3DMeshes.back()->SetPBRMaterial();
-
-    m_3DMeshes.emplace_back(std::make_unique<Mesh3D>());
-    MeshLoader::InitializeSphere(*m_3DMeshes.back(),{3.f, 0.f, 5.f}, 1);
-    m_3DMeshes.back()->GetTransform().SetRotationPerSecond({0.f, 90.f, 0.f});
+    LevelParser::ParseLevel(m_3DMeshes, m_2DMeshes, commandPool, "resources/level.json");
+    m_3DMeshes.shrink_to_fit();
+    m_2DMeshes.shrink_to_fit();
 
     for (auto &mesh: m_3DMeshes) {
         mesh->MapBuffers();
@@ -67,7 +44,7 @@ void Level::initializeLevel(const VkCommandPool &commandPool, const glm::mat4 &p
     }
 }
 
-void Level::destroyLevel() {
+void Level::DestroyLevel() {
     for (auto &mesh: m_3DMeshes)
         mesh->Destroy();
     for (auto &mesh: m_2DMeshes) {

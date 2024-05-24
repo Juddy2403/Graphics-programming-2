@@ -47,6 +47,8 @@ set(SOURCES
         texture/TextureManager.h
         meshes/MeshLoader.cpp
         meshes/MeshLoader.h
+        LevelParser.h
+        LevelParser.cpp
 )
 #
 # Create the executable
