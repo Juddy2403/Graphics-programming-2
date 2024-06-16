@@ -233,6 +233,16 @@ void Texture::DestroyTextureSampler() {
     vkDestroySampler(VulkanBase::device, m_TextureSampler, nullptr);
 }
 
+bool Texture::operator==(const Texture &rhs) const {
+    return m_TextureImage == rhs.m_TextureImage &&
+           m_TextureImageMemory == rhs.m_TextureImageMemory &&
+           m_TextureImageView == rhs.m_TextureImageView;
+}
+
+bool Texture::operator!=(const Texture &rhs) const {
+    return !(rhs == *this);
+}
+
 Texture &Texture::operator=(const Texture &other) noexcept {
     if (this != &other) {
         m_TextureImage = other.m_TextureImage;

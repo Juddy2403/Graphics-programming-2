@@ -12,7 +12,7 @@
 #include "texture/Texture.h"
 
 #include "Transform.h"
-#include "texture/TextureManager.h"
+#include "texture/TextureLoader.h"
 
 class DataBuffer;
 class Mesh3D
@@ -25,7 +25,7 @@ private:
     std::vector<Vertex3D> m_Vertices = {};
     std::vector<uint32_t> m_Indices = {};
     Transform m_Transform;
-    TextureManager m_TextureManager;
+    TextureLoader m_TextureManager;
 
     DescriptorPool m_DescriptorPool;
     void DestroyBuffers();
@@ -39,7 +39,7 @@ public:
     ~Mesh3D() = default;
 
     Transform& GetTransform() { return m_Transform; }
-    TextureManager& GetTextureManager() { return m_TextureManager; }
+    TextureLoader& GetTextureLoader() { return m_TextureManager; }
     void SetPBRMaterial() { m_DoesHavePBRMaterial = 1; }
     void AddVertex(const Vertex3D &vertex);
 	void Update(uint32_t currentFrame, UniformBufferObject ubo);

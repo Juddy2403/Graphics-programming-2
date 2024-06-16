@@ -2,6 +2,7 @@
 #include "vulkanbase/VulkanBase.h"
 #include "meshes/MeshLoader.h"
 #include "LevelParser.h"
+#include "texture/TextureManager.h"
 
 DescriptorPool Level::m_2DDescriptorPool;
 int Level::m_AreNormalsEnabled = 1;
@@ -19,7 +20,7 @@ void Level::Update(uint32_t currentFrame, const glm::mat4 &viewMatrix) {
 
 void Level::InitializeLevel(const VkCommandPool &commandPool, const glm::mat4 &projMatrix) {
     Texture::CreateTextureSampler();
-    TextureManager::LoadDefaultTexture(commandPool, "resources/textures/default.jpg");
+    TextureLoader::LoadDefaultTexture(commandPool, "resources/textures/default.jpg");
     m_3DUBOMatrixes.proj = projMatrix;
 
     m_2DUBOMatrixes.model = glm::mat4(1.f);
@@ -51,7 +52,7 @@ void Level::DestroyLevel() {
         mesh->Destroy();
     }
     m_2DDescriptorPool.DestroyUniformBuffers();
-    TextureManager::UnloadDefaultTexture();
+    TextureManager::GetInstance().DestroyTextures();
     Texture::DestroyTextureSampler();
 }
 

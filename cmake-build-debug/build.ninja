@@ -2240,7 +2240,7 @@ build Project\CMakeFiles\VulkanLab01.dir\meshes\Transform.cpp.obj: CXX_COMPILER_
   TARGET_COMPILE_PDB = Project\CMakeFiles\VulkanLab01.dir\
   TARGET_PDB = Project\VulkanLab01.pdb
 
-build Project\CMakeFiles\VulkanLab01.dir\texture\TextureManager.cpp.obj: CXX_COMPILER__VulkanLab01_unscanned_Debug D$:\Howest\Sem$ 4\Graphics$ programming$ 2\Project\texture\TextureManager.cpp || cmake_object_order_depends_target_VulkanLab01
+build Project\CMakeFiles\VulkanLab01.dir\texture\TextureLoader.cpp.obj: CXX_COMPILER__VulkanLab01_unscanned_Debug D$:\Howest\Sem$ 4\Graphics$ programming$ 2\Project\texture\TextureLoader.cpp || cmake_object_order_depends_target_VulkanLab01
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\VulkanSDK\1.3.261.1\Include -I"D:\Howest\Sem 4\Graphics programming 2\Project" -I"D:\Howest\Sem 4\Graphics programming 2\Project\lib" -I"D:\Howest\Sem 4\Graphics programming 2\Project\lib\glm" -I"D:\Howest\Sem 4\Graphics programming 2\cmake-build-debug\_deps\glfw-src\include"
   OBJECT_DIR = Project\CMakeFiles\VulkanLab01.dir
@@ -2264,6 +2264,14 @@ build Project\CMakeFiles\VulkanLab01.dir\LevelParser.cpp.obj: CXX_COMPILER__Vulk
   TARGET_COMPILE_PDB = Project\CMakeFiles\VulkanLab01.dir\
   TARGET_PDB = Project\VulkanLab01.pdb
 
+build Project\CMakeFiles\VulkanLab01.dir\texture\TextureManager.cpp.obj: CXX_COMPILER__VulkanLab01_unscanned_Debug D$:\Howest\Sem$ 4\Graphics$ programming$ 2\Project\texture\TextureManager.cpp || cmake_object_order_depends_target_VulkanLab01
+  FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
+  INCLUDES = -IC:\VulkanSDK\1.3.261.1\Include -I"D:\Howest\Sem 4\Graphics programming 2\Project" -I"D:\Howest\Sem 4\Graphics programming 2\Project\lib" -I"D:\Howest\Sem 4\Graphics programming 2\Project\lib\glm" -I"D:\Howest\Sem 4\Graphics programming 2\cmake-build-debug\_deps\glfw-src\include"
+  OBJECT_DIR = Project\CMakeFiles\VulkanLab01.dir
+  OBJECT_FILE_DIR = Project\CMakeFiles\VulkanLab01.dir\texture
+  TARGET_COMPILE_PDB = Project\CMakeFiles\VulkanLab01.dir\
+  TARGET_PDB = Project\VulkanLab01.pdb
+
 build Project\CMakeFiles\VulkanLab01.dir\vulkanbase\VulkanUtil.cpp.obj: CXX_COMPILER__VulkanLab01_unscanned_Debug D$:\Howest\Sem$ 4\Graphics$ programming$ 2\Project\vulkanbase\VulkanUtil.cpp || cmake_object_order_depends_target_VulkanLab01
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1 -std:c++17
   INCLUDES = -IC:\VulkanSDK\1.3.261.1\Include -I"D:\Howest\Sem 4\Graphics programming 2\Project" -I"D:\Howest\Sem 4\Graphics programming 2\Project\lib" -I"D:\Howest\Sem 4\Graphics programming 2\Project\lib\glm" -I"D:\Howest\Sem 4\Graphics programming 2\cmake-build-debug\_deps\glfw-src\include"
@@ -2280,7 +2288,7 @@ build Project\CMakeFiles\VulkanLab01.dir\vulkanbase\VulkanUtil.cpp.obj: CXX_COMP
 #############################################
 # Link the executable Project\VulkanLab01.exe
 
-build Project\VulkanLab01.exe: CXX_EXECUTABLE_LINKER__VulkanLab01_Debug Project\CMakeFiles\VulkanLab01.dir\main.cpp.obj Project\CMakeFiles\VulkanLab01.dir\vulkanbase\VulkanBase.cpp.obj Project\CMakeFiles\VulkanLab01.dir\Shader.cpp.obj Project\CMakeFiles\VulkanLab01.dir\CommandPool.cpp.obj Project\CMakeFiles\VulkanLab01.dir\CommandBuffer.cpp.obj Project\CMakeFiles\VulkanLab01.dir\meshes\3DMesh.cpp.obj Project\CMakeFiles\VulkanLab01.dir\Level.cpp.obj Project\CMakeFiles\VulkanLab01.dir\RenderPass.cpp.obj Project\CMakeFiles\VulkanLab01.dir\GraphicsPipeline.cpp.obj Project\CMakeFiles\VulkanLab01.dir\DescriptorPool.cpp.obj Project\CMakeFiles\VulkanLab01.dir\DepthBuffer.cpp.obj Project\CMakeFiles\VulkanLab01.dir\DataBuffer.cpp.obj Project\CMakeFiles\VulkanLab01.dir\meshes\2DMesh.cpp.obj Project\CMakeFiles\VulkanLab01.dir\SwapChain.cpp.obj Project\CMakeFiles\VulkanLab01.dir\texture\ImageView.cpp.obj Project\CMakeFiles\VulkanLab01.dir\texture\Texture.cpp.obj Project\CMakeFiles\VulkanLab01.dir\meshes\Transform.cpp.obj Project\CMakeFiles\VulkanLab01.dir\texture\TextureManager.cpp.obj Project\CMakeFiles\VulkanLab01.dir\meshes\MeshLoader.cpp.obj Project\CMakeFiles\VulkanLab01.dir\LevelParser.cpp.obj Project\CMakeFiles\VulkanLab01.dir\vulkanbase\VulkanUtil.cpp.obj | C$:\VulkanSDK\1.3.261.1\Lib\vulkan-1.lib _deps\glfw-build\src\glfw3.lib || Project\Shaders _deps\glfw-build\src\glfw3.lib
+build Project\VulkanLab01.exe: CXX_EXECUTABLE_LINKER__VulkanLab01_Debug Project\CMakeFiles\VulkanLab01.dir\main.cpp.obj Project\CMakeFiles\VulkanLab01.dir\vulkanbase\VulkanBase.cpp.obj Project\CMakeFiles\VulkanLab01.dir\Shader.cpp.obj Project\CMakeFiles\VulkanLab01.dir\CommandPool.cpp.obj Project\CMakeFiles\VulkanLab01.dir\CommandBuffer.cpp.obj Project\CMakeFiles\VulkanLab01.dir\meshes\3DMesh.cpp.obj Project\CMakeFiles\VulkanLab01.dir\Level.cpp.obj Project\CMakeFiles\VulkanLab01.dir\RenderPass.cpp.obj Project\CMakeFiles\VulkanLab01.dir\GraphicsPipeline.cpp.obj Project\CMakeFiles\VulkanLab01.dir\DescriptorPool.cpp.obj Project\CMakeFiles\VulkanLab01.dir\DepthBuffer.cpp.obj Project\CMakeFiles\VulkanLab01.dir\DataBuffer.cpp.obj Project\CMakeFiles\VulkanLab01.dir\meshes\2DMesh.cpp.obj Project\CMakeFiles\VulkanLab01.dir\SwapChain.cpp.obj Project\CMakeFiles\VulkanLab01.dir\texture\ImageView.cpp.obj Project\CMakeFiles\VulkanLab01.dir\texture\Texture.cpp.obj Project\CMakeFiles\VulkanLab01.dir\meshes\Transform.cpp.obj Project\CMakeFiles\VulkanLab01.dir\texture\TextureLoader.cpp.obj Project\CMakeFiles\VulkanLab01.dir\meshes\MeshLoader.cpp.obj Project\CMakeFiles\VulkanLab01.dir\LevelParser.cpp.obj Project\CMakeFiles\VulkanLab01.dir\texture\TextureManager.cpp.obj Project\CMakeFiles\VulkanLab01.dir\vulkanbase\VulkanUtil.cpp.obj | C$:\VulkanSDK\1.3.261.1\Lib\vulkan-1.lib _deps\glfw-build\src\glfw3.lib || Project\Shaders _deps\glfw-build\src\glfw3.lib
   FLAGS = /DWIN32 /D_WINDOWS /W3 /GR /EHsc /MDd /Zi /Ob0 /Od /RTC1
   LINK_FLAGS = /machine:x64 /debug /INCREMENTAL /subsystem:console
   LINK_LIBRARIES = C:\VulkanSDK\1.3.261.1\Lib\vulkan-1.lib  _deps\glfw-build\src\glfw3.lib  kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib

@@ -43,12 +43,14 @@ set(SOURCES
         texture/Texture.h
         meshes/Transform.cpp
         meshes/Transform.h
-        texture/TextureManager.cpp
-        texture/TextureManager.h
+        texture/TextureLoader.cpp
+        texture/TextureLoader.h
         meshes/MeshLoader.cpp
         meshes/MeshLoader.h
         LevelParser.h
         LevelParser.cpp
+        texture/TextureManager.cpp
+        texture/TextureManager.h
 )
 #
 # Create the executable

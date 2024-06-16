@@ -70,7 +70,6 @@ void Mesh3D::ClearIndices() {
 void Mesh3D::Destroy() {
     DestroyBuffers();
     m_DescriptorPool.DestroyUniformBuffers();
-    m_TextureManager.DestroyTextures();
 }
 
 void Mesh3D::DestroyBuffers() {

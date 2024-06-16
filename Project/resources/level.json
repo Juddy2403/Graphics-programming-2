@@ -45,6 +45,32 @@
     {
       "type": "3D",
       "shape": "model",
+      "modelPath": "resources/vehicle.obj",
+      "texturePaths": {
+        "albedo": "resources/textures/vehicle_diffuse.png",
+        "normal": "resources/textures/vehicle_normal.png",
+        "gloss": "resources/textures/vehicle_gloss.png",
+        "specular": "resources/textures/vehicle_specular.png"
+      },
+      "rotationPerSecond": [ 0, 90, 0 ],
+      "position": [ 0, -10, 50 ]
+    },
+    {
+      "type": "3D",
+      "shape": "model",
+      "modelPath": "resources/vehicle.obj",
+      "texturePaths": {
+        "albedo": "resources/textures/vehicle_diffuse.png",
+        "normal": "resources/textures/vehicle_normal.png",
+        "gloss": "resources/textures/vehicle_gloss.png",
+        "specular": "resources/textures/vehicle_specular.png"
+      },
+      "rotationPerSecond": [ 0, 90, 0 ],
+      "position": [ 0, -10, 50 ]
+    },
+    {
+      "type": "3D",
+      "shape": "model",
       "modelPath": "resources/boat.obj",
       "texturePaths": {
         "albedo": "resources/textures/boat.jpg"

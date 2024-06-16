@@ -39,14 +39,14 @@ void LevelParser::ParseLevel(std::vector<std::unique_ptr<Mesh3D>> &m_3DMeshes,
                 MeshLoader::LoadModel(mesh, meshData["modelPath"], true);
                 if (meshData.contains("texturePaths")) {
                     if (meshData["texturePaths"].contains("albedo"))
-                        mesh.GetTextureManager().UploadAlbedoTexture(commandPool, meshData["texturePaths"]["albedo"]);
+                        mesh.GetTextureLoader().UploadAlbedoTexture(commandPool, meshData["texturePaths"]["albedo"]);
                     if (meshData["texturePaths"].contains("normal"))
-                        mesh.GetTextureManager().UploadNormalTexture(commandPool, meshData["texturePaths"]["normal"]);
+                        mesh.GetTextureLoader().UploadNormalTexture(commandPool, meshData["texturePaths"]["normal"]);
                     if (meshData["texturePaths"].contains("gloss"))
-                        mesh.GetTextureManager().UploadGlossTexture(commandPool, meshData["texturePaths"]["gloss"]);
+                        mesh.GetTextureLoader().UploadGlossTexture(commandPool, meshData["texturePaths"]["gloss"]);
                     if (meshData["texturePaths"].contains("specular"))
-                        mesh.GetTextureManager().UploadSpecularTexture(commandPool,
-                                                                       meshData["texturePaths"]["specular"]);
+                        mesh.GetTextureLoader().UploadSpecularTexture(commandPool,
+                                                                      meshData["texturePaths"]["specular"]);
                     mesh.SetPBRMaterial();
                 }
                 glm::vec3 position = {meshData["position"][0], meshData["position"][1], meshData["position"][2]};

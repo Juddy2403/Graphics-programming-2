@@ -54,25 +54,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="968bb24f-2a49-406d-91e5-1a4b522e6289" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/Project/LevelParser.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/LevelParser.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/lib/json.hpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/Textures/boat.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Project/resources/level.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/texture/TextureLoader.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Project/texture/TextureLoader.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/CMakeLists.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Project/CMakeLists.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/GraphicsPipeline.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/GraphicsPipeline.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Project/Level.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/Level.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/Level.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/meshes/MeshLoader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/meshes/MeshLoader.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/meshes/MeshLoader.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/meshes/MeshLoader.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/resources/PosCol3D.fx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/resources/PosCol3D_Base.fx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/resources/fireFX_diffuse.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/resources/uv_grid_2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Project/vulkanbase/VulkanBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/vulkanbase/VulkanBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/LevelParser.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/LevelParser.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/TimeManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/TimeManager.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/meshes/3DMesh.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/meshes/3DMesh.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/meshes/3DMesh.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/meshes/3DMesh.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/resources/level.json" beforeDir="false" afterPath="$PROJECT_DIR$/Project/resources/level.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/texture/Texture.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/texture/Texture.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/texture/Texture.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/texture/Texture.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/texture/TextureManager.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Project/texture/TextureManager.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Project/texture/TextureManager.h" beforeDir="false" afterPath="$PROJECT_DIR$/Project/texture/TextureManager.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/boing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/particles.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/_deps/glfw-src/examples/wave.c" afterDir="false" />
@@ -115,7 +114,7 @@
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
     &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;CMake Application.VulkanLab01.executor&quot;: &quot;Run&quot;,
+    &quot;CMake Application.VulkanLab01.executor&quot;: &quot;Debug&quot;,
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
@@ -145,17 +144,17 @@
     </key>
   </component>
   <component name="RunManager" selected="CMake Application.VulkanLab01">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Shaders" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VulkanLab01" TARGET_NAME="Shaders" CONFIG_NAME="Debug">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration name="VulkanLab01" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="VulkanLab01" TARGET_NAME="VulkanLab01" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="VulkanLab01" RUN_TARGET_NAME="VulkanLab01">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -407,6 +406,17 @@
       <workItem from="1716400092754" duration="17797000" />
       <workItem from="1716562133260" duration="11223000" />
       <workItem from="1716591315017" duration="1803000" />
+      <workItem from="1716643502643" duration="858000" />
+      <workItem from="1716732180990" duration="945000" />
+      <workItem from="1716907311246" duration="67000" />
+      <workItem from="1717111877265" duration="1257000" />
+      <workItem from="1717117128986" duration="36000" />
+      <workItem from="1717495755401" duration="448000" />
+      <workItem from="1717500570948" duration="2557000" />
+      <workItem from="1717503981796" duration="130000" />
+      <workItem from="1718461193202" duration="3702000" />
+      <workItem from="1718468552781" duration="349000" />
+      <workItem from="1718468973326" duration="223000" />
     </task>
     <servers />
   </component>
